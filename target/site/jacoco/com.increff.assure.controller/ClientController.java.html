@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.controller</a> &gt; <span class="el_source">ClientController.java</span></div><h1>ClientController.java</h1><pre class="source lang-java linenums">package com.increff.assure.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.increff.assure.dto.ClientDto;
+import com.increff.assure.model.ClientData;
+import com.increff.assure.model.ClientForm;
+import com.increff.assure.service.ApiException;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api
+@RestController
+@RequestMapping(&quot;/api/client&quot;)
+<span class="fc" id="L25">public class ClientController {</span>
+	
+	@Autowired
+	private ClientDto dto;
+
+	@ApiOperation(value = &quot;Adds a client&quot;)
+	@RequestMapping(path = &quot;&quot;, method = RequestMethod.POST)
+	public void add(@RequestBody @Valid ClientForm form) throws ApiException {
+<span class="nc" id="L33">		dto.add(form);</span>
+<span class="nc" id="L34">	}</span>
+  
+	@ApiOperation(value = &quot;Gets a client by id&quot;)
+	@RequestMapping(path = &quot;/{id}&quot;, method = RequestMethod.GET)
+	public ClientData get(@PathVariable int id) throws ApiException {
+		
+<span class="nc" id="L40">		return dto.get(Long.valueOf(id));</span>
+	}
+
+	@ApiOperation(value = &quot;Gets list of all clients&quot;)
+	@RequestMapping(method = RequestMethod.GET)
+	public List&lt;ClientData&gt; getAll() {
+<span class="nc" id="L46">		return dto.getAll();</span>
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
