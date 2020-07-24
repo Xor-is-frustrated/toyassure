@@ -65,7 +65,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.increff.assure.dao.ClientDaoTest" name="testById" time="0.719"/>
-  <testcase classname="com.increff.assure.dao.ClientDaoTest" name="testSelectAll" time="0.015"/>
-  <testcase classname="com.increff.assure.dao.ClientDaoTest" name="testInsert" time="0.016"/>
+  <testcase classname="com.increff.assure.dao.ClientDaoTest" name="testById" time="0.703"/>
+  <testcase classname="com.increff.assure.dao.ClientDaoTest" name="testSelectAll" time="0.032"/>
+  <testcase classname="com.increff.assure.dao.ClientDaoTest" name="testInsert" time="0.015"/>
 </testsuite>

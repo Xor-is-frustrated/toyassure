@@ -5,32 +5,68 @@ import java.util.List;
 
 import com.increff.assure.model.ClientData;
 import com.increff.assure.model.ClientForm;
+import com.increff.assure.model.ProductData;
+import com.increff.assure.model.ProductForm;
 import com.increff.assure.pojo.ClientPojo;
+import com.increff.assure.pojo.ProductPojo;
 
-<span class="nc" id="L10">public class ConvertorUtil {</span>
+<span class="nc" id="L13">public class ConvertorUtil {</span>
 
 	public static ClientPojo convert(ClientForm form) {
-<span class="fc" id="L13">		ClientPojo client=new ClientPojo();</span>
-<span class="fc" id="L14">		client.setName(form.getName());</span>
-<span class="fc" id="L15">		client.setType(form.getType());</span>
-<span class="fc" id="L16">		return client;</span>
+<span class="fc" id="L16">		ClientPojo client=new ClientPojo();</span>
+<span class="fc" id="L17">		client.setName(form.getName());</span>
+<span class="fc" id="L18">		client.setType(form.getType());</span>
+<span class="fc" id="L19">		return client;</span>
 	}
 
 	public static ClientData convert(ClientPojo pojo) {
-<span class="fc" id="L20">		ClientData client = new ClientData();</span>
-<span class="fc" id="L21">		client.setId(pojo.getId());</span>
-<span class="fc" id="L22">		client.setName(pojo.getName());</span>
-<span class="fc" id="L23">		client.setType(pojo.getType());</span>
-<span class="fc" id="L24">		return client;</span>
+<span class="fc" id="L23">		ClientData client = new ClientData();</span>
+<span class="fc" id="L24">		client.setId(pojo.getId());</span>
+<span class="fc" id="L25">		client.setName(pojo.getName());</span>
+<span class="fc" id="L26">		client.setType(pojo.getType());</span>
+<span class="fc" id="L27">		return client;</span>
 	}
 
 	public static List&lt;ClientData&gt; convertClients(List&lt;ClientPojo&gt; pojos) {
-<span class="fc" id="L28">		List&lt;ClientData&gt;list = new ArrayList&lt;ClientData&gt;();</span>
-<span class="fc bfc" id="L29" title="All 2 branches covered.">		for(ClientPojo pojo:pojos) {</span>
-<span class="fc" id="L30">			list.add(convert(pojo));</span>
-<span class="fc" id="L31">		}</span>
-<span class="fc" id="L32">		return list;</span>
+<span class="fc" id="L31">		List&lt;ClientData&gt;list = new ArrayList&lt;ClientData&gt;();</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">		for(ClientPojo pojo:pojos) {</span>
+<span class="fc" id="L33">			list.add(convert(pojo));</span>
+<span class="fc" id="L34">		}</span>
+<span class="fc" id="L35">		return list;</span>
 	}
+
+	public static ProductPojo convert(ProductForm form, ClientPojo client) {
+<span class="fc" id="L39">		ProductPojo pojo= new ProductPojo();</span>
+<span class="fc" id="L40">		pojo.setBrandId(form.getBrandId());</span>
+<span class="fc" id="L41">		pojo.setClient(client);</span>
+<span class="fc" id="L42">		pojo.setDescription(form.getDescription());</span>
+<span class="fc" id="L43">		pojo.setClientSkuId(form.getClientSkuId());</span>
+<span class="fc" id="L44">		pojo.setMrp(form.getMrp());</span>
+<span class="fc" id="L45">		pojo.setName(form.getName());</span>
+<span class="fc" id="L46">		return pojo;</span>
+	}
+
+	public static ProductData convert(ProductPojo product) {
+<span class="fc" id="L50">		ProductData data= new ProductData();</span>
+<span class="fc" id="L51">		data.setGlobalSkuId(product.getGlobalSkuId());</span>
+<span class="fc" id="L52">		data.setBrandId(product.getBrandId());</span>
+<span class="fc" id="L53">		data.setClientId(product.getClient().getId());</span>
+<span class="fc" id="L54">		data.setDescription(product.getDescription());</span>
+<span class="fc" id="L55">		data.setClientSkuId(product.getClientSkuId());</span>
+<span class="fc" id="L56">		data.setMrp(product.getMrp());</span>
+<span class="fc" id="L57">		data.setName(product.getName());</span>
+<span class="fc" id="L58">		return data;</span>
+	}
+
+	public static List&lt;ProductData&gt; convertProducts(List&lt;ProductPojo&gt; pojos) {
+<span class="fc" id="L62">		List&lt;ProductData&gt;list = new ArrayList&lt;ProductData&gt;();</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		for(ProductPojo pojo:pojos) {</span>
+<span class="fc" id="L64">			list.add(convert(pojo));</span>
+<span class="fc" id="L65">		}</span>
+<span class="fc" id="L66">		return list;</span>
+	}
+	
+	
 
 	
 	

@@ -3,10 +3,10 @@
 <span class="fc" id="L3">public abstract class AbstractService {</span>
 
 	public static void checkNull(Object obj, String msg) throws ApiException {
-<span class="nc bnc" id="L6" title="All 2 branches missed.">		if (obj != null) {</span>
+<span class="pc bpc" id="L6" title="1 of 2 branches missed.">		if (obj != null) {</span>
 <span class="nc" id="L7">			throw new ApiException(msg);</span>
 		}
-<span class="nc" id="L9">	}</span>
+<span class="fc" id="L9">	}</span>
 
 	public static void checkNotNull(Object obj, String msg) throws ApiException {
 <span class="pc bpc" id="L12" title="1 of 2 branches missed.">		if (obj == null) {</span>
@@ -21,10 +21,10 @@
 <span class="nc" id="L21">	}</span>
 
 	public static void checkPositive(double obj, String msg) throws ApiException {
-<span class="nc bnc" id="L24" title="All 2 branches missed.">		if (obj &lt; 0) {</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">		if (obj &lt; 0) {</span>
 <span class="nc" id="L25">			throw new ApiException(msg);</span>
 		}
-<span class="nc" id="L27">	}</span>
+<span class="fc" id="L27">	}</span>
 
 	public static void checkZero(int length, String msg) throws ApiException {
 <span class="pc bpc" id="L30" title="1 of 2 branches missed.">		if (length == 0) {</span>

@@ -13,7 +13,7 @@ import com.increff.assure.pojo.ClientType;
 public class ClientServiceTest extends AbstractUnitTest {
 
 	@Autowired
-	private ClientService service;
+	private ClientService clientService;
 
 	@Test
 	public void testAdd() throws ApiException {
@@ -21,7 +21,7 @@ public class ClientServiceTest extends AbstractUnitTest {
 		c.setName("assure");
 		c.setType(ClientType.CLIENT);
 
-		service.add(c);
+		clientService.add(c);
 
 	}
 
@@ -30,14 +30,14 @@ public class ClientServiceTest extends AbstractUnitTest {
 		ClientPojo c = new ClientPojo();
 		c.setName("assure");
 		c.setType(ClientType.CLIENT);
-		service.add(c);
+		clientService.add(c);
 
 		ClientPojo c1 = new ClientPojo();
 		c1.setName("spring");
 		c1.setType(ClientType.CUSTOMER);
-		service.add(c1);
+		clientService.add(c1);
 
-		ClientPojo list = service.get(c.getId());
+		ClientPojo list = clientService.get(c.getId());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getType(), list.getType());
 	}
@@ -47,14 +47,14 @@ public class ClientServiceTest extends AbstractUnitTest {
 		ClientPojo c = new ClientPojo();
 		c.setName("assure");
 		c.setType(ClientType.CLIENT);
-		service.add(c);
+		clientService.add(c);
 
 		ClientPojo c1 = new ClientPojo();
 		c1.setName("spring");
 		c1.setType(ClientType.CUSTOMER);
-		service.add(c1);
+		clientService.add(c1);
 
-		List<ClientPojo> list = service.getAll();
+		List<ClientPojo> list = clientService.getAll();
 
 		assertEquals(2, list.size());
 		assertEquals(c.getName(), list.get(0).getName());

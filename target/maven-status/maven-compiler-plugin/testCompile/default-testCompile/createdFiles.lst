@@ -1,9 +1,12 @@
-com\increff\assure\service\AbstractUnitTest.class
+com\increff\assure\dto\ProductDtoTest.class
 com\increff\assure\service\SampleTest.class
-com\increff\assure\dto\ClientDtoTest.class
+com\increff\assure\dao\ProductDaoTest.class
+com\increff\assure\service\ProductServiceTest.class
 com\increff\assure\service\AboutAppServiceTest.class
-com\increff\assure\service\ClientServiceTest.class
 com\increff\assure\util\ConvertorUtilTest.class
-com\increff\assure\service\EmployeeServiceTest.class
 com\increff\assure\service\QaConfig.class
+com\increff\assure\service\AbstractUnitTest.class
+com\increff\assure\dto\ClientDtoTest.class
+com\increff\assure\service\ClientServiceTest.class
+com\increff\assure\service\EmployeeServiceTest.class
 com\increff\assure\dao\ClientDaoTest.class

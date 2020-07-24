@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.service</a> &gt; <span class="el_source">ProductService.java</span></div><h1>ProductService.java</h1><pre class="source lang-java linenums">package com.increff.assure.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.increff.assure.dao.ClientDao;
+import com.increff.assure.dao.ProductDao;
+import com.increff.assure.pojo.ClientPojo;
+import com.increff.assure.pojo.ProductPojo;
+
+@Service
+<span class="fc" id="L15">public class ProductService extends AbstractService {</span>
+
+	@Autowired
+	private ProductDao productDao;
+
+	@Autowired
+	private ClientDao clientDao;
+
+	@Transactional(rollbackFor = ApiException.class)
+	public ProductPojo add(ProductPojo p) throws ApiException {
+
+<span class="fc" id="L26">		checkZero(p.getName().length(), &quot;Name cannot be empty.&quot;);</span>
+<span class="fc" id="L27">		checkZero(p.getClientSkuId().length(), &quot;ClientSkuId cannot be empty.&quot;);</span>
+<span class="fc" id="L28">		checkZero(p.getBrandId().length(), &quot;BrandId cannot be empty.&quot;);</span>
+<span class="fc" id="L29">		checkPositive(p.getMrp(), &quot;Mrp cannot be less than zero&quot;);</span>
+
+<span class="fc" id="L31">		ProductPojo pojo = productDao.selectByClientIdAndClientSkuId(p.getClientSkuId(), p.getClient());</span>
+<span class="fc" id="L32">		checkNull(pojo, &quot;Client and ClientSkuId combination already exists&quot;);</span>
+
+<span class="fc" id="L34">		ClientPojo client = clientDao.select(p.getClient().getId());</span>
+<span class="fc" id="L35">		checkNotNull(client, &quot;Client Id does not exist&quot;);</span>
+
+<span class="fc" id="L37">		ProductPojo productPojo = productDao.insert(p);</span>
+<span class="fc" id="L38">		return productPojo;</span>
+	}
+
+	@Transactional(readOnly = true)
+	public ProductPojo get(Long id) throws ApiException {
+<span class="fc" id="L43">		ProductPojo p = productDao.select(id);</span>
+<span class="fc" id="L44">		checkNotNull(p, &quot;GlobalSkuID does not exist&quot;);</span>
+<span class="fc" id="L45">		return p;</span>
+	}
+
+// This function is not necessary for now..	
+//	@Transactional(readOnly = true)
+//	public ProductPojo getByClientIdAndClientSkuId(String clientSkuId, ClientPojo client) throws ApiException {
+//		ClientPojo p = clientDao.select(client.getId());
+//		checkNotNull(p, &quot;Client ID does not exist&quot;);
+//		
+//		ProductPojo pojo = productDao.selectByClientIdAndClientSkuId(clientSkuId, client);
+//		checkNotNull(pojo, &quot;ClientSkuId and Client combination does not exist&quot;);
+//		
+//		return pojo;
+//	}
+
+	@Transactional(readOnly = true)
+	public List&lt;ProductPojo&gt; getAll() {
+<span class="fc" id="L62">		return productDao.selectAll();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

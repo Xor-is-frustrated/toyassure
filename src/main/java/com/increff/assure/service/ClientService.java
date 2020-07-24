@@ -30,7 +30,7 @@ public class ClientService extends AbstractService{
 	@Transactional(readOnly = true)
 	public ClientPojo get(Long id) throws ApiException {
 		ClientPojo p = dao.select(id);
-		checkNotNull(p, "Brand ID does not exist");
+		checkNotNull(p, "Client ID does not exist");
 		return p;
 	}
 	
