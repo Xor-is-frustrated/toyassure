@@ -42,4 +42,11 @@ public class ProductDto {
 		return ConvertorUtil.convertProducts(list);
 	}
 	
+	public void update(Long id, ProductForm form) throws ApiException {
+		ClientPojo client= clientService.get(form.getClientId());
+		ProductPojo productPojo = ConvertorUtil.convert(form, client);
+		productService.update(id, productPojo);
+
+	}
+	
 }

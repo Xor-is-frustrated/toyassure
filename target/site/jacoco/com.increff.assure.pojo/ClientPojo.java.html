@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-<span class="fc" id="L12">public class ClientPojo {</span>
+<span class="fc" id="L12">public class ClientPojo extends AbstractAuditable {</span>
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -20,7 +20,7 @@ import javax.persistence.Id;
 	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private ClientType type;
-
+	
 	public Long getId() {
 <span class="fc" id="L25">		return id;</span>
 	}

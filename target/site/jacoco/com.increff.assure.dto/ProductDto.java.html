@@ -42,5 +42,12 @@ import com.increff.assure.util.ConvertorUtil;
 <span class="fc" id="L42">		return ConvertorUtil.convertProducts(list);</span>
 	}
 	
+	public void update(Long id, ProductForm form) throws ApiException {
+<span class="fc" id="L46">		ClientPojo client= clientService.get(form.getClientId());</span>
+<span class="fc" id="L47">		ProductPojo productPojo = ConvertorUtil.convert(form, client);</span>
+<span class="fc" id="L48">		productService.update(id, productPojo);</span>
+
+<span class="fc" id="L50">	}</span>
+	
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

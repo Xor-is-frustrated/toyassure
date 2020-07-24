@@ -148,5 +148,40 @@ public class ProductDtoTest extends AbstractUnitTest {
 		assertEquals(c1.getGlobalSkuId(), list.get(1).getGlobalSkuId());
 
 	}
+	
+	@Test
+	public void testUpdate() throws ApiException {
+		ClientPojo client = new ClientPojo();
+		client.setName("assure");
+		client.setType(ClientType.CLIENT);
+
+		clientService.add(client);
+
+		ProductPojo c = new ProductPojo();
+		c.setName("assure");
+		c.setBrandId("brand");
+		c.setClientSkuId("clientsku");
+		c.setDescription("this is description");
+		c.setMrp(1.1);
+		c.setClient(client);
+
+		productService.add(c);
+		
+		ProductForm form = new ProductForm();
+		form.setName("assure change");
+		form.setBrandId("brand change");
+		form.setClientSkuId("clientsku");
+		form.setDescription("description change");
+		form.setClientId(client.getId());
+		form.setMrp(1.1);
+		
+
+		productDto.update(c.getGlobalSkuId(), form);
+		ProductPojo pojo = productService.get(c.getGlobalSkuId());
+		assertEquals("brand change", pojo.getBrandId());
+		assertEquals("assure change", pojo.getName());
+		assertEquals("description change", pojo.getDescription());
+
+	}
 
 }

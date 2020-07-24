@@ -12,7 +12,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { &quot;clientId&quot;, &quot;clientSkuId&quot; }))
-<span class="fc" id="L15">public class ProductPojo {</span>
+<span class="fc" id="L15">public class ProductPojo extends AbstractAuditable{</span>
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,8 +38,8 @@ import javax.persistence.UniqueConstraint;
 	}
 
 	public void setGlobalSkuId(Long globalSkuId) {
-<span class="nc" id="L41">		this.globalSkuId = globalSkuId;</span>
-<span class="nc" id="L42">	}</span>
+<span class="fc" id="L41">		this.globalSkuId = globalSkuId;</span>
+<span class="fc" id="L42">	}</span>
 
 	public String getClientSkuId() {
 <span class="fc" id="L45">		return clientSkuId;</span>

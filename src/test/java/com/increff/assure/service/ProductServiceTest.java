@@ -83,6 +83,52 @@ public class ProductServiceTest extends AbstractUnitTest {
 		assertEquals(c.getGlobalSkuId(), list.getGlobalSkuId());
 
 	}
+	
+	@Test
+	public void testgetByClientIdAndClientSkuId() throws ApiException {
+		ClientPojo client = new ClientPojo();
+		client.setName("assure");
+		client.setType(ClientType.CLIENT);
+
+		clientService.add(client);
+
+		ProductPojo c = new ProductPojo();
+		c.setName("assure");
+		c.setBrandId("brand");
+		c.setClientSkuId("clientsku");
+		c.setDescription("this is description");
+		c.setMrp(1.1);
+		c.setClient(client);
+
+		productService.add(c);
+
+		ClientPojo client1 = new ClientPojo();
+		client1.setName("assure");
+		client1.setType(ClientType.CLIENT);
+
+		clientService.add(client1);
+
+		ProductPojo c1 = new ProductPojo();
+		c1.setName("assure");
+		c1.setBrandId("brand");
+		c1.setClientSkuId("clientsku");
+		c1.setDescription("this is description");
+		c1.setMrp(1.1);
+		c1.setClient(client1);
+
+		productService.add(c1);
+
+		ProductPojo list = productService.getByClientIdAndClientSkuId(c.getClientSkuId(), client);
+		
+		assertEquals(client, list.getClient());
+		assertEquals(c.getName(), list.getName());
+		assertEquals(c.getMrp(), list.getMrp());
+		assertEquals(c.getDescription(), list.getDescription());
+		assertEquals(c.getBrandId(), list.getBrandId());
+		assertEquals(c.getClientSkuId(), list.getClientSkuId());
+		assertEquals(c.getGlobalSkuId(), list.getGlobalSkuId());
+
+	}
 
 	@Test
 	public void testSelectAll() throws ApiException {
@@ -137,6 +183,36 @@ public class ProductServiceTest extends AbstractUnitTest {
 		assertEquals(c1.getBrandId(), list.get(1).getBrandId());
 		assertEquals(c1.getClientSkuId(), list.get(1).getClientSkuId());
 		assertEquals(c1.getGlobalSkuId(), list.get(1).getGlobalSkuId());
+
+	}
+
+	@Test
+	public void testUpdate() throws ApiException {
+		ClientPojo client = new ClientPojo();
+		client.setName("assure");
+		client.setType(ClientType.CLIENT);
+
+		clientService.add(client);
+
+		ProductPojo c = new ProductPojo();
+		c.setName("assure");
+		c.setBrandId("brand");
+		c.setClientSkuId("clientsku");
+		c.setDescription("this is description");
+		c.setMrp(1.1);
+		c.setClient(client);
+
+		productService.add(c);
+
+		c.setBrandId("brand change");
+		c.setName("assure change");
+		c.setDescription("description change");
+
+		productService.update(c.getGlobalSkuId(), c);
+
+		assertEquals("brand change", c.getBrandId());
+		assertEquals("assure change", c.getName());
+		assertEquals("description change", c.getDescription());
 
 	}
 

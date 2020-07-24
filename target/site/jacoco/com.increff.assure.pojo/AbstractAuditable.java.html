@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractAuditable.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.pojo</a> &gt; <span class="el_source">AbstractAuditable.java</span></div><h1>AbstractAuditable.java</h1><pre class="source lang-java linenums">package com.increff.assure.pojo;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+@MappedSuperclass
+<span class="fc" id="L15">public class AbstractAuditable {</span>
+
+	@CreationTimestamp
+	@Column(name = &quot;created_at&quot;)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdAt;
+
+	@UpdateTimestamp
+	@Column(name = &quot;updated_at&quot;)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedAt;
+	
+	@Column(name = &quot;version&quot;)
+	@Version
+	private Long version;
+
+	public Date getCreatedAt() {
+<span class="nc" id="L32">		return createdAt;</span>
+	}
+
+	public void setCreatedAt(Date createdAt) {
+<span class="nc" id="L36">		this.createdAt = createdAt;</span>
+<span class="nc" id="L37">	}</span>
+
+	public Date getModifiedAt() {
+<span class="nc" id="L40">		return modifiedAt;</span>
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+<span class="nc" id="L44">		this.modifiedAt = modifiedAt;</span>
+<span class="nc" id="L45">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

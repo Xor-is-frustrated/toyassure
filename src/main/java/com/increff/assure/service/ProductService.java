@@ -28,7 +28,7 @@ public class ProductService extends AbstractService {
 		checkZero(p.getBrandId().length(), "BrandId cannot be empty.");
 		checkPositive(p.getMrp(), "Mrp cannot be less than zero");
 
-		ProductPojo pojo = productDao.selectByClientIdAndClientSkuId(p.getClientSkuId(), p.getClient());
+		ProductPojo pojo = productDao.selectByClientAndClientSkuId(p.getClientSkuId(), p.getClient());
 		checkNull(pojo, "Client and ClientSkuId combination already exists");
 
 		ClientPojo client = clientDao.select(p.getClient().getId());
@@ -44,22 +44,46 @@ public class ProductService extends AbstractService {
 		checkNotNull(p, "GlobalSkuID does not exist");
 		return p;
 	}
-
-// This function is not necessary for now..	
-//	@Transactional(readOnly = true)
-//	public ProductPojo getByClientIdAndClientSkuId(String clientSkuId, ClientPojo client) throws ApiException {
-//		ClientPojo p = clientDao.select(client.getId());
-//		checkNotNull(p, "Client ID does not exist");
-//		
-//		ProductPojo pojo = productDao.selectByClientIdAndClientSkuId(clientSkuId, client);
-//		checkNotNull(pojo, "ClientSkuId and Client combination does not exist");
-//		
-//		return pojo;
-//	}
+	
+	@Transactional(readOnly = true)
+	public ProductPojo getByClientIdAndClientSkuId(String clientSkuId, ClientPojo client) throws ApiException {
+		ClientPojo p = clientDao.select(client.getId());
+		checkNotNull(p, "Client ID does not exist");
+		
+		ProductPojo pojo = productDao.selectByClientAndClientSkuId(clientSkuId, client);
+		checkNotNull(pojo, "ClientSkuId and Client combination does not exist");
+		
+		return pojo;
+	}
 
 	@Transactional(readOnly = true)
 	public List<ProductPojo> getAll() {
 		return productDao.selectAll();
+	}
+
+	@Transactional(rollbackFor = ApiException.class)
+	public void update(Long id, ProductPojo p) throws ApiException {
+
+		ProductPojo existing = productDao.selectByClientAndClientSkuId(p.getClientSkuId(), p.getClient());
+		if (existing != null && existing.getGlobalSkuId() != id) {
+			throw new ApiException("Client and ClientSkuId combination already exists");
+		}
+
+		checkZero(p.getName().length(), "Name cannot be empty.");
+		checkZero(p.getClientSkuId().length(), "ClientSkuId cannot be empty.");
+		checkZero(p.getBrandId().length(), "BrandId cannot be empty.");
+		checkPositive(p.getMrp(), "Mrp cannot be less than zero");
+
+		ClientPojo client = clientDao.select(p.getClient().getId());
+		checkNotNull(client, "Client Id does not exist");
+
+		ProductPojo ex = productDao.select(id);
+		checkNotNull(ex, "Product ID does not exist");
+
+		ex.setName(p.getName());
+		ex.setMrp(p.getMrp());
+		ex.setBrandId(p.getBrandId());
+		ex.setDescription(p.getDescription());
 	}
 
 }

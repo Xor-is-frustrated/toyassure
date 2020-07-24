@@ -177,7 +177,7 @@ public class ProductDaoTest extends AbstractUnitTest {
 
 		productDao.insert(c1);
 
-		ProductPojo list = productDao.selectByClientIdAndClientSkuId("clientsku", client);
+		ProductPojo list = productDao.selectByClientAndClientSkuId("clientsku", client);
 		assertEquals(client, list.getClient());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getMrp(), list.getMrp());

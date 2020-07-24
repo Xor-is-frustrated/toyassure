@@ -6,7 +6,7 @@ public class ProductForm {
 	private Double mrp;
 	private String description;
 	private String clientSkuId;
-	private Long ClientId;
+	private Long clientId;
 	private String brandId;
 	
 	public String getName() {
@@ -34,10 +34,10 @@ public class ProductForm {
 		this.clientSkuId = clientSkuId;
 	}
 	public Long getClientId() {
-		return ClientId;
+		return clientId;
 	}
 	public void setClientId(Long clientId) {
-		ClientId = clientId;
+		this.clientId = clientId;
 	}
 	public String getBrandId() {
 		return brandId;

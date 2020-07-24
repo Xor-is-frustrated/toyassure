@@ -12,7 +12,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "clientId", "clientSkuId" }))
-public class ProductPojo {
+public class ProductPojo extends AbstractAuditable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,10 +3,15 @@ package com.increff.assure.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.assure.model.BinData;
+import com.increff.assure.model.BinSkuData;
+import com.increff.assure.model.BinSkuForm;
 import com.increff.assure.model.ClientData;
 import com.increff.assure.model.ClientForm;
 import com.increff.assure.model.ProductData;
 import com.increff.assure.model.ProductForm;
+import com.increff.assure.pojo.BinPojo;
+import com.increff.assure.pojo.BinSkuPojo;
 import com.increff.assure.pojo.ClientPojo;
 import com.increff.assure.pojo.ProductPojo;
 
@@ -61,6 +66,48 @@ public class ConvertorUtil {
 	public static List<ProductData> convertProducts(List<ProductPojo> pojos) {
 		List<ProductData>list = new ArrayList<ProductData>();
 		for(ProductPojo pojo:pojos) {
+			list.add(convert(pojo));
+		}
+		return list;
+	}
+
+	public static BinData convert(BinPojo bin) {
+		BinData data = new BinData();
+		data.setBinId(bin.getBinId());
+		return data;
+	}
+
+	public static List<BinData> convertBins(List<BinPojo> pojos) {
+		List<BinData> list= new ArrayList<BinData>();
+		for(BinPojo pojo:pojos) {
+			list.add(convert(pojo));
+		}
+		return list;
+	}
+
+	public static BinSkuPojo convert(BinSkuForm form, ProductPojo product, BinPojo bin) {
+		BinSkuPojo pojo = new BinSkuPojo();
+		pojo.setBin(bin);
+		pojo.setProduct(product);
+		pojo.setQuantity(form.getQuantity());
+		return pojo;
+	}
+
+	public static BinSkuData convert(BinSkuPojo pojo) {
+		BinSkuData data = new BinSkuData();
+		data.setGlobalSkuId(pojo.getProduct().getGlobalSkuId());
+		data.setQuantity(pojo.getQuantity());
+		data.setId(pojo.getId());
+		data.setClientId(pojo.getProduct().getClient().getId());
+		data.setBinId(pojo.getBin().getBinId());
+		data.setClientSkuId(pojo.getProduct().getClientSkuId());
+		data.setProductName(pojo.getProduct().getName());
+		return data;
+	}
+
+	public static List<BinSkuData> convertBinSkus(List<BinSkuPojo> pojos) {
+		List<BinSkuData> list= new ArrayList<BinSkuData>();
+		for(BinSkuPojo pojo:pojos) {
 			list.add(convert(pojo));
 		}
 		return list;
