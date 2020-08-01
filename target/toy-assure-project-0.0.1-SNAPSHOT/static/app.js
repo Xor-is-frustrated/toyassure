@@ -13,32 +13,49 @@ function toJson($form){
 }
 
 
+
+
 function handleAjaxError(response){
-	var response = JSON.parse(response.responseText);
-	alert(response.message);
+   var response = JSON.parse(response.responseText);
+    $("#error-message").text(response.message);
+
+    $('#error-alert').modal('toggle');
+    // setTimeout(function() {
+    //     $('#error-alert').modal('toggle');
+    // }, 3000);
+   }
+
+function successPopup(response){
+   
+    $("#success-message").text(response);
+    $('#success-alert').modal('toggle');
+    setTimeout(function() {
+        $('#success-alert').modal('toggle');
+    }, 1000);
+    
 }
 
 function readFileData(file, callback){
-	var config = {
-		header: true,
-		delimiter: "\t",
-		skipEmptyLines: "greedy",
-		complete: function(results) {
-			callback(results);
-	  	}	
-	}
-	Papa.parse(file, config);
+    var config = {
+        header: true,
+        delimiter: ",",
+        skipEmptyLines: "greedy",
+        complete: function(results) {
+            callback(results);
+        }   
+    }
+    Papa.parse(file, config);
 }
 
 
 function writeFileData(arr){
-	var config = {
-		quoteChar: '',
-		escapeChar: '',
-		delimiter: "\t"
-	};
-	
-	var data = Papa.unparse(arr, config);
+    var config = {
+        quoteChar: '',
+        escapeChar: '',
+        delimiter: "\t"
+    };
+    
+    var data = Papa.unparse(arr, config);
     var blob = new Blob([data], {type: 'text/tsv;charset=utf-8;'});
     var fileUrl =  null;
 

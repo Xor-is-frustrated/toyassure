@@ -56,15 +56,40 @@ import com.increff.assure.pojo.ProductPojo;
 <span class="fc" id="L56">		return binSkudDao.selectAll();</span>
 	}
 
+	@Transactional(readOnly = true)
+	public List&lt;BinSkuPojo&gt; getByProduct(ProductPojo p) throws ApiException {
+<span class="nc" id="L61">		ProductPojo product = productDao.select(p.getGlobalSkuId());</span>
+<span class="nc" id="L62">		checkNotNull(product, &quot;Product Id does not exist&quot;);</span>
+<span class="nc" id="L63">		return binSkudDao.selectByProduct(p);</span>
+	}
+
 	@Transactional(rollbackFor = ApiException.class)
 	public BinSkuPojo updateQuantity(Long id, Long quantity) throws ApiException {
-<span class="fc" id="L61">		checkPositive(quantity, &quot;Quantity cannot be less than zero&quot;);</span>
-<span class="fc" id="L62">		BinSkuPojo ex = binSkudDao.select(id);</span>
-<span class="fc" id="L63">		checkNotNull(ex, &quot;BinSku ID does not exist&quot;);</span>
+<span class="fc" id="L68">		checkPositive(quantity, &quot;Quantity cannot be less than zero&quot;);</span>
+<span class="fc" id="L69">		BinSkuPojo ex = binSkudDao.select(id);</span>
+<span class="fc" id="L70">		checkNotNull(ex, &quot;BinSku ID does not exist&quot;);</span>
 
-<span class="fc" id="L65">		ex.setQuantity(quantity);</span>
-<span class="fc" id="L66">		return ex;</span>
+<span class="fc" id="L72">		ex.setQuantity(quantity);</span>
+<span class="fc" id="L73">		return ex;</span>
 	}
+
+	@Transactional(rollbackFor = ApiException.class)
+	public void reduceBinSkuByAllocatedQuantity(ProductPojo product, Long quantity) throws ApiException {
+<span class="nc" id="L78">		List&lt;BinSkuPojo&gt; binSkus = getByProduct(product);</span>
+
+		// for the available binSkus reduce the quantity.
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		for (BinSkuPojo binSku : binSkus) {</span>
+
+<span class="nc" id="L83">			Long reducedQuantity = Math.min(binSku.getQuantity(), quantity);</span>
+<span class="nc" id="L84">			quantity -= reducedQuantity;</span>
+<span class="nc" id="L85">			Long remainingQuantity = binSku.getQuantity() - reducedQuantity;</span>
+<span class="nc" id="L86">			updateQuantity(binSku.getId(), remainingQuantity);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">			if (quantity == Long.valueOf(0)) {</span>
+<span class="nc" id="L88">				break;</span>
+			}
+
+<span class="nc" id="L91">		}</span>
+<span class="nc" id="L92">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

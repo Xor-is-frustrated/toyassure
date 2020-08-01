@@ -11,9 +11,10 @@ import com.increff.assure.pojo.ClientPojo;
 
 
 @Repository
-public class ClientDao extends AbstractDao{
+public class ClientDao extends AbstractDao{ 
 	
 	private static String selectById = "select p from ClientPojo p where id=:id";
+	private static String selectByName = "select p from ClientPojo p where p.name=:name";
 	private static String selectAll = "select p from ClientPojo p order by p.id";
 	
 	@Transactional
@@ -25,6 +26,12 @@ public class ClientDao extends AbstractDao{
 	public ClientPojo select(Long id) {
 		TypedQuery<ClientPojo> query = getQuery(selectById, ClientPojo.class);
 		query.setParameter("id", id);
+		return getSingle(query);
+	}
+	
+	public ClientPojo selectByName(String name) {
+		TypedQuery<ClientPojo> query = getQuery(selectByName, ClientPojo.class);
+		query.setParameter("name", name);
 		return getSingle(query);
 	}
 	

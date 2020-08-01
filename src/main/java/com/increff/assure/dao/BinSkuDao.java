@@ -17,6 +17,8 @@ public class BinSkuDao extends AbstractDao{
 	private static String selectById = "select p from BinSkuPojo p where p.id=:id";
 	private static String selectAll = "select p from BinSkuPojo p order by p.id";
 	private static String selectByBinAndProduct = "select p from BinSkuPojo p where p.product=:product and p.bin=:bin";
+	private static String selectByProduct = "select p from BinSkuPojo p where p.product=:product";
+	
 	
 	@Transactional
 	public BinSkuPojo insert(BinSkuPojo c) {
@@ -35,12 +37,20 @@ public class BinSkuDao extends AbstractDao{
 		return query.getResultList();
 	}
 	
+	public List<BinSkuPojo> selectByProduct(ProductPojo product) {
+		TypedQuery<BinSkuPojo> query = getQuery(selectByProduct, BinSkuPojo.class);
+		query.setParameter("product", product);
+		return query.getResultList();
+	}
+	
 	public BinSkuPojo selectByBinAndProduct(BinPojo bin, ProductPojo product) {
 		TypedQuery<BinSkuPojo> query = getQuery(selectByBinAndProduct, BinSkuPojo.class);
 		query.setParameter("bin", bin);
 		query.setParameter("product", product);
 		return getSingle(query);
 	}
+	
+	
 	
 
 }

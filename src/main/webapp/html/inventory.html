@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="snippets.html :: name_head"></head>
+<body>
+  <nav th:replace="snippets.html :: name_app_navbar"></nav>
+  <br>
+  <div class="container">
+<h4>Inventory</h4>
+    <br>
+
+<div class="row">
+ <div class="col-12">
+  <table class="table table-striped" id="inventory-table">
+    <thead>
+      <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Available Quantity</th>
+        <th scope="col">Allocated Quantity</th>
+        <th scope="col">Fulfilled Quantity</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+ </div>
+</div>
+<div class="modal" id="error-alert" role="dialog">
+    <div class="modal-dialog error-modal">
+    
+      <!-- Modal content-->
+      <div class="modal-content" style="background-color: red">
+        <div class="modal-header">
+          <h6 class="modal-title">Error</h6>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          
+        </div>
+        <div class="modal-body">
+          <p id="error-message"></p>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+<footer th:replace="snippets.html :: name_footer"></footer>
+<script th:src="@{/static/inventory.js}"/></script>
+
+</body>
+</html>
+

@@ -24,7 +24,7 @@ public class BinSkuController {
 	
 	@Autowired
 	private BinSkuDto binSkuDto;
-
+    
 	@ApiOperation(value = "Adds a binsku")
 	@RequestMapping(path = "", method = RequestMethod.POST)
 	public void add(@RequestBody BinSkuForm form) throws ApiException {

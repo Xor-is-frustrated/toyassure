@@ -10,12 +10,19 @@ import org.junit.Test;
 import com.increff.assure.model.BinData;
 import com.increff.assure.model.BinSkuData;
 import com.increff.assure.model.BinSkuForm;
+import com.increff.assure.model.ChannelData;
+import com.increff.assure.model.ChannelForm;
+import com.increff.assure.model.ChannelListingData;
+import com.increff.assure.model.ChannelListingForm;
 import com.increff.assure.model.ClientData;
 import com.increff.assure.model.ClientForm;
 import com.increff.assure.model.ProductData;
 import com.increff.assure.model.ProductForm;
 import com.increff.assure.pojo.BinPojo;
 import com.increff.assure.pojo.BinSkuPojo;
+import com.increff.assure.pojo.ChannelListingPojo;
+import com.increff.assure.pojo.ChannelPojo;
+import com.increff.assure.pojo.ChannelType;
 import com.increff.assure.pojo.ClientPojo;
 import com.increff.assure.pojo.ClientType;
 import com.increff.assure.pojo.ProductPojo;
@@ -96,13 +103,13 @@ public class ConvertorUtilTest {
 		c.setGlobalSkuId(Long.valueOf(1));
 
 		ProductData list = ConvertorUtil.convert(c);
-		assertEquals(client.getId(), list.getClientId());
+		assertEquals(client.getName(), list.getClientName());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getMrp(), list.getMrp());
 		assertEquals(c.getDescription(), list.getDescription());
 		assertEquals(c.getBrandId(), list.getBrandId());
 		assertEquals(c.getClientSkuId(), list.getClientSkuId());
-		assertEquals(c.getGlobalSkuId(), list.getGlobalSkuId());
+		assertEquals(c.getGlobalSkuId(), list.getId());
 
 	}
 
@@ -151,13 +158,13 @@ public class ConvertorUtilTest {
 
 		List<ProductData> list = ConvertorUtil.convertProducts(pojos);
 		assertEquals(1, list.size());
-		assertEquals(client.getId(), list.get(0).getClientId());
+		assertEquals(client.getName(), list.get(0).getClientName());
 		assertEquals(c.getName(), list.get(0).getName());
 		assertEquals(c.getMrp(), list.get(0).getMrp());
 		assertEquals(c.getDescription(), list.get(0).getDescription());
 		assertEquals(c.getBrandId(), list.get(0).getBrandId());
 		assertEquals(c.getClientSkuId(), list.get(0).getClientSkuId());
-		assertEquals(c.getGlobalSkuId(), list.get(0).getGlobalSkuId());
+		assertEquals(c.getGlobalSkuId(), list.get(0).getId());
 	}
 
 	@Test
@@ -287,6 +294,131 @@ public class ConvertorUtilTest {
 		assertEquals(c.getName(), list.get(0).getProductName());
 		assertEquals(bin.getBinId(), list.get(0).getBinId());
 		assertEquals(binSku.getQuantity(), list.get(0).getQuantity());
+
+	}
+
+	@Test
+	public void testConvertChannelFormToChannelPojo() {
+		ChannelForm form = new ChannelForm();
+		form.setName("assure");
+		form.setType(ChannelType.CHANNEL);
+
+		ChannelPojo list = ConvertorUtil.convert(form);
+		assertEquals(form.getName(), list.getName());
+		assertEquals(form.getType(), list.getType());
+	}
+
+	@Test
+	public void testConvertChannelPojoToChannelData() {
+		ChannelPojo form = new ChannelPojo();
+		form.setName("assure");
+		form.setType(ChannelType.CHANNEL);
+		form.setId(Long.valueOf(1));
+
+		ChannelData list = ConvertorUtil.convert(form);
+		assertEquals(form.getName(), list.getName());
+		assertEquals(form.getType(), list.getType());
+		assertEquals(form.getId(), list.getId());
+
+	}
+
+	@Test
+	public void testConvertChannelPojoToChannelDataList() {
+		ChannelPojo form = new ChannelPojo();
+		form.setName("assure");
+		form.setType(ChannelType.CHANNEL);
+		form.setId(Long.valueOf(1));
+
+		ChannelPojo form1 = new ChannelPojo();
+		form1.setName("assure");
+		form1.setType(ChannelType.CHANNEL);
+		form1.setId(Long.valueOf(2));
+
+		List<ChannelPojo> pojos = new ArrayList<ChannelPojo>();
+		pojos.add(form);
+		pojos.add(form1);
+
+		List<ChannelData> list = ConvertorUtil.convertChannels(pojos);
+
+		assertEquals(2, list.size());
+		assertEquals(form.getName(), list.get(0).getName());
+		assertEquals(form.getType(), list.get(0).getType());
+		assertEquals(form.getId(), list.get(0).getId());
+
+		assertEquals(form1.getName(), list.get(1).getName());
+		assertEquals(form1.getType(), list.get(1).getType());
+		assertEquals(form1.getId(), list.get(1).getId());
+
+	}
+
+	@Test
+	public void testConvertChannelListingPojoToData() {
+		ClientPojo client = new ClientPojo();
+		client.setName("assure");
+		client.setType(ClientType.CLIENT);
+		client.setId(Long.valueOf(1));
+
+		ProductPojo c = new ProductPojo();
+		c.setName("assure");
+		c.setBrandId("brand");
+		c.setClientSkuId("clientsku");
+		c.setDescription("this is description");
+		c.setMrp(1.1);
+		c.setClient(client);
+		c.setGlobalSkuId(Long.valueOf(1));
+
+		ChannelPojo channel = new ChannelPojo();
+		channel.setName("assure");
+		channel.setType(ChannelType.CHANNEL);
+		channel.setId(Long.valueOf(1));
+
+		ChannelListingPojo cl = new ChannelListingPojo();
+		cl.setChannel(channel);
+		cl.setChannelSkuId("channelsku");
+		cl.setClient(client);
+		cl.setId(Long.valueOf(1));
+		cl.setProduct(c);
+
+		ChannelListingData list = ConvertorUtil.convert(cl);
+		assertEquals(cl.getChannelSkuId(), list.getChannelSkuId());
+		assertEquals(cl.getChannel().getName(), list.getChannelName());
+		assertEquals(cl.getClient().getName(), list.getClientName());
+		assertEquals(cl.getProduct().getClientSkuId(), list.getClientSkuId());
+
+	}
+
+	@Test
+	public void testConvertChannelListingFormToPojo() {
+		ClientPojo client = new ClientPojo();
+		client.setName("assure");
+		client.setType(ClientType.CLIENT);
+		client.setId(Long.valueOf(1));
+
+		ProductPojo c = new ProductPojo();
+		c.setName("assure");
+		c.setBrandId("brand");
+		c.setClientSkuId("clientsku");
+		c.setDescription("this is description");
+		c.setMrp(1.1);
+		c.setClient(client);
+		c.setGlobalSkuId(Long.valueOf(1));
+
+		ChannelPojo channel = new ChannelPojo();
+		channel.setName("assure");
+		channel.setType(ChannelType.CHANNEL);
+		channel.setId(Long.valueOf(1));
+
+		ChannelListingForm form = new ChannelListingForm();
+		form.setClientSkuId("clientsku");
+		form.setChannelSkuId("channelsku");
+		form.setChannelName("assure");
+		form.setClientName("assure");
+
+		ChannelListingPojo list = ConvertorUtil.convert(form, client, c, channel);
+		assertEquals(form.getChannelSkuId(), list.getChannelSkuId());
+		assertEquals(form.getChannelName(), list.getChannel().getName());
+		assertEquals(form.getClientName(), list.getClient().getName());
+		assertEquals(form.getClientSkuId(), list.getProduct().getClientSkuId());
 
 	}
 

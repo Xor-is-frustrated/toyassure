@@ -46,5 +46,11 @@ public class ClientController {
 		return dto.getAll();
 
 	}
+	
+	@ApiOperation(value = "Updates a client")
+	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+	public void update(@PathVariable Long id, @RequestBody ClientForm form) throws ApiException {
+		dto.update(id, form);
+	}
 
 }

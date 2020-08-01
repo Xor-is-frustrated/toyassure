@@ -66,7 +66,7 @@ public class BinSkuDtoTest extends AbstractUnitTest {
 
 		BinSkuForm form = new BinSkuForm();
 		form.setBinId(bin.getBinId());
-		form.setClientId(client.getId());
+		form.setClientName(client.getName());
 		form.setClientSkuId(product.getClientSkuId());
 		form.setQuantity(Long.valueOf(11));
 
@@ -102,7 +102,7 @@ public class BinSkuDtoTest extends AbstractUnitTest {
 		binSkuService.add(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);
@@ -167,7 +167,7 @@ public class BinSkuDtoTest extends AbstractUnitTest {
 		binSkuService.add(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);
@@ -227,7 +227,7 @@ public class BinSkuDtoTest extends AbstractUnitTest {
 		binSkuService.add(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);

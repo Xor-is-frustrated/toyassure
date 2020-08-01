@@ -16,7 +16,7 @@ public class ProductDao extends AbstractDao{
 	private static String selectById = "select p from ProductPojo p where p.globalSkuId=:id";
 	private static String selectAll = "select p from ProductPojo p order by p.globalSkuId";
 	private static String selectByClientAndClientSkuId = "select p from ProductPojo p where p.clientSkuId=:clientSkuId and p.client=:client";
-	
+	private static String selectByClientSkuId= "select p from ProductPojo p where p.clientSkuId=:clientSkuId ";
 	@Transactional
 	public ProductPojo insert(ProductPojo c) {
 		em().persist(c);
@@ -31,6 +31,12 @@ public class ProductDao extends AbstractDao{
 	
 	public List<ProductPojo> selectAll() {
 		TypedQuery<ProductPojo> query = getQuery(selectAll, ProductPojo.class);
+		return query.getResultList();
+	}
+	
+	public List<ProductPojo> selectByClientSkuId(String clientSkuId) {
+		TypedQuery<ProductPojo> query = getQuery(selectByClientSkuId, ProductPojo.class);
+		query.setParameter("clientSkuId", clientSkuId);
 		return query.getResultList();
 	}
 	

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="11" failures="0" name="com.increff.assure.util.ConvertorUtilTest" time="0" errors="0" skipped="0">
+<testsuite tests="16" failures="0" name="com.increff.assure.util.ConvertorUtilTest" time="0.015" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_221\jre\bin"/>
@@ -65,14 +65,19 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
+  <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertChannelListingFormToPojo" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertProductPojoToProductDataList" time="0"/>
+  <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertChannelPojoToChannelDataList" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertClientPojoToClientDataList" time="0"/>
+  <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertChannelFormToChannelPojo" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertBinPojoToBinData" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertProductFormToProductPojo" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertBinSkuPojoToBinSkuData" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertClientPojoToClientData" time="0"/>
-  <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertBinPojoToBinDataList" time="0"/>
+  <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertBinPojoToBinDataList" time="0.015"/>
+  <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertChannelPojoToChannelData" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertProductPojoToProductData" time="0"/>
+  <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertChannelListingPojoToData" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertBinSkuPojoToBinSkuDataList" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertBinSkuFormToBinSkuPojo" time="0"/>
   <testcase classname="com.increff.assure.util.ConvertorUtilTest" name="testConvertClientFormToClientPojo" time="0"/>

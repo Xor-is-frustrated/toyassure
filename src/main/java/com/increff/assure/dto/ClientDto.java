@@ -12,17 +12,16 @@ import com.increff.assure.service.ApiException;
 import com.increff.assure.service.ClientService;
 import com.increff.assure.util.ConvertorUtil;
 
-
 @Service
 public class ClientDto {
 
 	@Autowired
-	private ClientService clientService; 
+	private ClientService clientService;
 
 	public ClientData add(ClientForm form) throws ApiException {
 		ClientPojo pojo = ConvertorUtil.convert(form);
 		ClientPojo client = clientService.add(pojo);
-		return ConvertorUtil.convert(client);         
+		return ConvertorUtil.convert(client);
 	}
 
 	public ClientData get(Long id) throws ApiException {
@@ -35,4 +34,10 @@ public class ClientDto {
 		return ConvertorUtil.convertClients(list);
 	}
 	
+	public ClientData update(Long id, ClientForm form) throws ApiException {
+		ClientPojo pojo = ConvertorUtil.convert(form);
+		ClientPojo client = clientService.update(id,pojo);
+		return ConvertorUtil.convert(client);
+	}
+
 }

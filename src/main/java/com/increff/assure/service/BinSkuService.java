@@ -56,6 +56,13 @@ public class BinSkuService extends AbstractService {
 		return binSkudDao.selectAll();
 	}
 
+	@Transactional(readOnly = true)
+	public List<BinSkuPojo> getByProduct(ProductPojo p) throws ApiException {
+		ProductPojo product = productDao.select(p.getGlobalSkuId());
+		checkNotNull(product, "Product Id does not exist");
+		return binSkudDao.selectByProduct(p);
+	}
+
 	@Transactional(rollbackFor = ApiException.class)
 	public BinSkuPojo updateQuantity(Long id, Long quantity) throws ApiException {
 		checkPositive(quantity, "Quantity cannot be less than zero");
@@ -64,6 +71,24 @@ public class BinSkuService extends AbstractService {
 
 		ex.setQuantity(quantity);
 		return ex;
+	}
+
+	@Transactional(rollbackFor = ApiException.class)
+	public void reduceBinSkuByAllocatedQuantity(ProductPojo product, Long quantity) throws ApiException {
+		List<BinSkuPojo> binSkus = getByProduct(product);
+
+		// for the available binSkus reduce the quantity.
+		for (BinSkuPojo binSku : binSkus) {
+
+			Long reducedQuantity = Math.min(binSku.getQuantity(), quantity);
+			quantity -= reducedQuantity;
+			Long remainingQuantity = binSku.getQuantity() - reducedQuantity;
+			updateQuantity(binSku.getId(), remainingQuantity);
+			if (quantity == Long.valueOf(0)) {
+				break;
+			}
+
+		}
 	}
 
 }

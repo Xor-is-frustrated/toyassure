@@ -5,10 +5,10 @@ public class BinSkuForm {
 	private Long binId;
 	private String clientSkuId;
 	private Long quantity;
-	private Long clientId;
+	private String clientName;
 	
-	public Long getBinId() {
-		return binId;
+	public Long getBinId() {  
+		return binId; 
 	}
 	public void setBinId(Long binId) {
 		this.binId = binId;
@@ -25,11 +25,11 @@ public class BinSkuForm {
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
-	public Long getClientId() {
-		return clientId;
+	public String getClientName() {
+		return clientName;
 	}
-	public void setClientId(Long clientId) {
-		this.clientId = clientId;
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 	
 	

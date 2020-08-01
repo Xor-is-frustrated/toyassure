@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.dto</a> &gt; <span class="el_source">OrderItemDto.java</span></div><h1>OrderItemDto.java</h1><pre class="source lang-java linenums">package com.increff.assure.dto;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.increff.assure.model.OrderItemData;
+import com.increff.assure.model.OrderItemFormCSV;
+import com.increff.assure.model.OrderItemFormChannel;
+import com.increff.assure.pojo.InventoryPojo;
+import com.increff.assure.pojo.OrderItemPojo;
+import com.increff.assure.pojo.OrderPojo;
+import com.increff.assure.pojo.OrderStatus;
+import com.increff.assure.pojo.ProductPojo;
+import com.increff.assure.service.ApiException;
+import com.increff.assure.service.BinSkuService;
+import com.increff.assure.service.ChannelListingService;
+import com.increff.assure.service.InventoryService;
+import com.increff.assure.service.OrderItemService;
+import com.increff.assure.service.OrderService;
+import com.increff.assure.service.ProductService;
+import com.increff.assure.util.ConvertorUtil;
+
+@Service
+<span class="fc" id="L27">public class OrderItemDto {</span>
+
+	@Autowired
+	private OrderService orderService;
+
+	@Autowired
+	private OrderItemService orderItemService;
+
+	@Autowired
+	private ProductService productService;
+
+	@Autowired
+	private ChannelListingService channelListingService;
+
+	@Autowired
+	private InventoryService inventoryService;
+
+	@Autowired
+	private BinSkuService binSkuService;
+
+	public OrderItemData addByAssure(OrderItemFormCSV form) throws ApiException {
+<span class="fc" id="L48">		OrderPojo order = orderService.get(form.getOrderId());</span>
+<span class="fc" id="L49">		ProductPojo product = productService.getByClientIdAndClientSkuId(form.getClientSkuId(), order.getClient());</span>
+<span class="fc" id="L50">		OrderItemPojo pojo = ConvertorUtil.convert(form, order, product);</span>
+<span class="fc" id="L51">		OrderItemPojo orderItem = orderItemService.add(pojo);</span>
+<span class="fc" id="L52">		return ConvertorUtil.convert(orderItem);</span>
+	}
+
+	public OrderItemData addByChannel(OrderItemFormChannel form) throws ApiException {
+<span class="nc" id="L56">		OrderPojo order = orderService.get(form.getOrderId());</span>
+<span class="nc" id="L57">		ProductPojo product = channelListingService</span>
+<span class="nc" id="L58">				.getByChannelSkuIdAndChannel(form.getChannelSkuId(), order.getChannel()).getProduct();</span>
+<span class="nc" id="L59">		OrderItemPojo pojo = ConvertorUtil.convert(form, order, product);</span>
+<span class="nc" id="L60">		OrderItemPojo orderItem = orderItemService.add(pojo);</span>
+<span class="nc" id="L61">		return ConvertorUtil.convert(orderItem);</span>
+	}
+
+	public OrderItemData get(Long id) throws ApiException {
+<span class="nc" id="L65">		OrderItemPojo pojo = orderItemService.get(id);</span>
+<span class="nc" id="L66">		return ConvertorUtil.convert(pojo);</span>
+	}
+
+	public List&lt;OrderItemData&gt; getAll() {
+<span class="nc" id="L70">		List&lt;OrderItemPojo&gt; list = orderItemService.getAll();</span>
+<span class="nc" id="L71">		return ConvertorUtil.convertOrderItems(list);</span>
+	}
+
+	public List&lt;OrderItemData&gt; getByOrder(Long id) throws ApiException {
+<span class="nc" id="L75">		OrderPojo order = orderService.get(id);</span>
+<span class="nc" id="L76">		List&lt;OrderItemPojo&gt; list = orderItemService.getByOrder(order);</span>
+<span class="nc" id="L77">		return ConvertorUtil.convertOrderItems(list);</span>
+	}
+
+	public OrderItemData update(Long id, OrderItemFormChannel form) throws ApiException {
+<span class="nc" id="L81">		OrderItemPojo pojo = orderItemService.get(id);</span>
+<span class="nc" id="L82">		OrderItemPojo list = orderItemService.update(id, form.getOrderedQuantity(), pojo.getAllocatedQuantity(),</span>
+<span class="nc" id="L83">				pojo.getFulfilledQuantity(), form.getSellingPrice());</span>
+<span class="nc" id="L84">		return ConvertorUtil.convert(list);</span>
+	}
+
+	@Transactional(rollbackFor = ApiException.class)
+	public List&lt;OrderItemData&gt; allocate(Long id) throws ApiException {
+
+<span class="nc" id="L90">		OrderPojo order = orderService.get(id);</span>
+<span class="nc" id="L91">		List&lt;OrderItemPojo&gt; itemList = orderItemService.getByOrder(order);</span>
+
+<span class="nc" id="L93">		boolean allItemsAllocated = true;</span>
+		// For every item in order, reducing the availableQuantity of the inventory and
+		// increasing the value to allocatedQuantity. Reducing the binskus.
+<span class="nc bnc" id="L96" title="All 2 branches missed.">		for (OrderItemPojo item : itemList) {</span>
+<span class="nc" id="L97">			InventoryPojo inventory = inventoryService.getByProduct(item.getProduct());</span>
+<span class="nc" id="L98">			Long allocateQuantity = Math.min(inventory.getAvailableQuantity(),</span>
+<span class="nc" id="L99">					item.getOrderedQuantity() - item.getAllocatedQuantity());</span>
+<span class="nc" id="L100">			Long availableQuantity = inventory.getAvailableQuantity() - allocateQuantity;</span>
+
+<span class="nc" id="L102">			inventoryService.updateQuantities(inventory.getId(), availableQuantity,</span>
+<span class="nc" id="L103">					allocateQuantity + inventory.getAllocatedQuantity(), inventory.getFulfilledQuantity());</span>
+
+<span class="nc" id="L105">			orderItemService.update(item.getId(), item.getOrderedQuantity(),</span>
+<span class="nc" id="L106">					item.getAllocatedQuantity() + allocateQuantity, item.getFulfilledQuantity(),</span>
+<span class="nc" id="L107">					item.getSellingPrice());</span>
+
+<span class="nc" id="L109">			binSkuService.reduceBinSkuByAllocatedQuantity(item.getProduct(), allocateQuantity);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">			if (item.getOrderedQuantity()-item.getAllocatedQuantity() != allocateQuantity) {</span>
+<span class="nc" id="L111">				allItemsAllocated = false;</span>
+			}
+<span class="nc" id="L113">		}</span>
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		if (allItemsAllocated == true) {</span>
+<span class="nc" id="L116">			orderService.updateStatus(order, OrderStatus.ALLOCATED);</span>
+		}
+
+<span class="nc" id="L119">		return getByOrder(id);</span>
+	}
+
+	@Transactional(rollbackFor = ApiException.class)
+	public List&lt;OrderItemData&gt; fulfillAndGenerateInvoice(Long id) throws ApiException {
+<span class="nc" id="L124">		OrderPojo order = orderService.get(id);</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		if (order.getStatus() == OrderStatus.CREATED) {</span>
+<span class="nc" id="L126">			throw new ApiException(&quot;Order items are not allocated.&quot;);</span>
+		}
+
+<span class="nc" id="L129">		List&lt;OrderItemPojo&gt; itemList = orderItemService.getByOrder(order);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">		for (OrderItemPojo item : itemList) {</span>
+<span class="nc" id="L131">			InventoryPojo inventory = inventoryService.getByProduct(item.getProduct());</span>
+<span class="nc" id="L132">			Long allocateQuantity = inventory.getAllocatedQuantity() - item.getOrderedQuantity();</span>
+<span class="nc" id="L133">			Long fulfilledQuantity = inventory.getFulfilledQuantity() + allocateQuantity;</span>
+
+<span class="nc" id="L135">			inventoryService.updateQuantities(inventory.getId(), inventory.getAvailableQuantity(), allocateQuantity,</span>
+					fulfilledQuantity);
+
+<span class="nc" id="L138">			orderItemService.update(item.getId(), item.getOrderedQuantity(), Long.valueOf(0), item.getOrderedQuantity(),</span>
+<span class="nc" id="L139">					item.getSellingPrice());</span>
+
+<span class="nc" id="L141">		}</span>
+
+<span class="nc" id="L143">		return getByOrder(id);</span>
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

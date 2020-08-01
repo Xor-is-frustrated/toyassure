@@ -27,7 +27,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 
 		clientService.add(client);
 
-		ProductPojo c = new ProductPojo();
+		ProductPojo c = new ProductPojo(); 
 		c.setName("assure");
 		c.setBrandId("brand");
 		c.setClientSkuId("clientsku");
@@ -57,7 +57,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		productService.add(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);
@@ -103,7 +103,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		productService.add(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);
@@ -149,7 +149,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		productService.add(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);

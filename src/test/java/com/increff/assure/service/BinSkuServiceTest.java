@@ -84,7 +84,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		binSkuService.add(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);
@@ -149,7 +149,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		binSkuService.add(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.dto</a> &gt; <span class="el_source">InventoryDto.java</span></div><h1>InventoryDto.java</h1><pre class="source lang-java linenums">package com.increff.assure.dto;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.increff.assure.model.InventoryData;
+import com.increff.assure.model.InventoryForm;
+import com.increff.assure.pojo.InventoryPojo;
+import com.increff.assure.pojo.ProductPojo;
+import com.increff.assure.service.ApiException;
+import com.increff.assure.service.InventoryService;
+import com.increff.assure.service.ProductService;
+import com.increff.assure.util.ConvertorUtil;
+
+
+@Service
+<span class="fc" id="L19">public class InventoryDto { </span>
+
+	@Autowired
+	private InventoryService inventoryService;
+	
+	@Autowired
+	private ProductService productService;
+
+
+	public InventoryData add(InventoryForm form) throws ApiException {
+<span class="fc" id="L29">		ProductPojo pojo = productService.get(form.getGlobalSkuId());</span>
+<span class="fc" id="L30">		InventoryPojo inv = ConvertorUtil.convert(form, pojo);</span>
+<span class="fc" id="L31">		inv = inventoryService.add(inv);</span>
+<span class="fc" id="L32">		return ConvertorUtil.convert(inv);</span>
+	}
+
+	public InventoryData get(Long id) throws ApiException {
+<span class="fc" id="L36">		InventoryPojo pojo = inventoryService.get(id);</span>
+<span class="fc" id="L37">		return ConvertorUtil.convert(pojo);</span>
+	}
+
+	public List&lt;InventoryData&gt; getAll() {
+<span class="fc" id="L41">		List&lt;InventoryPojo&gt; list = inventoryService.getAll();</span>
+<span class="fc" id="L42">		return ConvertorUtil.convertInventories(list);</span>
+
+	}
+
+	public InventoryData update(Long globalSkuId, InventoryForm form) throws ApiException {
+<span class="fc" id="L47">		ProductPojo pojo = productService.get(form.getGlobalSkuId());</span>
+<span class="fc" id="L48">		InventoryPojo inv= inventoryService.getByProduct(pojo);</span>
+<span class="fc" id="L49">		Long availableQuantity = form.getAvailableQuantity();</span>
+<span class="fc" id="L50">		Long allocatedQuantity = form.getAllocatedQuantity();</span>
+<span class="fc" id="L51">		Long fulfilledQuantity = form.getFulfilledQuantity();</span>
+<span class="fc" id="L52">		inv=inventoryService.updateQuantities(inv.getId(), availableQuantity, allocatedQuantity, fulfilledQuantity);</span>
+<span class="fc" id="L53">		return ConvertorUtil.convert(inv);</span>
+	}
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

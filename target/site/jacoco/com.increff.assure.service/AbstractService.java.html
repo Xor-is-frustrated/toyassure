@@ -3,26 +3,26 @@
 <span class="fc" id="L3">public abstract class AbstractService {</span>
 
 	public static void checkNull(Object obj, String msg) throws ApiException {
-<span class="pc bpc" id="L6" title="1 of 2 branches missed.">		if (obj != null) {</span>
-<span class="nc" id="L7">			throw new ApiException(msg);</span>
+<span class="fc bfc" id="L6" title="All 2 branches covered.">		if (obj != null) {</span>
+<span class="fc" id="L7">			throw new ApiException(msg);</span>
 		}
 <span class="fc" id="L9">	}</span>
 
 	public static void checkNotNull(Object obj, String msg) throws ApiException {
-<span class="pc bpc" id="L12" title="1 of 2 branches missed.">		if (obj == null) {</span>
-<span class="nc" id="L13">			throw new ApiException(msg);</span>
+<span class="fc bfc" id="L12" title="All 2 branches covered.">		if (obj == null) {</span>
+<span class="fc" id="L13">			throw new ApiException(msg);</span>
 		}
 <span class="fc" id="L15">	}</span>
 
 	public static void checkPositive(int obj, String msg) throws ApiException {
-<span class="nc bnc" id="L18" title="All 2 branches missed.">		if (obj &lt; 0) {</span>
-<span class="nc" id="L19">			throw new ApiException(msg);</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">		if (obj &lt; 0) {</span>
+<span class="fc" id="L19">			throw new ApiException(msg);</span>
 		}
 <span class="nc" id="L21">	}</span>
 
 	public static void checkPositive(double obj, String msg) throws ApiException {
-<span class="pc bpc" id="L24" title="1 of 2 branches missed.">		if (obj &lt; 0) {</span>
-<span class="nc" id="L25">			throw new ApiException(msg);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">		if (obj &lt; 0) {</span>
+<span class="fc" id="L25">			throw new ApiException(msg);</span>
 		}
 <span class="fc" id="L27">	}</span>
 

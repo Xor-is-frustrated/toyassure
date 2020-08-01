@@ -46,6 +46,12 @@ import io.swagger.annotations.ApiOperation;
 <span class="nc" id="L46">		return dto.getAll();</span>
 
 	}
+	
+	@ApiOperation(value = &quot;Updates a client&quot;)
+	@RequestMapping(path = &quot;/{id}&quot;, method = RequestMethod.PUT)
+	public void update(@PathVariable Long id, @RequestBody ClientForm form) throws ApiException {
+<span class="nc" id="L53">		dto.update(id, form);</span>
+<span class="nc" id="L54">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

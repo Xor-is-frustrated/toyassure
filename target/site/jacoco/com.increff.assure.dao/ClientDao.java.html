@@ -11,26 +11,33 @@ import com.increff.assure.pojo.ClientPojo;
 
 
 @Repository
-<span class="fc" id="L14">public class ClientDao extends AbstractDao{</span>
+<span class="fc" id="L14">public class ClientDao extends AbstractDao{ </span>
 	
 <span class="fc" id="L16">	private static String selectById = &quot;select p from ClientPojo p where id=:id&quot;;</span>
-<span class="fc" id="L17">	private static String selectAll = &quot;select p from ClientPojo p order by p.id&quot;;</span>
+<span class="fc" id="L17">	private static String selectByName = &quot;select p from ClientPojo p where p.name=:name&quot;;</span>
+<span class="fc" id="L18">	private static String selectAll = &quot;select p from ClientPojo p order by p.id&quot;;</span>
 	
 	@Transactional
 	public ClientPojo insert(ClientPojo c) {
-<span class="fc" id="L21">		em().persist(c);</span>
-<span class="fc" id="L22">		return c;</span>
+<span class="fc" id="L22">		em().persist(c);</span>
+<span class="fc" id="L23">		return c;</span>
 	}
 
 	public ClientPojo select(Long id) {
-<span class="fc" id="L26">		TypedQuery&lt;ClientPojo&gt; query = getQuery(selectById, ClientPojo.class);</span>
-<span class="fc" id="L27">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="fc" id="L28">		return getSingle(query);</span>
+<span class="fc" id="L27">		TypedQuery&lt;ClientPojo&gt; query = getQuery(selectById, ClientPojo.class);</span>
+<span class="fc" id="L28">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L29">		return getSingle(query);</span>
+	}
+	
+	public ClientPojo selectByName(String name) {
+<span class="fc" id="L33">		TypedQuery&lt;ClientPojo&gt; query = getQuery(selectByName, ClientPojo.class);</span>
+<span class="fc" id="L34">		query.setParameter(&quot;name&quot;, name);</span>
+<span class="fc" id="L35">		return getSingle(query);</span>
 	}
 	
 	public List&lt;ClientPojo&gt; selectAll() {
-<span class="fc" id="L32">		TypedQuery&lt;ClientPojo&gt; query = getQuery(selectAll, ClientPojo.class);</span>
-<span class="fc" id="L33">		return query.getResultList();</span>
+<span class="fc" id="L39">		TypedQuery&lt;ClientPojo&gt; query = getQuery(selectAll, ClientPojo.class);</span>
+<span class="fc" id="L40">		return query.getResultList();</span>
 	}
 
 	

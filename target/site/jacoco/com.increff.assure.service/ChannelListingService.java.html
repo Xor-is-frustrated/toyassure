@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChannelListingService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.service</a> &gt; <span class="el_source">ChannelListingService.java</span></div><h1>ChannelListingService.java</h1><pre class="source lang-java linenums">package com.increff.assure.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.increff.assure.dao.ChannelDao;
+import com.increff.assure.dao.ChannelListingDao;
+import com.increff.assure.dao.ClientDao;
+import com.increff.assure.dao.ProductDao;
+import com.increff.assure.pojo.ChannelListingPojo;
+import com.increff.assure.pojo.ChannelPojo;
+import com.increff.assure.pojo.ClientPojo;
+import com.increff.assure.pojo.ProductPojo;
+
+@Service
+<span class="fc" id="L19">public class ChannelListingService extends AbstractService {</span>
+
+	@Autowired
+	private ChannelListingDao channelListingDao;
+
+	@Autowired
+	private ChannelDao channelDao;
+
+	@Autowired
+	private ProductDao productDao;
+
+	@Autowired
+	private ClientDao clientDao;
+
+	@Transactional(rollbackFor = ApiException.class)
+	public ChannelListingPojo add(ChannelListingPojo p) throws ApiException {
+
+<span class="fc" id="L36">		checkZero(p.getChannelSkuId().length(), &quot;ChannelSkuId cannot be empty.&quot;);</span>
+
+<span class="fc" id="L38">		ChannelPojo cp = channelDao.select(p.getChannel().getId());</span>
+<span class="fc" id="L39">		checkNotNull(cp, &quot;Channel ID does not exist&quot;);</span>
+
+<span class="fc" id="L41">		ProductPojo product = productDao.select(p.getProduct().getGlobalSkuId());</span>
+<span class="fc" id="L42">		checkNotNull(product, &quot;GlobalSkuID does not exist&quot;);</span>
+
+<span class="fc" id="L44">		ClientPojo client = clientDao.select(p.getClient().getId());</span>
+<span class="fc" id="L45">		checkNotNull(client, &quot;ClientId does not exist&quot;);</span>
+
+<span class="fc" id="L47">		ChannelListingPojo cl = channelListingDao.selectByChannelSkuIdAndChannel(p.getChannelSkuId(), p.getChannel());</span>
+<span class="fc" id="L48">		checkNull(cl, &quot;Combination already exists&quot;);</span>
+<span class="fc" id="L49">		return channelListingDao.insert(p);</span>
+
+	}
+
+	@Transactional(readOnly = true)
+	public ChannelListingPojo get(Long id) throws ApiException {
+<span class="fc" id="L55">		ChannelListingPojo p = channelListingDao.select(id);</span>
+<span class="fc" id="L56">		checkNotNull(p, &quot;Channe lListing ID does not exist&quot;);</span>
+<span class="fc" id="L57">		return p;</span>
+	}
+
+	@Transactional(readOnly = true)
+	public ChannelListingPojo getByChannelSkuIdAndChannel(String channelSkuId, ChannelPojo channel)
+			throws ApiException {
+
+<span class="fc" id="L64">		checkZero(channelSkuId.length(), &quot;ChannelSkuId cannot be empty.&quot;);</span>
+
+<span class="fc" id="L66">		ChannelPojo cp = channelDao.select(channel.getId());</span>
+<span class="fc" id="L67">		checkNotNull(cp, &quot;Channel ID does not exist&quot;);</span>
+
+<span class="fc" id="L69">		return channelListingDao.selectByChannelSkuIdAndChannel(channelSkuId, cp);</span>
+	}
+
+	@Transactional(readOnly = true)
+	public List&lt;ChannelListingPojo&gt; getAll() {
+<span class="fc" id="L74">		return channelListingDao.selectAll();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

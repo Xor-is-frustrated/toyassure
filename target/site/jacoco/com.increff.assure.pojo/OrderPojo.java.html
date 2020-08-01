@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderPojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.pojo</a> &gt; <span class="el_source">OrderPojo.java</span></div><h1>OrderPojo.java</h1><pre class="source lang-java linenums">package com.increff.assure.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+@Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = &quot;channelOrderId&quot;))
+<span class="fc" id="L17">public class OrderPojo extends AbstractAuditable {</span>
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@ManyToOne
+	@JoinColumn(name = &quot;clientId&quot;, nullable = false)
+	private ClientPojo client;
+
+	@ManyToOne
+	@JoinColumn(name = &quot;customerId&quot;, nullable = false)
+	private ClientPojo customer;
+
+	@ManyToOne
+	@JoinColumn(name = &quot;channelId&quot;, nullable = false)
+	private ChannelPojo channel;
+
+	@Column(nullable = false)
+	private String channelOrderId;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private OrderStatus status;
+
+	public Long getId() {
+<span class="fc" id="L43">		return id;</span>
+	}
+
+	public void setId(Long id) {
+<span class="nc" id="L47">		this.id = id;</span>
+<span class="nc" id="L48">	}</span>
+
+	public ClientPojo getClient() {
+<span class="fc" id="L51">		return client;</span>
+	}
+
+	public void setClient(ClientPojo client) {
+<span class="fc" id="L55">		this.client = client;</span>
+<span class="fc" id="L56">	}</span>
+
+	public ClientPojo getCustomer() {
+<span class="fc" id="L59">		return customer;</span>
+	}
+
+	public void setCustomer(ClientPojo customer) {
+<span class="fc" id="L63">		this.customer = customer;</span>
+<span class="fc" id="L64">	}</span>
+
+	public ChannelPojo getChannel() {
+<span class="fc" id="L67">		return channel;</span>
+	}
+
+	public void setChannel(ChannelPojo channel) {
+<span class="fc" id="L71">		this.channel = channel;</span>
+<span class="fc" id="L72">	}</span>
+
+	public String getChannelOrderId() {
+<span class="fc" id="L75">		return channelOrderId;</span>
+	}
+
+	public void setChannelOrderId(String channelOrderId) {
+<span class="fc" id="L79">		this.channelOrderId = channelOrderId;</span>
+<span class="fc" id="L80">	}</span>
+
+	public OrderStatus getStatus() {
+<span class="fc" id="L83">		return status;</span>
+	}
+
+	public void setStatus(OrderStatus status) {
+<span class="fc" id="L87">		this.status = status;</span>
+<span class="fc" id="L88">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

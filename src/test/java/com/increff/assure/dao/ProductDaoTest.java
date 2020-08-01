@@ -45,7 +45,7 @@ public class ProductDaoTest extends AbstractUnitTest {
 	public void testSelectAll() {
 		ClientPojo client = new ClientPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(ClientType.CLIENT); 
 
 		clientDao.insert(client);
 
@@ -60,7 +60,7 @@ public class ProductDaoTest extends AbstractUnitTest {
 		productDao.insert(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientDao.insert(client1);
@@ -116,7 +116,7 @@ public class ProductDaoTest extends AbstractUnitTest {
 		productDao.insert(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientDao.insert(client1);
@@ -162,7 +162,7 @@ public class ProductDaoTest extends AbstractUnitTest {
 		productDao.insert(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientDao.insert(client1);

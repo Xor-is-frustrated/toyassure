@@ -1,14 +1,14 @@
 package com.increff.assure.model;
 
 public class ProductData extends ProductForm {
-	private Long globalSkuId;
+	private Long id;         
 
-	public Long getGlobalSkuId() {
-		return globalSkuId;
-	}
+	public Long getId() {
+		return id;
+	}  
 
-	public void setGlobalSkuId(Long globalSkuId) {
-		this.globalSkuId = globalSkuId;
+	public void setId(Long globalSkuId) {
+		this.id = globalSkuId;
 	}
 	
 	

@@ -87,7 +87,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		binSkuDao.insert(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientDao.insert(client1);
@@ -154,7 +154,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		binSkuDao.insert(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientDao.insert(client1);
@@ -216,7 +216,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		binSkuDao.insert(pojo);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientDao.insert(client1);

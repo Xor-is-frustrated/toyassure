@@ -42,7 +42,7 @@ public class ProductDtoTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClientId(client.getId());
+		c.setClientName(client.getName());
 
 		productDto.add(c);
 	}
@@ -66,7 +66,7 @@ public class ProductDtoTest extends AbstractUnitTest {
 		productService.add(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);
@@ -83,13 +83,13 @@ public class ProductDtoTest extends AbstractUnitTest {
 
 		ProductData list = productDto.get(c.getGlobalSkuId());
 
-		assertEquals(client.getId(), list.getClientId());
+		assertEquals(client.getName(), list.getClientName());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getMrp(), list.getMrp());
 		assertEquals(c.getDescription(), list.getDescription());
 		assertEquals(c.getBrandId(), list.getBrandId());
 		assertEquals(c.getClientSkuId(), list.getClientSkuId());
-		assertEquals(c.getGlobalSkuId(), list.getGlobalSkuId());
+		assertEquals(c.getGlobalSkuId(), list.getId());
 
 	}
 
@@ -112,7 +112,7 @@ public class ProductDtoTest extends AbstractUnitTest {
 		productService.add(c);
 
 		ClientPojo client1 = new ClientPojo();
-		client1.setName("assure");
+		client1.setName("assure1");
 		client1.setType(ClientType.CLIENT);
 
 		clientService.add(client1);
@@ -131,21 +131,21 @@ public class ProductDtoTest extends AbstractUnitTest {
 
 		assertEquals(2, list.size());
 
-		assertEquals(client.getId(), list.get(0).getClientId());
+		assertEquals(client.getName(), list.get(0).getClientName());
 		assertEquals(c.getName(), list.get(0).getName());
 		assertEquals(c.getMrp(), list.get(0).getMrp());
 		assertEquals(c.getDescription(), list.get(0).getDescription());
 		assertEquals(c.getBrandId(), list.get(0).getBrandId());
 		assertEquals(c.getClientSkuId(), list.get(0).getClientSkuId());
-		assertEquals(c.getGlobalSkuId(), list.get(0).getGlobalSkuId());
+		assertEquals(c.getGlobalSkuId(), list.get(0).getId());
 
-		assertEquals(client1.getId(), list.get(1).getClientId());
+		assertEquals(client1.getName(), list.get(1).getClientName());
 		assertEquals(c1.getName(), list.get(1).getName());
 		assertEquals(c1.getMrp(), list.get(1).getMrp());
 		assertEquals(c1.getDescription(), list.get(1).getDescription());
 		assertEquals(c1.getBrandId(), list.get(1).getBrandId());
 		assertEquals(c1.getClientSkuId(), list.get(1).getClientSkuId());
-		assertEquals(c1.getGlobalSkuId(), list.get(1).getGlobalSkuId());
+		assertEquals(c1.getGlobalSkuId(), list.get(1).getId());
 
 	}
 	
@@ -172,7 +172,7 @@ public class ProductDtoTest extends AbstractUnitTest {
 		form.setBrandId("brand change");
 		form.setClientSkuId("clientsku");
 		form.setDescription("description change");
-		form.setClientId(client.getId());
+		form.setClientName(client.getName());
 		form.setMrp(1.1);
 		
 

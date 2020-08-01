@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.increff.assure.dao.BinSkuDaoTest" time="0.203" errors="0" skipped="0">
+<testsuite tests="4" failures="0" name="com.increff.assure.dao.BinSkuDaoTest" time="0.187" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_221\jre\bin"/>
@@ -65,8 +65,8 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.increff.assure.dao.BinSkuDaoTest" name="testById" time="0.109"/>
+  <testcase classname="com.increff.assure.dao.BinSkuDaoTest" name="testById" time="0.093"/>
   <testcase classname="com.increff.assure.dao.BinSkuDaoTest" name="testSelectAll" time="0.047"/>
-  <testcase classname="com.increff.assure.dao.BinSkuDaoTest" name="testSelectByBinAndProduct" time="0.031"/>
-  <testcase classname="com.increff.assure.dao.BinSkuDaoTest" name="testInsert" time="0.016"/>
+  <testcase classname="com.increff.assure.dao.BinSkuDaoTest" name="testSelectByBinAndProduct" time="0.032"/>
+  <testcase classname="com.increff.assure.dao.BinSkuDaoTest" name="testInsert" time="0.015"/>
 </testsuite>

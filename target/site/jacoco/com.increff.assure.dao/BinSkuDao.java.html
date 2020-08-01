@@ -17,30 +17,40 @@ import com.increff.assure.pojo.ProductPojo;
 <span class="fc" id="L17">	private static String selectById = &quot;select p from BinSkuPojo p where p.id=:id&quot;;</span>
 <span class="fc" id="L18">	private static String selectAll = &quot;select p from BinSkuPojo p order by p.id&quot;;</span>
 <span class="fc" id="L19">	private static String selectByBinAndProduct = &quot;select p from BinSkuPojo p where p.product=:product and p.bin=:bin&quot;;</span>
+<span class="fc" id="L20">	private static String selectByProduct = &quot;select p from BinSkuPojo p where p.product=:product&quot;;</span>
+	
 	
 	@Transactional
 	public BinSkuPojo insert(BinSkuPojo c) {
-<span class="fc" id="L23">		em().persist(c);</span>
-<span class="fc" id="L24">		return c;</span>
+<span class="fc" id="L25">		em().persist(c);</span>
+<span class="fc" id="L26">		return c;</span>
 	}
 	
 	public BinSkuPojo select(Long id) {
-<span class="fc" id="L28">		TypedQuery&lt;BinSkuPojo&gt; query = getQuery(selectById, BinSkuPojo.class);</span>
-<span class="fc" id="L29">		query.setParameter(&quot;id&quot;, id);</span>
-<span class="fc" id="L30">		return getSingle(query);</span>
+<span class="fc" id="L30">		TypedQuery&lt;BinSkuPojo&gt; query = getQuery(selectById, BinSkuPojo.class);</span>
+<span class="fc" id="L31">		query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L32">		return getSingle(query);</span>
 	}
 	
 	public List&lt;BinSkuPojo&gt; selectAll() {
-<span class="fc" id="L34">		TypedQuery&lt;BinSkuPojo&gt; query = getQuery(selectAll, BinSkuPojo.class);</span>
-<span class="fc" id="L35">		return query.getResultList();</span>
+<span class="fc" id="L36">		TypedQuery&lt;BinSkuPojo&gt; query = getQuery(selectAll, BinSkuPojo.class);</span>
+<span class="fc" id="L37">		return query.getResultList();</span>
+	}
+	
+	public List&lt;BinSkuPojo&gt; selectByProduct(ProductPojo product) {
+<span class="nc" id="L41">		TypedQuery&lt;BinSkuPojo&gt; query = getQuery(selectByProduct, BinSkuPojo.class);</span>
+<span class="nc" id="L42">		query.setParameter(&quot;product&quot;, product);</span>
+<span class="nc" id="L43">		return query.getResultList();</span>
 	}
 	
 	public BinSkuPojo selectByBinAndProduct(BinPojo bin, ProductPojo product) {
-<span class="fc" id="L39">		TypedQuery&lt;BinSkuPojo&gt; query = getQuery(selectByBinAndProduct, BinSkuPojo.class);</span>
-<span class="fc" id="L40">		query.setParameter(&quot;bin&quot;, bin);</span>
-<span class="fc" id="L41">		query.setParameter(&quot;product&quot;, product);</span>
-<span class="fc" id="L42">		return getSingle(query);</span>
+<span class="fc" id="L47">		TypedQuery&lt;BinSkuPojo&gt; query = getQuery(selectByBinAndProduct, BinSkuPojo.class);</span>
+<span class="fc" id="L48">		query.setParameter(&quot;bin&quot;, bin);</span>
+<span class="fc" id="L49">		query.setParameter(&quot;product&quot;, product);</span>
+<span class="fc" id="L50">		return getSingle(query);</span>
 	}
+	
+	
 	
 
 }

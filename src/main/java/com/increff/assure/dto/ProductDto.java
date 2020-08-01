@@ -15,7 +15,7 @@ import com.increff.assure.service.ProductService;
 import com.increff.assure.util.ConvertorUtil;
 
 @Service
-public class ProductDto {
+public class ProductDto {    
 
 	@Autowired
 	private ProductService productService; 
@@ -25,7 +25,7 @@ public class ProductDto {
 
 	public ProductData add(ProductForm form) throws ApiException {
 		
-		ClientPojo client= clientService.get(form.getClientId());
+		ClientPojo client= clientService.getByName(form.getClientName());
 		
 		ProductPojo pojo = ConvertorUtil.convert(form,client);
 		ProductPojo product = productService.add(pojo);
@@ -43,7 +43,7 @@ public class ProductDto {
 	}
 	
 	public void update(Long id, ProductForm form) throws ApiException {
-		ClientPojo client= clientService.get(form.getClientId());
+		ClientPojo client= clientService.getByName(form.getClientName());
 		ProductPojo productPojo = ConvertorUtil.convert(form, client);
 		productService.update(id, productPojo);
 

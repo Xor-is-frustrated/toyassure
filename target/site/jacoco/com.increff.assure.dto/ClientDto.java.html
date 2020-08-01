@@ -12,28 +12,33 @@ import com.increff.assure.service.ApiException;
 import com.increff.assure.service.ClientService;
 import com.increff.assure.util.ConvertorUtil;
 
-
 @Service
-<span class="fc" id="L17">public class ClientDto {</span>
+<span class="fc" id="L16">public class ClientDto {</span>
 
 	@Autowired
-	private ClientService clientService; 
+	private ClientService clientService;
 
 	public ClientData add(ClientForm form) throws ApiException {
-<span class="fc" id="L23">		ClientPojo pojo = ConvertorUtil.convert(form);</span>
-<span class="fc" id="L24">		ClientPojo client = clientService.add(pojo);</span>
-<span class="fc" id="L25">		return ConvertorUtil.convert(client);         </span>
+<span class="fc" id="L22">		ClientPojo pojo = ConvertorUtil.convert(form);</span>
+<span class="fc" id="L23">		ClientPojo client = clientService.add(pojo);</span>
+<span class="fc" id="L24">		return ConvertorUtil.convert(client);</span>
 	}
 
 	public ClientData get(Long id) throws ApiException {
-<span class="fc" id="L29">		ClientPojo pojo = clientService.get(id);</span>
-<span class="fc" id="L30">		return ConvertorUtil.convert(pojo);</span>
+<span class="fc" id="L28">		ClientPojo pojo = clientService.get(id);</span>
+<span class="fc" id="L29">		return ConvertorUtil.convert(pojo);</span>
 	}
 
 	public List&lt;ClientData&gt; getAll() {
-<span class="fc" id="L34">		List&lt;ClientPojo&gt; list = clientService.getAll();</span>
-<span class="fc" id="L35">		return ConvertorUtil.convertClients(list);</span>
+<span class="fc" id="L33">		List&lt;ClientPojo&gt; list = clientService.getAll();</span>
+<span class="fc" id="L34">		return ConvertorUtil.convertClients(list);</span>
 	}
 	
+	public ClientData update(Long id, ClientForm form) throws ApiException {
+<span class="nc" id="L38">		ClientPojo pojo = ConvertorUtil.convert(form);</span>
+<span class="nc" id="L39">		ClientPojo client = clientService.update(id,pojo);</span>
+<span class="nc" id="L40">		return ConvertorUtil.convert(client);</span>
+	}
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

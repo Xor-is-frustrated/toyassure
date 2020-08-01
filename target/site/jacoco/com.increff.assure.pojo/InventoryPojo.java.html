@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryPojo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assure</a> &gt; <a href="index.source.html" class="el_package">com.increff.assure.pojo</a> &gt; <span class="el_source">InventoryPojo.java</span></div><h1>InventoryPojo.java</h1><pre class="source lang-java linenums">package com.increff.assure.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+
+@Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames = &quot;product_id&quot;))
+<span class="fc" id="L16">public class InventoryPojo extends AbstractAuditable {</span>
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(nullable=false)
+	private Long availableQuantity;
+	
+	@Column(nullable=false)
+	private Long allocatedQuantity;
+	
+	@Column(nullable=false)
+	private Long fulfilledQuantity;
+
+	@OneToOne
+	@JoinColumn(name=&quot;product_id&quot;, nullable=false)
+	private ProductPojo product;
+
+	public Long getId() {
+<span class="fc" id="L36">		return id;</span>
+	}
+
+	public void setId(Long id) {
+<span class="nc" id="L40">		this.id = id;</span>
+<span class="nc" id="L41">	}</span>
+
+	public Long getAvailableQuantity() {
+<span class="fc" id="L44">		return availableQuantity;</span>
+	}
+
+	public void setAvailableQuantity(Long availableQuantity) {
+<span class="fc" id="L48">		this.availableQuantity = availableQuantity;</span>
+<span class="fc" id="L49">	}</span>
+
+	public Long getAllocatedQuantity() {
+<span class="fc" id="L52">		return allocatedQuantity;</span>
+	}
+
+	public void setAllocatedQuantity(Long allocatedQuantity) {
+<span class="fc" id="L56">		this.allocatedQuantity = allocatedQuantity;</span>
+<span class="fc" id="L57">	}</span>
+
+	public Long getFulfilledQuantity() {
+<span class="fc" id="L60">		return fulfilledQuantity;</span>
+	}
+
+	public void setFulfilledQuantity(Long fulfilledQuantity) {
+<span class="fc" id="L64">		this.fulfilledQuantity = fulfilledQuantity;</span>
+<span class="fc" id="L65">	}</span>
+
+	public ProductPojo getProduct() {
+<span class="fc" id="L68">		return product;</span>
+	}
+
+	public void setProduct(ProductPojo product) {
+<span class="fc" id="L72">		this.product = product;</span>
+<span class="fc" id="L73">	}</span>
+	
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

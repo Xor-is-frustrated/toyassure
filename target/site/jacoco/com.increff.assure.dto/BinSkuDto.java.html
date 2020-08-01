@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.increff.assure.model.BinSkuData;
 import com.increff.assure.model.BinSkuForm;
+import com.increff.assure.model.InventoryForm;
 import com.increff.assure.pojo.BinPojo;
 import com.increff.assure.pojo.BinSkuPojo;
 import com.increff.assure.pojo.ClientPojo;
@@ -19,44 +21,59 @@ import com.increff.assure.service.ProductService;
 import com.increff.assure.util.ConvertorUtil;
 
 @Service
-<span class="fc" id="L22">public class BinSkuDto {</span>
+<span class="fc" id="L24">public class BinSkuDto {</span>
 
 	@Autowired
-	private ProductService productService; 
-	
+	private ProductService productService;
+
 	@Autowired
-	private ClientService clientService; 
-	
+	private ClientService clientService;
+
 	@Autowired
 	private BinService binService;
-	
+
 	@Autowired
 	private BinSkuService binSkuService;
 
+	@Autowired
+	private InventoryDto inventoryDto;
+
+	@Transactional(rollbackFor = ApiException.class)
 	public BinSkuData add(BinSkuForm form) throws ApiException {
-		
-<span class="fc" id="L38">		ClientPojo client= clientService.get(form.getClientId());</span>
-<span class="fc" id="L39">		ProductPojo product = productService.getByClientIdAndClientSkuId(form.getClientSkuId(),client);</span>
-<span class="fc" id="L40">		BinPojo bin= binService.get(form.getBinId());</span>
-		
-<span class="fc" id="L42">		BinSkuPojo pojo= ConvertorUtil.convert(form,product,bin);</span>
-<span class="fc" id="L43">		pojo = binSkuService.add(pojo);</span>
-<span class="fc" id="L44">		return ConvertorUtil.convert(pojo);         </span>
+
+<span class="fc" id="L44">		ClientPojo client = clientService.getByName(form.getClientName());</span>
+<span class="fc" id="L45">		ProductPojo product = productService.getByClientIdAndClientSkuId(form.getClientSkuId(), client);</span>
+<span class="fc" id="L46">		BinPojo bin = binService.get(form.getBinId());</span>
+
+<span class="fc" id="L48">		BinSkuPojo pojo = ConvertorUtil.convert(form, product, bin);</span>
+<span class="fc" id="L49">		pojo = binSkuService.add(pojo);</span>
+
+<span class="fc" id="L51">		InventoryForm inv = new InventoryForm();</span>
+<span class="fc" id="L52">		inv.setGlobalSkuId(product.getGlobalSkuId());</span>
+<span class="fc" id="L53">		inv.setAvailableQuantity(form.getQuantity());</span>
+<span class="fc" id="L54">		inv.setAllocatedQuantity(Long.valueOf(0));</span>
+<span class="fc" id="L55">		inv.setFulfilledQuantity(Long.valueOf(0));</span>
+
+<span class="fc" id="L57">		inventoryDto.add(inv);</span>
+
+<span class="fc" id="L59">		return ConvertorUtil.convert(pojo);</span>
+
 	}
 
 	public BinSkuData get(Long id) throws ApiException {
-<span class="fc" id="L48">		BinSkuPojo pojo = binSkuService.get(id);</span>
-<span class="fc" id="L49">		return ConvertorUtil.convert(pojo);</span>
+<span class="fc" id="L64">		BinSkuPojo pojo = binSkuService.get(id);</span>
+<span class="fc" id="L65">		return ConvertorUtil.convert(pojo);</span>
 	}
 
 	public List&lt;BinSkuData&gt; getAll() {
-<span class="fc" id="L53">		List&lt;BinSkuPojo&gt; list = binSkuService.getAll();</span>
-<span class="fc" id="L54">		return ConvertorUtil.convertBinSkus(list);</span>
+<span class="fc" id="L69">		List&lt;BinSkuPojo&gt; list = binSkuService.getAll();</span>
+<span class="fc" id="L70">		return ConvertorUtil.convertBinSkus(list);</span>
 	}
-	
+
+	// todo: update inventory as well
 	public void update(Long id, Long quantity) throws ApiException {
-<span class="fc" id="L58">		binSkuService.updateQuantity(id, quantity);</span>
-<span class="fc" id="L59">	}</span>
-	
+<span class="fc" id="L75">		binSkuService.updateQuantity(id, quantity);</span>
+<span class="fc" id="L76">	}</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

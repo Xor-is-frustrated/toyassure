@@ -17,7 +17,7 @@ public class ClientDaoTest  extends AbstractUnitTest{
 	@Autowired
 	private ClientDao dao;
 
-	@Test
+	@Test 
 	public void testInsert() {
 		ClientPojo c = new ClientPojo();
 		c.setName("assure");
@@ -61,6 +61,24 @@ public class ClientDaoTest  extends AbstractUnitTest{
 		dao.insert(c1);
 		
 		ClientPojo list = dao.select(c.getId());
+		assertEquals(c.getName(), list.getName());
+		assertEquals(c.getType(), list.getType());
+		
+	}
+	
+	@Test
+	public void testByName() {
+		ClientPojo c = new ClientPojo();
+		c.setName("assure");
+		c.setType(ClientType.CLIENT);
+		dao.insert(c);
+		
+		ClientPojo c1 = new ClientPojo();
+		c1.setName("spring");
+		c1.setType(ClientType.CUSTOMER);
+		dao.insert(c1);
+		
+		ClientPojo list = dao.selectByName(c.getName());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getType(), list.getType());
 		
