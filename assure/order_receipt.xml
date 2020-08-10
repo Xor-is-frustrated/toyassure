@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Invoice>
+    <id>15</id>
+    <items>
+        <clientSkuId>clientsku1</clientSkuId>
+        <orderId>15</orderId>
+        <orderedQuantity>123</orderedQuantity>
+        <sellingPrice>1.23</sellingPrice>
+        <allocatedQuantity>0</allocatedQuantity>
+        <fulfilledQuantity>123</fulfilledQuantity>
+        <globalSkuId>1</globalSkuId>
+        <id>1</id>
+        <itemTotalCost>151.29</itemTotalCost>
+        <productName>product1</productName>
+    </items>
+    <orderDate>2020-08-10T12:20:30+05:30[Asia/Calcutta]</orderDate>
+    <orderId>order2asd</orderId>
+    <sellingprice>151.29</sellingprice>
+</Invoice>

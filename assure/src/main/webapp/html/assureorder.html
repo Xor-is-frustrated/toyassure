@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="snippets.html :: name_head"></head>
+<body>
+
+	<nav th:replace="snippets.html :: name_app_navbar"></nav>
+	<br>
+	<div class="container">
+		<h3>Order</h3>
+		<br>
+		<!-- Top row-->
+		<div class="row">
+			<div class="col-12">
+				<button type="button" class="btn btn-dark btn-sm" id="upload-data">Upload</button>
+				&nbsp;
+				<button type="button" class="btn btn-dark btn-sm" id="refresh-data">Refresh</button>
+			</div>	
+		</div> 
+
+		<!-- Blank Row -->
+		<div class="row">
+			&nbsp;
+		</div>
+
+		<!-- Table -->
+		<div class="row">
+			<div class="col-12">
+				<table class="table table-striped" id="order-table">
+					<thead>
+						<tr>
+							<th scope="col">Order Id</th>
+							<th scope="col">Channel Name</th>
+							<th scope="col">Client</th>
+							<th scope="col">Customer</th>
+							<th scope="col">Status</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!--Error Modal-->
+		<div class="modal" tabindex="-1" id="error-alert" role="dialog">
+			<div class="modal-dialog error-modal">
+				<div class="modal-content" style="background-color: red">
+					<div class="modal-header">
+						<h6 class="modal-title">Error</h6>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p id="error-message"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Success Modal-->
+		<div class="modal" id="success-alert" role="dialog">
+			<div class="modal-dialog error-modal">
+				<div class="modal-content" style="background-color: green">
+					<div class="modal-header">
+						<h6 class="modal-title" >Success</h6>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p id="success-message"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- order Upload Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="upload-order-modal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Upload order</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="container">
+							<div class="row">
+								<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Client</label>
+								<div class="col-sm-10" id="upload-order-form">
+									<input type="text" id="inputClientName" class="form-control" name="clientName" placeholder="Enter Client Name">
+								</div>
+							</div>
+							<div class="row">
+								<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+							</div>
+							<div class="row">
+								<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Customer</label>
+								<div class="col-sm-10" id="upload-order-form">
+									<input type="text" class="form-control" id="inputCustomerName" name="customerName" placeholder="Enter Customer Name">
+								</div>
+							</div>
+							<div class="row">
+								<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+							</div>
+							<div class="row">
+								<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">OrderId</label>
+								<div class="col-sm-10" id="upload-order-form">
+									<input type="text" class="form-control" id="inputChannelOrderId" name="channelOrderId" placeholder="Enter Channel Order Id">
+								</div>
+							</div>
+							
+							<div class="row">
+								<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+							</div>
+							<div class="row">
+								
+								<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Upload</label>
+								<div class="col-sm-10">
+									<input type="file" id="orderFile">
+								</div>				
+								
+							</div>
+							<div class="row">
+								<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;"></label>
+								<div class="col-sm-10">
+									<a th:href="@{/sample/assureorder.csv}" target="_blank" style="font-size: 15px;">Download Sample</a>
+								</div> 
+							</div>
+							<div class="row">
+								<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;"></label>
+								<div class="col-sm-10">
+									Rows: <span id="rowCount">0</span>, 
+									Success: <span id="successCount">0</span>, 
+									Errors: <span id="errorCount" >0</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="process-data">Upload</button>
+						<button type="button" class="btn btn-warning" id="download-errors" disabled="true">Download Errors</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		
+		<!-- order Edit Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="edit-order-modal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Order Items</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-1"></div>
+							<div class="col-10">
+								<p class="float-left" id="client-name"></p>
+								<p class="float-right" id="customer-name" >client </p>
+							</div>
+							<div class="col-1"></div>
+							<div class="col-1"></div>
+							<div class="col-10">
+								<p class="float-left" id="channel-order-id">Order </p>
+								<p class="float-right"id="order-status" >client</p>
+							</div>
+							<div class="col-1"></div>
+							<div class="col-12">
+								<form id="myForm"></form>
+								<table class="table table-striped tableBodyScroll" id="orderitems-table">
+									<thead>
+										<tr>
+											<th scope="col">Product</th>
+											<th scope="col">Ordered Quantity</th>
+											<th scope="col">Allocated Quantity</th>
+											<th scope="col">Fulfilled Quantity</th>
+										</tr>
+									</thead>
+									<tbody>
+
+									</tbody>
+								</table>
+							</div>   
+						</div>       
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-dark" id="allocate-order" >Allocate</button>
+						<button type="button" class="btn btn-dark" id="fulfill-order" >Invoice</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<!-- Container end-->
+	<footer th:replace="snippets.html :: name_footer"></footer>
+	<script th:src="@{/static/assureorder.js}"/></script>
+
+</body>	
+</html>
+
+

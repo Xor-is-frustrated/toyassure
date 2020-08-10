@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="snippets.html :: name_head"></head>
+<body>
+	<nav th:replace="snippets.html :: name_app_navbar"></nav>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h3>Channel Order</h3>
+				<br>
+				<button type="button" class="btn btn-dark btn-sm" id="create-order">New Order</button>
+				&nbsp;
+				<button type="button" class="btn btn-dark btn-sm" id="delete-order">Delete Order</button>
+				&nbsp;
+				<br><br>
+				<div class="row">
+					<div class="col-3">
+						<h6 id="order-id" style="text-align: center;"></h6>
+					</div>
+					<div class="col-3">
+						<h6 id="channel-name" style="text-align: center;"></h6>
+					</div>
+					<div class="col-3">
+						<h6 id="client-name" style="text-align: center;"></h6>
+					</div>
+					<div class="col-3">
+						<h6 id="customer-name" style="text-align: center;"></h6>
+					</div>
+				</div>
+				&nbsp;
+				<form class="form-inline" id="order-form" >
+
+					<div class="form-group">
+						<div class="container">
+							<div class="row" >
+								<label for="inputBarcode" class="col-sm-2 col-form-label">ChannelSku</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" name="channelSkuId" id="inputBarcode" placeholder="Enter channel sku id" disabled="true">
+								</div>
+							</div>
+							<div class="row" style="height: 50px;"><p id="check" style="padding-left: 80px;"></p></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="container">
+							<div class="row" >
+								<label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" name="orderedQuantity" id="inputQuantity" placeholder="Enter quantity" disabled="true">
+								</div>
+							</div>
+							<div class="row" style="height: 50px;"><p id="check-quantity" style="padding-left: 80px;color:red;font-weight: bold;"></p></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="container">
+							<div class="row" >
+								<label for="sellingPrice" class="col-sm-2 col-form-label">Price</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" name="sellingPrice" id="inputSellingPrice" placeholder="Enter sellingPrice" disabled="true">
+								</div>
+							</div>
+							<div class="row" style="height: 50px;"><p id="check-price" style="padding-left: 80px;color:red;font-weight: bold;"></p></div>
+						</div>
+					</div>
+					
+					<input type="hidden" id="orderId" name="orderId">
+					<button type="button" class="btn btn-dark" id="add-order" disabled="true" style="margin-top: -50px;">Add</button>
+					&nbsp;
+					<!-- <button type="button" class="btn btn-dark" id="refresh-data">Refresh</button> -->
+					
+					
+					
+					
+				</form>
+			</div>	
+		</div> 
+		<!-- Blank Row -->
+		<div class="row">
+			&nbsp;
+		</div>
+		<div class="row">
+			<!-- Table -->
+			<div class="col-12" style="align-content: right">
+				<table class="table table-striped tableBodyScroll" id="order-table">
+					<thead>
+						
+					</thead>
+					
+					<tbody >
+					</tbody>
+					
+				</table>
+			</div>
+		</div>
+		<div class="row" style="position: absolute;bottom: 50px;  left: 14%;">
+			<div class="col-12">
+				<h5 id="total-amount"></h5>
+				
+			</div>
+		</div>
+		<!-- create order button bottom -->
+		<div class="row" style="position: absolute;bottom: 50px;  right: 18px;">
+			<div class="col-12">
+				<button type="button" class="btn btn-dark" id="purchase" disabled="true">Submit</button>
+				&nbsp;
+				<!-- <button type="button" class="btn btn-dark" id="receipt" disabled="true">Print receipt</button> -->
+			</div>
+		</div>
+
+
+		<!-- order Upload Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="upload-order-modal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Create order</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="container">
+							<form id="add-order-modal">
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Client</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="clientName" placeholder="Enter Client Name">
+									</div>
+								</div>
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Customer</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="customerName" placeholder="Enter Customer Name">
+									</div>
+								</div>
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">OrderId</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="channelOrderId" placeholder="Enter Channel Order Id">
+									</div>
+								</div>
+
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Channel</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="channelName" placeholder="Enter Channel Name">
+									</div>
+								</div>
+
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="create-orderpojo">Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- order item Edit Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="edit-order-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Edit order item</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="form-inline" id="order-edit-form">
+							<div class="form-group">
+								<div class="container">
+									<div class="row">
+										<label for="inputQuantity" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Quantity</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="orderedQuantity" placeholder="Enter quantity">
+										</div>
+									</div>
+
+									<div class="row">
+										<label for="" class="col-sm-2 col-form-label" style="width: 200px;height: 15px;"></label>
+										<p id="check-edit-quantity" style="padding-left: 20px;width: 300px; margin-top: 5px;color:red;font-weight: bold;"></p>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="container">
+									<div class="row">
+										<label for="inputQuantity" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Price</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="sellingPrice" placeholder="Enter price">
+										</div>
+									</div>
+
+									<div class="row">
+										<label for="" class="col-sm-2 col-form-label" style="width: 200px;height: 15px;"></label>
+										<p id="check-edit-sellingPrice" style="padding-left: 20px;width: 300px; margin-top: 5px;color:red;font-weight: bold;"></p>
+
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="id" >
+							<input type="hidden" name="allocatedQuantity" >
+							<input type="hidden" name="fulfilledQuantity" >
+							<!-- <input type="hidden" name="id" > -->
+							<!-- <input type="hidden" name="barcode" value="barcode">
+								<input type="hidden" name="orderId" > -->
+
+							</form>        
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-primary" id="update-order">Update</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- search modal -->
+			<div class="modal" tabindex="-1" role="dialog" id="search-order-modal">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Search order</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form class="form-inline" id="order-search-form-id">
+								<div class="form-group">
+									<div class="container">
+										<div class="row">
+
+
+											<div class="col-sm-12">
+												<label for="inputQuantity" class="col-sm-2 col-form-label" style="width:200px;display:inline-block;text-align: left;">OrderId</label>
+												<input type="text" name="order_id" placeholder="Enter id" style="height:40px;margin-left:30px;width:159px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+												<button type="button" class="btn btn-dark btn-sm" id="search-by-id" disabled="">Search</button>
+											</div>
+
+										</div>
+
+
+										<div class="row">
+											<label for="" class="col-sm-2 col-form-label" style="width: 200px;height: 15px;"></label>
+											<p id="check-order-id" style="padding-left: 20px;width: 300px; margin-top: 5px;color:red;font-weight: bold;"></p>
+										</div>
+									</div>
+								</div>
+							</form>
+							<form class="form-inline" id="order-search-form-date">
+								<div class="form-group">
+									<div class="container">
+										<div class="row">
+
+
+											<div class="col-sm-10">
+												<label for="inputQuantity" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">StartDate</label>
+												<input style="height:40px;" type="date" id="startdate_dropdown" name="startDate" max="2014-07-11" value="2000-01-01">&nbsp;&nbsp;
+												<label for="inputQuantity" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">EndDate</label>
+
+												<input style="height:40px;" type="date" id="enddate_dropdown" name="endDate" max="2014-07-11" value="2000-01-01">&nbsp;&nbsp;
+												<button type="button" class="btn btn-dark btn-sm" id="search-by-date">Search</button>
+											</div>
+
+										</div>
+
+
+										<div class="row">
+											<label for="" class="col-sm-2 col-form-label" style="width: 200px;height: 15px;"></label>
+											<p id="check-edit-sellingPrice" style="padding-left: 20px;width: 300px; margin-top: 5px;color:red;font-weight: bold;"></p>
+
+										</div>
+									</div>
+								</div>	
+							</form>  
+
+							<div class="col-12">
+								<form id="myForm"></form>
+								<table class="table table-striped tableBodyScroll" id="order-search-table">
+									<thead>
+										<tr>
+											<th scope="col">Id</th>
+											<th scope="col">Date</th>
+											<th scope="col">Status</th>
+											<th scope="col">Items</th>
+										</tr>
+									</thead>
+									<tbody>
+
+									</tbody>
+								</table>
+
+							</div>      
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-dark" id="populate-search">Select</button>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<div class="modal" id="error-alert" role="dialog">
+				<div class="modal-dialog error-modal">
+
+					<!-- Modal content-->
+					<div class="modal-content" style="background-color: red">
+						<div class="modal-header">
+							<h6 class="modal-title">Error</h6>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+						</div>
+						<div class="modal-body">
+							<p id="error-message"></p>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="modal" id="discard-order-modal" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content" >
+						<div class="modal-header">
+
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+						</div>
+						<div class="modal-body">
+							<p >Current order is not created. Are you sure to create new order?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+							<button type="button" class="btn btn-primary" id="discard-order">Yes</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="modal" id="success-alert" role="dialog">
+				<div class="modal-dialog error-modal">
+
+					<!-- Modal content-->
+					<div class="modal-content" style="background-color: green">
+						<div class="modal-header">
+							<h6 class="modal-title">Success</h6>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+						</div>
+						<div class="modal-body">
+							<p id="success-message"></p>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div> <!-- Container end-->
+
+		<footer th:replace="snippets.html :: name_footer"></footer>
+		<script th:src="@{/static/addchannelorder.js}"/></script>
+
+	</body>	
+	</html>

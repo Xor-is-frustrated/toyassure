@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="snippets.html :: name_head"></head>
+<body>
+
+	<nav th:replace="snippets.html :: name_app_navbar"></nav>
+	<br>
+	<div class="container">
+		<h3>Order</h3>
+		<br>
+		<!-- Top row-->
+		<div class="row">
+			<div class="col-12">
+				<!-- <button type="button" class="btn btn-dark btn-sm" id="upload-data">New Order</button>
+				&nbsp; -->
+				<button type="button" class="btn btn-dark btn-sm" id="refresh-data">Refresh</button>
+			</div>	
+		</div> 
+
+		<!-- Blank Row -->
+		<div class="row">
+			&nbsp;
+		</div>
+
+		<!-- Table -->
+		<div class="row">
+			<div class="col-12">
+				<table class="table table-striped" id="order-table">
+					<thead>
+						<tr>
+							<th scope="col">Client</th>
+							<th scope="col">Customer</th>
+							<th scope="col">Order Id</th>
+							<th scope="col">Channel</th>
+							<th scope="col">Status</th>
+							<th scope="col">Actions</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!--Error Modal-->
+		<div class="modal" tabindex="-1" id="error-alert" role="dialog" data-backdrop="static">
+			<div class="modal-dialog error-modal">
+				<div class="modal-content" style="background-color: red">
+					<div class="modal-header">
+						<h6 class="modal-title">Error</h6>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p id="error-message"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Success Modal-->
+		<div class="modal" id="success-alert" role="dialog">
+			<div class="modal-dialog error-modal">
+				<div class="modal-content" style="background-color: green">
+					<div class="modal-header">
+						<h6 class="modal-title" >Success</h6>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p id="success-message"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- order Upload Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="upload-order-modal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Create order</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<div class="container">
+							<form id="add-order-modal">
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Client</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="clientName" placeholder="Enter Client Name">
+									</div>
+								</div>
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Customer</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="customerName" placeholder="Enter Customer Name">
+									</div>
+								</div>
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">ChannelOrderId</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="channelOrderId" placeholder="Enter Channel Order Id">
+									</div>
+								</div>
+
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Channel</label>
+									<div class="col-sm-10" id="upload-order-form">
+										<input type="text" class="form-control" name="channelName" placeholder="Enter Channel Name">
+									</div>
+								</div>
+
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="create-order">Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- order items add Modal -->
+<!-- 		<div class="modal" tabindex="-1" role="dialog" id="add-orderitems-modal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Order Items</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-1"></div>
+							<div class="col-10">
+								<p class="float-left" id="client-name"></p>
+								<p class="float-right" id="customer-name" >client </p>
+							</div>
+							<div class="col-1"></div>
+							<div class="col-1"></div>
+							<div class="col-10">
+								<p class="float-left" id="channel-order-id">Order </p>
+								<p class="float-right"id="channel-name" >channel</p>
+							</div>
+							<div class="col-1"></div>
+						</div>
+						<div class="row" id="add-orderitem-form">
+							<div class="col-2"></div>
+							<div class="col-3">
+								<div class="row">
+									<input type="text" class="form-control" name="channel-skuid" id="inputBarcode" placeholder="Enter channel Sku Id" ></div>
+								</div>
+								<div class="col-3">
+									<div class="row">
+										<input type="text" class="form-control" name="orderedQuantity" id="orderedQuantity" placeholder="Enter quantity" >
+									</div>
+									<div class="row" style="height: 50px;"><p id="check" style="padding-left: 80px;"></p>
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="row">
+										<input type="text" class="form-control" name="sellingPrice"  placeholder="Enter sellingprice" >
+									</div>
+									<div class="row" style="height: 50px;"><p id="check" style="padding-left: 80px;"></p>
+									</div>
+								</div>
+								<div class="col-1">
+									<button type="button" class="btn btn-dark" id="add-orderitem" >Add</button>
+								</div>
+
+							</div>
+							
+							<div class="col-12">
+								<form id="myForm"></form>
+								<table class="table table-striped tableBodyScroll" id="orderitems-add-table">
+									<thead>
+										<tr>
+											<th scope="col">Product</th>
+											<th scope="col">Quantity</th>
+											<th scope="col">SellingPrice</th>
+											<th scope="col">Actions</th>							
+										</tr>
+									</thead>
+									<tbody>
+
+									</tbody>
+								</table>
+							</div>   
+						</div>       
+					</div> -->
+<!-- 						<div class="modal-footer">
+							<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-dark" id="allocate-order" >Submit</button>
+
+						</div> -->
+		<!-- 			</div>
+				</div>
+			</div> -->
+
+
+			<!-- order Edit Modal -->
+			<div class="modal" tabindex="-1" role="dialog" id="edit-order-modal" data-backdrop="static" data-keyboard="false">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Order Items</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-1"></div>
+								<div class="col-5">
+									<p id="client-name"></p>
+								</div>
+								<div class="col-5">
+									<p id="customer-name"></p>
+								</div>
+								<div class="col-1"></div>
+								<div class="col-1"></div>
+								<div class="col-5">
+									<p id="channel-order-id">Order </p>
+								</div>
+								<div class="col-5">
+									<p id="order-status"></p>
+								</div>
+								<div class="col-1"></div>
+								<div class="col-12">
+									<form id="myForm"></form>
+									<table class="table table-striped tableBodyScroll" id="orderitems-table">
+										<thead>
+											<tr>
+												<th scope="col">Product</th>
+												<th scope="col">Ordered Quantity</th>
+												<th scope="col">Allocated Quantity</th>
+												<th scope="col">Fulfilled Quantity</th>
+											</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
+									</table>
+								</div>   
+							</div>       
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+<!--							<button type="button" class="btn btn-dark" id="allocate-order" >Allocate</button>-->
+							<button type="button" class="btn btn-dark" id="fulfill-order" >Invoice</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ordetitem Edit Modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="edit-orderitem-modal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Edit Client</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="form-inline" id="orderitem-edit-form">
+							<div class="form-group" >
+								<label for="inputBrand" class="col-sm-1 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Quantity</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="orderedQuantity" placeholder="Enter name">
+								</div>
+								<label for="inputBrand" class="col-sm-2 col-form-label" style="width: 200px;height: 15px;"></label>
+								<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+							</div>
+							<div class="form-group" >
+								<label for="inputBrand" class="col-sm-1 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Selling Price</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="sellingPrice" placeholder="Enter selling price">
+								</div>
+								<label for="inputBrand" class="col-sm-2 col-form-label" style="width: 200px;height: 15px;"></label>
+								<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+							</div>
+							<input type="hidden" name="id" >
+							<input type="hidden" name="allocatedQuantity" >
+							<input type="hidden" name="fulfilledQuantity" >
+						</form>        
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="update-orderitem" >Update</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		</div>
+		<!-- Container end-->
+		<footer th:replace="snippets.html :: name_footer"></footer>
+		<script th:src="@{/static/managechannelorder.js}"/></script>
+
+	</body>	
+	</html>
+
+
