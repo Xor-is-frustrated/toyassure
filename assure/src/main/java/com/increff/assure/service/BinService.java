@@ -25,7 +25,7 @@ public class BinService extends AbstractService{
 	@Transactional(readOnly = true)
 	public BinPojo get(Long id) throws ApiException {
 		BinPojo p = dao.select(id);
-		checkNotNull(p, "Bin ID does not exist");
+		checkNotNull(p, "Bin does not exist. ID: "+id);
 		return p;
 	}
 	

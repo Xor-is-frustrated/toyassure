@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.increff.assure.pojo.BinPojo;
 import com.increff.assure.pojo.BinSkuPojo;
-import com.increff.assure.pojo.ClientPojo;
+import com.increff.assure.pojo.PartyPojo;
 import com.increff.assure.pojo.InventoryPojo;
 import com.increff.assure.pojo.ProductPojo;
 import com.increff.assure.service.ApiException;
 import com.increff.assure.service.BinSkuService;
-import com.increff.assure.service.ClientService;
+import com.increff.assure.service.PartyService;
 import com.increff.assure.service.InventoryService;
 import com.increff.assure.service.ProductService;
 import com.increff.assure.util.ConvertorUtil;
@@ -30,7 +30,7 @@ public class BinSkuDto {
 	private ProductService productService;
 
 	@Autowired
-	private ClientService clientService;
+	private PartyService partyService;
 
 	@Autowired
 	private BinService binService;
@@ -47,8 +47,8 @@ public class BinSkuDto {
 	@Transactional(rollbackFor = ApiException.class)
 	public BinSkuData add(BinSkuForm form) throws ApiException {
 
-		ClientPojo client = clientService.getByName(form.getClientName());
-		ProductPojo product = productService.getByClientIdAndClientSkuId(form.getClientSkuId(), client);
+		PartyPojo client = partyService.getByName(form.getClientName());
+		ProductPojo product = productService.getByClientIdAndClientSkuId(form.getClientSkuId(), client.getId());
 		BinPojo bin = binService.get(form.getBinId());
 
 		BinSkuPojo pojo = ConvertorUtil.convert(form, product, bin);
@@ -80,7 +80,7 @@ public class BinSkuDto {
 	public void update(Long id, BinSkuForm form) throws ApiException {
 		BinSkuPojo bin = binSkuService.get(id);
 		
-		InventoryPojo inv = inventoryService.getByProduct(bin.getProduct());
+		InventoryPojo inv = inventoryService.getByGlobalSkuId(bin.getProduct().getGlobalSkuId());
 
 		InventoryForm invForm = new InventoryForm();
 		invForm.setGlobalSkuId(bin.getProduct().getGlobalSkuId());
@@ -89,7 +89,7 @@ public class BinSkuDto {
 		invForm.setAllocatedQuantity(inv.getAllocatedQuantity());
 		
 		binSkuService.updateQuantity(id, form.getQuantity());
-		inventoryService.updateQuantities(inv.getId(), invForm.getAvailableQuantity(), invForm.getAllocatedQuantity(),
+		inventoryService.updateQuantities(bin.getProduct().getGlobalSkuId(), invForm.getAvailableQuantity(), invForm.getAllocatedQuantity(),
 				invForm.getFulfilledQuantity());
 
 	}

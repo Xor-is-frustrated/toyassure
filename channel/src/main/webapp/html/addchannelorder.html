@@ -15,18 +15,18 @@
 				&nbsp;
 				<br><br>
 				<div class="row">
-					<div class="col-3">
-						<h6 id="order-id" style="text-align: center;"></h6>
+					<div class="col-12">
+						<h6 id="order-id" style="text-align: left;"></h6>
 					</div>
-					<div class="col-3">
-						<h6 id="channel-name" style="text-align: center;"></h6>
+					<div class="col-12">
+						<h6 id="channel-name" style="text-align: left;"></h6>
 					</div>
-					<div class="col-3">
-						<h6 id="client-name" style="text-align: center;"></h6>
-					</div>
-					<div class="col-3">
-						<h6 id="customer-name" style="text-align: center;"></h6>
-					</div>
+<!--					<div class="col-3">-->
+<!--						<h6 id="client-name" style="text-align: center;"></h6>-->
+<!--					</div>-->
+<!--					<div class="col-3">-->
+<!--						<h6 id="customer-name" style="text-align: center;"></h6>-->
+<!--					</div>-->
 				</div>
 				&nbsp;
 				<form class="form-inline" id="order-form" >
@@ -127,36 +127,38 @@
 							<form id="add-order-modal">
 								<div class="row">
 									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Client</label>
-									<div class="col-sm-10" id="upload-order-form">
-										<input type="text" class="form-control" name="clientName" placeholder="Enter Client Name">
-									</div>
+									<select class="form-control" id="clientSelected" name="clientId" style="width:75%;margin-left:19px;">>
+										<option value="">Select Client</option>
+									</select>
 								</div>
 								<div class="row">
 									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
 								</div>
 								<div class="row">
 									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Customer</label>
-									<div class="col-sm-10" id="upload-order-form">
-										<input type="text" class="form-control" name="customerName" placeholder="Enter Customer Name">
-									</div>
+									<select class="form-control" id="customerSelected" name="customerName"
+											style="width:75%;margin-left:19px;">
+										<option value="">Select Customer</option>
+									</select>
 								</div>
-								<div class="row">
-									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
-								</div>
-								<div class="row">
-									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">OrderId</label>
-									<div class="col-sm-10" id="upload-order-form">
-										<input type="text" class="form-control" name="channelOrderId" placeholder="Enter Channel Order Id">
-									</div>
-								</div>
-
 								<div class="row">
 									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
 								</div>
 								<div class="row">
 									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">Channel</label>
+									<select class="form-control" id="channelSelected" name="channelName" style="width:75%;margin-left:19px;">
+										<option value="">Select Channel</option>
+									</select>
+								</div>
+
+								<div class="row">
+									<p  style="padding-left: 20px;width: 300px; margin-top: 5px;"></p>
+								</div>
+
+								<div class="row">
+									<label for="inputClient" class="col-sm-2 col-form-label" style="width: 200px;display: inline-block;text-align: left;">OrderId</label>
 									<div class="col-sm-10" id="upload-order-form">
-										<input type="text" class="form-control" name="channelName" placeholder="Enter Channel Name">
+										<input type="text" class="form-control" name="channelOrderId" placeholder="Enter Channel Order Id">
 									</div>
 								</div>
 

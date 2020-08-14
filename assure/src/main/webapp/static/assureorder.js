@@ -9,6 +9,22 @@ var errorData = [];
 var processCount = 0;
 var successCount =0;
 
+
+function getChannelUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/channel";
+}
+
+function getClientUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/client/clients";
+}
+
+function getCustomerUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/client/customers";
+}
+
 function getAllInternalOrdersUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/order";
@@ -60,7 +76,7 @@ function uploadRows(){
 	
 	//If everything processed then return
 	if(processCount==fileData.length){
-		getAllorders();
+
 		var $file = $('#orderFile');
 		$file.val('');
 		$('#inputClientName').val('');
@@ -70,10 +86,21 @@ function uploadRows(){
 		if(errorData.length>0){
 			$("#download-errors").prop('disabled', false);
 			deleteWholeOrder(orderId);
-		}
+		}else if(processCount==0){
+            $("#download-errors").prop('disabled', true);
+
+            deleteWholeOrder(orderId);
+            $("#error-message").text("File is Empty.");
+
+                $('#error-alert').modal('toggle');
+                setTimeout(function() {
+                    $('#error-alert').modal('toggle');
+                }, 3000);
+         }
+
 		else{
 			$("#download-errors").prop('disabled', true);
-			
+			getAllorders();
 		}
 		return;
 	}
@@ -111,7 +138,7 @@ function resetUploadDialog(){
 	var $file = $('#orderFile');
 	$file.val('');
 	$('#orderFileName').html("Choose File");
-	$('#inputClientName').val('');
+	$('#clientSelected').val('');
 	$('#inputCustomerName').val('');
 	$('#inputChannelOrderId').val('');
 	//Reset various counts
@@ -157,8 +184,8 @@ function downloadErrors(){
 
 //crud functions
 function addorder(){
-	clientName=$('#upload-order-form input[name=clientName]').val();
-	customerName=$('#upload-order-form input[name=customerName]').val();
+	clientName=$('#clientSelected').val();
+	customerName=$('#customerSelected').val();
 	channelOrderId=$('#upload-order-form input[name=channelOrderId]').val();
 	var form={};
 	form['clientName']=clientName;
@@ -200,6 +227,7 @@ function getorder(id){
 			channelOrderId=data.channelOrderId;
 			orderStatus=data.status;
 			orderId=id;
+			getOrderItem(id);
 		},
 		error: handleAjaxError
 	});
@@ -224,16 +252,30 @@ function allocateOrder(){
 		url: url,
 		type: 'GET',
 		success: function(data) {
-			getOrderItem(orderId); 
+			getorder(orderId);
 			getAllorders(); 
 		},
 		error: handleAjaxError
 	});
 }
-
 function fulfillOrder(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	var url = baseUrl + "/api/orderitem/fulfill/"+orderId;
+	console.log("fulfill order");
+	$.ajax({
+		url: url,
+		type: 'GET',
+		success: function(data) {
+			getorder(orderId);
+			getAllorders();
+		},
+		error: handleAjaxError
+	});
+}
+
+function invoiceOrder(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	var url = baseUrl + "/api/orderitem/invoice/"+orderId;
 	var req = new XMLHttpRequest();
 	req.open("GET", url, true);
 	req.responseType = "blob";
@@ -241,7 +283,7 @@ function fulfillOrder(){
 	req.onload = function (event) {
 		var blob = req.response;
 		console.log(blob.size);
-		getOrderItem(orderId);
+		getorder(orderId);
 		console.log("fulfill order");
 		var link=document.createElement('a');
 		link.href=window.URL.createObjectURL(blob);
@@ -265,10 +307,24 @@ function deleteWholeOrder(id){
 		url: url,
 		type: 'DELETE',
 		success: function(data) {
-			getOrderList();
+			getAllorders();
 		},
 		error: handleAjaxError
 	});
+
+}
+
+function getAllChannels(){
+
+    var url=getChannelUrl();
+    $.ajax({
+    		url: url,
+    		type: 'GET',
+    		success: function(data) {
+    			displayChannelDropDownList();
+    		},
+    		error: handleAjaxError
+    	});
 
 }
 
@@ -287,7 +343,7 @@ function addorderItemCSV(){
 		success: function(response) {
 			$('#add-order-modal').modal('toggle');
 			successPopup("order/Customer is added");
-			getAllorders();  
+			getAllorders();
 		},
 		error: handleAjaxError
 	});
@@ -296,7 +352,7 @@ function addorderItemCSV(){
 
 
 function getOrderItem(id){
-	getorder(id);
+//	getorder(id);
 	var url = getOrderItemsUrl() + "/" + id;
 	console.log("getorderitem url"+url);
 	$.ajax({
@@ -341,11 +397,18 @@ function EditModal(data){
 	if(orderStatus=='CREATED'){
 		$('#allocate-order').prop('disabled',false);
 		$('#fulfill-order').prop('disabled',true);
+		$('#invoice-order').prop('disabled',true);
 
-	}else{
+	}else if(orderStatus=='ALLOCATED'){
 		$('#allocate-order').prop('disabled',true);
 		$('#fulfill-order').prop('disabled',false);
+		$('#invoice-order').prop('disabled',true);
+	}else{
+	        $('#allocate-order').prop('disabled',true);
+    		$('#fulfill-order').prop('disabled',true);
+    		$('#invoice-order').prop('disabled',false);
 	}
+
 
 	
 }
@@ -371,20 +434,118 @@ function orderTable(data){
 }
 
 function getOrderItemModalOpen(id){
-	getOrderItem(id);
+	getorder(id);
 	$('#edit-order-modal').modal('toggle');
 }
 
 
+function getAllChannels(){
+	var url = getChannelUrl() ;
+	$.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            displayChannelDropDownList(data);
+        },
+        error: handleAjaxError
+	});
+}
+
+function getAllClients(){
+    var url = getClientUrl() ;
+    	$.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                displayClientDropDownList(data);
+            },
+            error: handleAjaxError
+    	});
+}
+
+function getAllCustomers(){
+    var url = getCustomerUrl() ;
+    	$.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                displayCustomerDropDownList(data);
+            },
+            error: handleAjaxError
+    	});
+}
+
+
+function displayClientDropDownList(data){
+//    $('#clientSelect').empty();
+    $('#clientSelected').empty();
+    var options = '<option value="" selected>Select Client</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+//    $('#clientSelect').append(options);
+    $('#clientSelected').append(options);
+}
+
+function displayChannelDropDownList(data){
+    $('#channelSelect').empty();
+//    $('#channelSelected').empty();
+    var options = '<option value="" selected>Select Channel</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+    $('#channelSelect').append(options);
+//    $('#channelSelected').append(options);
+}
+
+function displayCustomerDropDownList(data){
+
+    $('#customerSelected').empty();
+    var options = '<option value="" selected>Select Customer</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+
+    $('#customerSelected').append(options);
+}
+
+function searchOrder(){
+    var statusType=$("#statusSelect").val();
+    var channelName=$("#channelSelect").val();
+    var url=getAllInternalOrdersUrl()+"/search";
+    var form={};
+    	form['channelName']=channelName;
+    	form['orderStatus']=statusType;
+    var json = JSON.stringify(form);
+        $.ajax({
+		url: url,
+		type: 'POST',
+		data:json,
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(response) {
+			orderTable(response);
+		},
+		error: handleAjaxError
+	});
+
+
+}
+
 // init
 function init(){
 	getAllorders();
-	
+	getAllChannels();
+	getAllClients();
+	getAllCustomers();
 	$('#refresh-data').click(getAllorders);
 	$('#allocate-order').click(allocateOrder);
 	$('#fulfill-order').click(fulfillOrder);
+	$('#invoice-order').click(invoiceOrder);
 	$('#upload-data').click(uploadModal);
 	$('#process-data').click(addorder);
+	$('#search-data').click(searchOrder);
 	$('#download-errors').click(downloadErrors);
 	$('#orderFile').on('change', updateFileName);
 

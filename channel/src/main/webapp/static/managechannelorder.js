@@ -301,17 +301,19 @@ function EditModal(data){
 	var $tbody = $('#orderitems-table').find('tbody');
 	$tbody.empty();
 	console.log("orderItemsTable" + data);
+	var sp=0;
 	for(var i in data){
 		var e = data[i];
 		console.log(e);
+		sp+=e.sellingPrice*e.orderedQuantity;
 		var row = '<tr>'
 		+ '<td>' + e.productName + '</td>'
 		+ '<td>'  + e.orderedQuantity + '</td>'
-		+ '<td>'  + e.allocatedQuantity + '</td>'
-		+ '<td>'  + e.fulfilledQuantity + '</td>'
+		+ '<td>'  + e.sellingPrice + '</td>'
 		+ '</tr>';
 		$tbody.append(row);
 	}
+//	$('#total-sp').text('Total: '+sp);
 	if(orderStatus=='CREATED' || orderStatus=='ALLOCATED'){
 		$('#allocate-order').prop('disabled',false);
 		$('#fulfill-order').prop('disabled',true);
@@ -359,12 +361,67 @@ function uploadModal(){
 
 
 }
+function getAllChannels(){
+    var baseUrl = $("meta[name=baseUrl]").attr("content");
+	var url= baseUrl + "/api/orderitem/channels";
+    console.log("channel url"+url);
+	$.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            displayChannelDropDownList(data);
+        },
+        error: handleAjaxError
+	});
+}
+
+
+function displayChannelDropDownList(data){
+console.log("display channel dropdown"+data);
+    $('#channelSelect').empty();
+//    $('#channelSelected').empty();
+    var options = '<option value="" selected>Select Channel</option>';
+    $.each(data, function(index, value) {
+    if(value.name!="INTERNAL"){
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+   }
+    });
+    $('#channelSelect').append(options);
+//    $('#channelSelected').append(options);
+}
+
+function searchOrder(){
+var statusType=$("#statusSelect").val();
+    var channelName=$("#channelSelect").val();
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+    	var url= baseUrl + "/api/order/search";
+//    var url=getAllInternalOrdersUrl()+"/search";
+    var form={};
+    	form['channelName']=channelName;
+    	form['orderStatus']=statusType;
+    var json = JSON.stringify(form);
+        $.ajax({
+		url: url,
+		type: 'POST',
+		data:json,
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(response) {
+			orderTable(response);
+		},
+		error: handleAjaxError
+	});
+
+}
 
 // init
 function init(){
 	getAllorders();
+	getAllChannels();
 	$('#upload-data').click(uploadModal);
 	$('#refresh-data').click(getAllorders);
+	$('#search-data').click(searchOrder);
 	$('#add-orderitem').click(addorderItem);
 	$('#allocate-order').click(allocateOrder);
 	$('#fulfill-order').click(fulfillOrder);

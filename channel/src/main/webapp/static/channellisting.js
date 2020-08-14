@@ -10,11 +10,17 @@ function getChannellistingUrl(){
 	return baseUrl + "/api/channellisting";
 }
 
+function getOrderUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/orderitem";
+}
+
+
 //csv related functions
 function processData(){
 	var file = $('#channellistingFile')[0].files[0];
-	clientName=$('#upload-channellisting-form input[name=clientName]').val();
-	channelName=$('#upload-channellisting-form input[name=channelName]').val();
+	clientName=$('#clientSelected').val();
+	channelName=$('#channelSelected').val();
 	$('#process-data').prop('disabled',true);
 	//Reset various counts
 	processCount = 0;
@@ -46,8 +52,8 @@ function uploadRows(){
 		getAllChannellistings();
 		var $file = $('#channellistingFile');
 		$file.val('');
-		$('#inputClientName').val('');
-        $('#inputChannelName').val('');
+//		$('#inputClientName').val('');
+//        $('#inputChannelName').val('');
 		$('#channellistingFileName').html("Choose File");
 		if(errorData.length>0){
 			$("#download-errors").prop('disabled', false);
@@ -219,14 +225,85 @@ function channellistingTable(data){
 	}
 }
 
+function getAllChannels(){
+	var url = getOrderUrl()+"/channels" ;
+	$.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            displayChannelDropDownList(data);
+        },
+        error: handleAjaxError
+	});
+}
+
+function getAllClients(){
+    var url = getOrderUrl() +"/clients";
+    	$.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                displayClientDropDownList(data);
+            },
+            error: handleAjaxError
+    	});
+}
+
+
+
+function displayClientDropDownList(data){
+//    $('#clientSelect').empty();
+    $('#clientSelected').empty();
+    var options = '<option value="" selected>Select Client</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+//    $('#clientSelect').append(options);
+    $('#clientSelected').append(options);
+}
+
+function displayChannelDropDownList(data){
+    $('#channelSelect').empty();
+    $('#channelSelected').empty();
+    var options = '<option value="" selected>Select Channel</option>';
+    $.each(data, function(index, value) {
+        if(value.name!="INTERNAL"){
+            options += '<option value="' + value.name + '">' + value.name + '</option>';
+        }
+    });
+    $('#channelSelect').append(options);
+    $('#channelSelected').append(options);
+}
+
+function searchChannelListings(){
+    var channelname=$('#channelSelect').val();
+    if(channelname==""){
+        getAllChannellistings();
+    }
+else{
+    var url=getChannellistingUrl()+"/channel/"+channelname;
+    console.log("channel listing search "+url);
+    $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    channellistingTable(data);
+                },
+                error: handleAjaxError
+        	});
+}
+}
 
 
 // init
 function init(){
 	getAllChannellistings();
+	getAllChannels();
+	getAllClients();
 	$('#refresh-data').click(getAllChannellistings);
 	$('#upload-data').click(uploadModal);
 	$('#process-data').click(processData);
+	$('#search-data').click(searchChannelListings);
 	$('#download-errors').click(downloadErrors);
 	$('#channellistingFile').on('change', updateFileName);
 

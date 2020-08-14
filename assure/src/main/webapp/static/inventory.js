@@ -1,9 +1,13 @@
 
 function getInventoryUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
-	return baseUrl + "/api/inventory/";
+	return baseUrl + "/api/inventory";
 }
 
+function getClientUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/client";
+}
 
 function getAllInventories(){
 	var url = getInventoryUrl();
@@ -17,7 +21,6 @@ function getAllInventories(){
 	});
 }
 
-
 function inventoryTable(data){
 	var $tbody = $('#inventory-table').find('tbody');
 	$tbody.empty();
@@ -27,6 +30,8 @@ function inventoryTable(data){
 		
 		var row = '<tr>'
 		+ '<td>' + e.productName + '</td>'
+		+ '<td>' + e.clientName + '</td>'
+		+ '<td>' + e.clientSkuId + '</td>'
 		+ '<td>' + e.availableQuantity + '</td>'
 		+ '<td>' + e.allocatedQuantity + '</td>'
 		+ '<td>' + e.fulfilledQuantity + '</td>'
@@ -35,8 +40,59 @@ function inventoryTable(data){
 	}
 }
 
+function getAllClients(){
+    var  url= getClientUrl()+"/clients";
+    $.ajax({
+    		url: url,
+    		type: 'GET',
+    		success: function(response) {
+    	   		displayClientDropDownList(response);
+    	   	},
+    	   	error: handleAjaxError
+    	   });
 
-$(document).ready(getAllInventories);
+}
+
+function displayClientDropDownList(data){
+    $('#clientSelect').empty();
+//    $('#clientSelected').empty();
+    var options = '<option value="" selected>Select Client</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+    $('#clientSelect').append(options);
+//    $('#clientSelected').append(options);
+}
+
+function searchClient(){
+
+    var url="";
+	var nameOfClient=$("#clientSelect").val();
+	if(nameOfClient==""){
+			getAllInventories();
+	}else{
+	    url= getInventoryUrl()+"/client/"+nameOfClient;
+
+	// call api
+	$.ajax({
+		url: url,
+		type: 'GET',
+		success: function(response) {
+	   		inventoryTable(response);
+	   	},
+	   	error: handleAjaxError
+	   });
+}
+}
+
+function init(){
+    getAllInventories();
+    getAllClients();
+    $('#search-data').click(searchClient);
+    $('#refresh-data').click(getAllInventories);
+}
+
+$(document).ready(init);
 
 
 

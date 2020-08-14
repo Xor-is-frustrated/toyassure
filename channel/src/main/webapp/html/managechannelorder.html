@@ -10,11 +10,23 @@
 		<br>
 		<!-- Top row-->
 		<div class="row">
-			<div class="col-12">
+
 				<!-- <button type="button" class="btn btn-dark btn-sm" id="upload-data">New Order</button>
 				&nbsp; -->
+				<select class="form-control" id="channelSelect" name="channelId"  style="width:180px;margin-left:19px;">
+					<option value="">Select Channel</option>
+				</select>&nbsp;&nbsp;
+
+				<select class="form-control" id="statusSelect" name="orderStatus"  style="width:180px">
+					<option value="">Select Status</option>
+					<option value="CREATED">CREATED</option>
+					<option value="ALLOCATED">ALLOCATED</option>
+					<option value="FULFILLED">FULFILLED</option>
+				</select>&nbsp;&nbsp;
+
+				<button type="button" class="btn btn-dark btn-sm" id="search-data">Search</button>&nbsp;&nbsp;
 				<button type="button" class="btn btn-dark btn-sm" id="refresh-data">Refresh</button>
-			</div>	
+
 		</div> 
 
 		<!-- Blank Row -->
@@ -254,9 +266,9 @@
 										<thead>
 											<tr>
 												<th scope="col">Product</th>
-												<th scope="col">Ordered Quantity</th>
-												<th scope="col">Allocated Quantity</th>
-												<th scope="col">Fulfilled Quantity</th>
+												<th scope="col">Quantity</th>
+												<th scope="col">Selling Price</th>
+
 											</tr>
 										</thead>
 										<tbody>
@@ -267,6 +279,7 @@
 							</div>       
 						</div>
 						<div class="modal-footer">
+<!--							<p id="total-sp" style="align-content:left"></p>-->
 							<button type="button" class="btn btn-dark" data-dismiss="modal">Cancel</button>
 <!--							<button type="button" class="btn btn-dark" id="allocate-order" >Allocate</button>-->
 							<button type="button" class="btn btn-dark" id="fulfill-order" >Invoice</button>

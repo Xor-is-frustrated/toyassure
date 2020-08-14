@@ -8,14 +8,15 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.increff.channel.pojo.ChannelListingPojo;
-import com.increff.channel.pojo.ChannelPojo;
 
 @Repository
 public class ChannelListingDao extends AbstractDao {
 
 	private static String selectById = "select p from ChannelListingPojo p where id=:id";
 	private static String selectAll = "select p from ChannelListingPojo p order by p.id";
-	private static String selectByChannelSkuIdAndChannel = "select p from ChannelListingPojo p where p.channelSkuId=:channelSkuId and p.channel=:channel";
+	private static String selectByChannelName = "select p from ChannelListingPojo p where p.channelId=:id";
+	private static String selectByChannelSkuIdAndChannelId = "select p from ChannelListingPojo p where p" +
+			".channelSkuId=:channelSkuId and p.channelId=:channelId";
  
   
 	@Transactional
@@ -30,9 +31,9 @@ public class ChannelListingDao extends AbstractDao {
 		return getSingle(query);
 	}
 	
-	public ChannelListingPojo selectByChannelSkuIdAndChannel(String channelSkuId, ChannelPojo channel) {
-		TypedQuery<ChannelListingPojo> query = getQuery(selectByChannelSkuIdAndChannel, ChannelListingPojo.class);
-		query.setParameter("channel", channel);
+	public ChannelListingPojo selectByChannelSkuIdAndChannelId(String channelSkuId, Long channelId) {
+		TypedQuery<ChannelListingPojo> query = getQuery(selectByChannelSkuIdAndChannelId, ChannelListingPojo.class);
+		query.setParameter("channelId", channelId);
 		query.setParameter("channelSkuId", channelSkuId);
 		return getSingle(query);
 	}
@@ -42,4 +43,10 @@ public class ChannelListingDao extends AbstractDao {
 		return query.getResultList();
 	}
 
+    public List<ChannelListingPojo> selectByChannelId(Long id) {
+		TypedQuery<ChannelListingPojo> query = getQuery(selectByChannelName, ChannelListingPojo.class);
+
+		query.setParameter("id", id);
+		return query.getResultList();
+    }
 }

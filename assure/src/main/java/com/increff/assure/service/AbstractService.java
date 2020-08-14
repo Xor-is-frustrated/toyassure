@@ -26,8 +26,20 @@ public abstract class AbstractService {
 		}
 	}
 
+	public static void checkPositiveAndNotZero(double obj, String msg) throws ApiException {
+		if (obj < 0) {
+			throw new ApiException(msg);
+		}
+	}
+
 	public static void checkZero(int length, String msg) throws ApiException {
 		if (length == 0) {
+			throw new ApiException(msg);
+		}
+	}
+
+	public static void checkMRP(double obj, String msg)throws ApiException{
+		if (obj <= 0) {
 			throw new ApiException(msg);
 		}
 	}

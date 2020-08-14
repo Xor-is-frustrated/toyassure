@@ -25,7 +25,7 @@ function addClient(){
 		},	   
 		success: function(response) {
 			$('#add-client-modal').modal('toggle');
-			successPopup("Client/Customer is added");
+			successPopup("Added Successfully!!");
 			getAllClients();  
 		},
 		error: handleAjaxError
@@ -44,6 +44,30 @@ function getClient(id){
 		},
 		error: handleAjaxError
 	});	
+}
+
+function searchClient(){
+	var url="";
+	var type=$("#inputClientType").val();
+	if(type==""){
+			getAllClients();
+	}else{
+	if(type=="CLIENT"){
+
+		 url= getClientUrl()+"/clients";
+	}else{
+	    url= getClientUrl()+"/customers";
+	}
+	// call api
+	$.ajax({
+		url: url,
+		type: 'GET',
+		success: function(response) {
+	   		ClientTable(response);
+	   	},
+	   	error: handleAjaxError
+	   });
+    }
 }
 
 function getAllClients(){
@@ -144,6 +168,7 @@ function init(){
 	$('#add-client').click(addClient);
 	$('#update-client').click(updateClient);
 	$('#refresh-data').click(getAllClients);
+	$('#search-data').click(searchClient);
 	$('#add-data').click(AddModal);
 
 }

@@ -19,13 +19,21 @@
                       Increff Assure 
                       
                   </fo:block>
-                 <fo:block font-size="8pt" font-family="Helvetica"  >  
+                 <fo:block font-size="8pt" font-family="Helvetica" >
                       Order Id:  
                       <xsl:value-of select="orderId"/>
                   </fo:block>
-                  <fo:block font-size="8pt" font-family="Helvetica" space-after="1cm" >
+                  <fo:block font-size="8pt" font-family="Helvetica"  >
                       Date:  
                       <xsl:value-of select="orderDate"/>
+                  </fo:block>
+                  <fo:block font-size="8pt" font-family="Helvetica" >
+                      Client:
+                      <xsl:value-of select="client"/>
+                  </fo:block>
+                  <fo:block font-size="8pt" font-family="Helvetica" space-after="1cm" >
+                      Customer:
+                      <xsl:value-of select="customer"/>
                   </fo:block>
                   <fo:block font-size="10pt">
                       <fo:table table-layout="fixed" width="100%" border-collapse="separate">    

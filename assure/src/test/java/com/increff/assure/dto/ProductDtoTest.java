@@ -9,18 +9,18 @@ import com.increff.commons.form.ProductForm;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.increff.assure.pojo.ClientPojo;
-import com.increff.commons.enums.ClientType;
+import com.increff.assure.pojo.PartyPojo;
+import com.increff.commons.enums.PartyType;
 import com.increff.assure.pojo.ProductPojo;
 import com.increff.assure.service.AbstractUnitTest;
 import com.increff.assure.service.ApiException;
-import com.increff.assure.service.ClientService;
+import com.increff.assure.service.PartyService;
 import com.increff.assure.service.ProductService;
 
 public class ProductDtoTest extends AbstractUnitTest {
 
 	@Autowired
-	private ClientService clientService;
+	private PartyService partyService;
 
 	@Autowired
 	private ProductService productService;
@@ -30,11 +30,11 @@ public class ProductDtoTest extends AbstractUnitTest {
 
 	@Test
 	public void testAdd() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductForm c = new ProductForm();
 		c.setName("assure");
@@ -49,11 +49,11 @@ public class ProductDtoTest extends AbstractUnitTest {
 
 	@Test
 	public void testById() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -61,15 +61,15 @@ public class ProductDtoTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -77,7 +77,7 @@ public class ProductDtoTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
@@ -94,12 +94,12 @@ public class ProductDtoTest extends AbstractUnitTest {
 	}
 
 	@Test
-	public void testSelectAll() throws ApiException {
-		ClientPojo client = new ClientPojo();
+	public void testByParams() throws ApiException {
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -107,15 +107,15 @@ public class ProductDtoTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -123,7 +123,60 @@ public class ProductDtoTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
+
+		productService.add(c1);
+
+		ProductForm form = new ProductForm();
+		form.setName("assure change");
+		form.setBrandId("brand change");
+		form.setClientSkuId("clientsku");
+		form.setDescription("description change");
+		form.setClientName(client.getName());
+		form.setMrp(1.1);
+
+		ProductData list = productDto.getByClientNameAndClientSkuId(form);
+
+		assertEquals(client.getName(), list.getClientName());
+		assertEquals(c.getName(), list.getName());
+		assertEquals(c.getMrp(), list.getMrp());
+		assertEquals(c.getDescription(), list.getDescription());
+		assertEquals(c.getBrandId(), list.getBrandId());
+		assertEquals(c.getClientSkuId(), list.getClientSkuId());
+		assertEquals(c.getGlobalSkuId(), list.getId());
+	}
+
+	@Test
+	public void testSelectAll() throws ApiException {
+		PartyPojo client = new PartyPojo();
+		client.setName("assure");
+		client.setType(PartyType.CLIENT);
+
+		partyService.add(client);
+
+		ProductPojo c = new ProductPojo();
+		c.setName("assure");
+		c.setBrandId("brand");
+		c.setClientSkuId("clientsku");
+		c.setDescription("this is description");
+		c.setMrp(1.1);
+		c.setParty(client);
+
+		productService.add(c);
+
+		PartyPojo client1 = new PartyPojo();
+		client1.setName("assure1");
+		client1.setType(PartyType.CLIENT);
+
+		partyService.add(client1);
+
+		ProductPojo c1 = new ProductPojo();
+		c1.setName("assure");
+		c1.setBrandId("brand");
+		c1.setClientSkuId("clientsku");
+		c1.setDescription("this is description");
+		c1.setMrp(1.1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
@@ -151,11 +204,11 @@ public class ProductDtoTest extends AbstractUnitTest {
 	
 	@Test
 	public void testUpdate() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -163,7 +216,7 @@ public class ProductDtoTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 		

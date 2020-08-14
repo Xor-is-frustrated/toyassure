@@ -1,166 +1,178 @@
 package com.increff.assure.dto;
 
-import static org.junit.Assert.assertEquals;
-
+import com.increff.assure.dao.ChannelDao;
+import com.increff.assure.dao.PartyDao;
+import com.increff.assure.pojo.ChannelPojo;
+import com.increff.assure.pojo.OrderPojo;
+import com.increff.assure.pojo.PartyPojo;
+import com.increff.assure.service.AbstractUnitTest;
+import com.increff.assure.service.ApiException;
+import com.increff.assure.service.OrderService;
+import com.increff.commons.data.OrderData;
+import com.increff.commons.enums.InvoiceType;
+import com.increff.commons.enums.OrderStatus;
+import com.increff.commons.enums.PartyType;
+import com.increff.commons.form.OrderForm;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.increff.assure.dao.ClientDao;
+import java.util.List;
 
-import com.increff.assure.service.AbstractUnitTest;
-import com.increff.assure.service.OrderService;
+import static org.junit.Assert.assertEquals;
 
 public class OrderDtoTest extends AbstractUnitTest {
 
-	@Autowired
-	private ClientDao clientDao;
+    @Autowired
+    private PartyDao partyDao;
 
+    @Autowired
+    private OrderDto orderDto;
 
-	@Autowired
-	private OrderDto orderDto;
+    @Autowired
+    private OrderService orderService;
 
-	@Autowired
-	private OrderService orderService;
+    @Autowired
+    private ChannelDao channelDao;
 
 	@Test
-	public void test(){
+	public void testAdd() throws ApiException {
 
+		PartyPojo client = new PartyPojo();
+		client.setName("assure");
+		client.setType(PartyType.CLIENT);
+
+		partyDao.insert(client);
+
+		PartyPojo customer = new PartyPojo();
+		customer.setName("customer");
+		customer.setType(PartyType.CUSTOMER);
+
+		partyDao.insert(customer);
+
+        ChannelPojo channel = new ChannelPojo();
+        channel.setName("channel");
+        channel.setType(InvoiceType.CHANNEL);
+        channelDao.insert(channel);
+
+		OrderForm form = new OrderForm();
+		form.setChannelName("channel");
+		form.setChannelOrderId("channelorderid");
+		form.setClientName("assure");
+		form.setCustomerName("customer");
+
+		OrderData list = orderDto.add(form);
 	}
 
-//	@Test
-//	public void testAdd() throws ApiException {
-//		ClientPojo client = new ClientPojo();
-//		client.setName("assure");
-//		client.setType(ClientType.CLIENT);
-//
-//		clientDao.insert(client);
-//
-//		ClientPojo customer = new ClientPojo();
-//		customer.setName("customer");
-//		customer.setType(ClientType.CUSTOMER);
-//
-//		clientDao.insert(customer);
-//
-//
-//
-//		OrderForm form = new OrderForm();
-//		form.setChannelName("channel");
-//		form.setChannelOrderId("channelorderid");
-//		form.setClientName("assure");
-//		form.setCustomerName("customer");
-//
-//		OrderData list = orderDto.add(form);
-//
-//	}
-//
-//	@Test
-//	public void testSelect() throws ApiException {
-//		ClientPojo client = new ClientPojo();
-//		client.setName("assure");
-//		client.setType(ClientType.CLIENT);
-//
-//		clientDao.insert(client);
-//
-//		ClientPojo customer = new ClientPojo();
-//		customer.setName("customer");
-//		customer.setType(ClientType.CUSTOMER);
-//
-//		clientDao.insert(customer);
-//
-//		ChannelPojo channel = new ChannelPojo();
-//		channel.setName("channel");
-//		channel.setType(ChannelType.CHANNEL);
-//
-//		channelDao.insert(channel);
-//
-//		OrderPojo order = new OrderPojo();
-//		order.setChannelId(channel);
-//		order.setClient(client);
-//		order.setCustomer(customer);
-//		order.setStatus(OrderStatus.CREATED);
-//		order.setChannelOrderId("channelorderid");
-//
-//		orderService.add(order);
-//
-//		OrderData list = orderDto.get(order.getId());
-//
-//		assertEquals(order.getChannelOrderId(), list.getChannelOrderId());
-//		assertEquals(order.getChannelId().getName(), list.getChannelName());
-//		assertEquals(order.getClient().getName(), list.getClientName());
-//		assertEquals(order.getCustomer().getName(), list.getCustomerName());
-//
-//	}
-//
-//	@Test
-//	public void testSelectAll() throws ApiException {
-//		ClientPojo client = new ClientPojo();
-//		client.setName("assure");
-//		client.setType(ClientType.CLIENT);
-//
-//		clientDao.insert(client);
-//
-//		ClientPojo customer = new ClientPojo();
-//		customer.setName("customer");
-//		customer.setType(ClientType.CUSTOMER);
-//
-//		clientDao.insert(customer);
-//
-//		ChannelPojo channel = new ChannelPojo();
-//		channel.setName("channel");
-//		channel.setType(ChannelType.CHANNEL);
-//
-//		channelDao.insert(channel);
-//
-//		OrderPojo order = new OrderPojo();
-//		order.setChannelId(channel);
-//		order.setClient(client);
-//		order.setCustomer(customer);
-//		order.setStatus(OrderStatus.CREATED);
-//		order.setChannelOrderId("channelorderid");
-//
-//		orderService.add(order);
-//
-//		ClientPojo client1 = new ClientPojo();
-//		client1.setName("assure1");
-//		client1.setType(ClientType.CLIENT);
-//
-//		clientDao.insert(client1);
-//
-//		ClientPojo customer1 = new ClientPojo();
-//		customer1.setName("customer1");
-//		customer1.setType(ClientType.CUSTOMER);
-//
-//		clientDao.insert(customer1);
-//
-//		ChannelPojo channel1 = new ChannelPojo();
-//		channel1.setName("channel1");
-//		channel1.setType(ChannelType.CHANNEL);
-//
-//		channelDao.insert(channel1);
-//
-//		OrderPojo order1 = new OrderPojo();
-//		order1.setChannelId(channel1);
-//		order1.setClient(client1);
-//		order1.setCustomer(customer1);
-//		order1.setStatus(OrderStatus.CREATED);
-//		order1.setChannelOrderId("channelorderid1");
-//
-//		orderService.add(order1);
-//
-//		List<OrderData> list = orderDto.getAll();
-//		assertEquals(2, list.size());
-//		assertEquals(order.getChannelOrderId(), list.get(0).getChannelOrderId());
-//		assertEquals(order.getChannelId().getName(), list.get(0).getChannelName());
-//		assertEquals(order.getClient().getName(), list.get(0).getClientName());
-//
-//		assertEquals(order.getCustomer().getName(), list.get(0).getCustomerName());
-//
-//		assertEquals(order1.getChannelOrderId(), list.get(1).getChannelOrderId());
-//		assertEquals(order1.getChannelId().getName(), list.get(1).getChannelName());
-//		assertEquals(order1.getClient().getName(), list.get(1).getClientName());
-//
-//		assertEquals(order1.getCustomer().getName(), list.get(1).getCustomerName());
-//
-//	}
+    @Test
+    public void testSelect() throws ApiException {
+        PartyPojo Party = new PartyPojo();
+        Party.setName("assure");
+        Party.setType(PartyType.CLIENT);
+        partyDao.insert(Party);
+        PartyPojo customer = new PartyPojo();
+        customer.setName("customer");
+        customer.setType(PartyType.CUSTOMER);
+        partyDao.insert(customer);
+        ChannelPojo channel = new ChannelPojo();
+        channel.setName("channel");
+        channel.setType(InvoiceType.CHANNEL);
+        channelDao.insert(channel);
+        OrderPojo order = new OrderPojo();
+        order.setChannelId(channel.getId());
+        order.setClient(Party);
+        order.setCustomer(customer);
+        order.setStatus(OrderStatus.CREATED);
+        order.setChannelOrderId("channelorderid");
+        OrderPojo pojo=orderService.add(order);
+        OrderData list = orderDto.get(pojo.getId());
+        assertEquals(order.getChannelOrderId(), list.getChannelOrderId());
+        assertEquals(order.getChannelId(), list.getChannelId());
+        assertEquals(order.getCustomer().getName(), list.getCustomerName());
+
+    }
+
+    @Test
+    public void testSelectAll() throws ApiException {
+        PartyPojo Party = new PartyPojo();
+        Party.setName("assure");
+        Party.setType(PartyType.CLIENT);
+        partyDao.insert(Party);
+        PartyPojo customer = new PartyPojo();
+        customer.setName("customer");
+        customer.setType(PartyType.CUSTOMER);
+        partyDao.insert(customer);
+        ChannelPojo channel = new ChannelPojo();
+        channel.setName("channel");
+        channel.setType(InvoiceType.CHANNEL);
+        channelDao.insert(channel);
+        OrderPojo order = new OrderPojo();
+        order.setChannelId(channel.getId());
+        order.setClient(Party);
+        order.setCustomer(customer);
+        order.setStatus(OrderStatus.CREATED);
+        order.setChannelOrderId("channelorderid");
+        orderService.add(order);
+        List<OrderData> list = orderDto.getAll();
+        assertEquals(order.getChannelOrderId(), list.get(0).getChannelOrderId());
+        assertEquals(order.getChannelId(), list.get(0).getChannelId());
+        assertEquals(order.getCustomer().getName(), list.get(0).getCustomerName());
+
+    }
+
+
+    @Test
+    public void testGetExternalOrders() throws ApiException {
+        PartyPojo Party = new PartyPojo();
+        Party.setName("assure");
+        Party.setType(PartyType.CLIENT);
+        partyDao.insert(Party);
+        PartyPojo customer = new PartyPojo();
+        customer.setName("customer");
+        customer.setType(PartyType.CUSTOMER);
+        partyDao.insert(customer);
+        ChannelPojo channel = new ChannelPojo();
+        channel.setName("channel");
+        channel.setType(InvoiceType.CHANNEL);
+        channelDao.insert(channel);
+        OrderPojo order = new OrderPojo();
+        order.setChannelId(channel.getId());
+        order.setClient(Party);
+        order.setCustomer(customer);
+        order.setStatus(OrderStatus.CREATED);
+        order.setChannelOrderId("channelorderid");
+        orderService.add(order);
+        List<OrderData> list = orderDto.getExternalOrders();
+        assertEquals(order.getChannelOrderId(), list.get(0).getChannelOrderId());
+        assertEquals(order.getChannelId(), list.get(0).getChannelId());
+        assertEquals(order.getCustomer().getName(), list.get(0).getCustomerName());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testDelete() throws ApiException {
+        PartyPojo Party = new PartyPojo();
+        Party.setName("assure");
+        Party.setType(PartyType.CLIENT);
+        partyDao.insert(Party);
+        PartyPojo customer = new PartyPojo();
+        customer.setName("customer");
+        customer.setType(PartyType.CUSTOMER);
+        partyDao.insert(customer);
+        ChannelPojo channel = new ChannelPojo();
+        channel.setName("channel");
+        channel.setType(InvoiceType.CHANNEL);
+        channelDao.insert(channel);
+        OrderPojo order = new OrderPojo();
+        order.setChannelId(channel.getId());
+        order.setClient(Party);
+        order.setCustomer(customer);
+        order.setStatus(OrderStatus.CREATED);
+        order.setChannelOrderId("channelorderid");
+        OrderPojo pojo=orderService.add(order);
+
+        orderDto.delete(pojo.getId());
+        orderDto.get(pojo.getId());
+
+    }
+
 
 }

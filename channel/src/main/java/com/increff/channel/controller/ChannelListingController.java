@@ -52,6 +52,13 @@ public class ChannelListingController {
 
 	}
 
+	@ApiOperation(value = "Gets list of all channelListings")
+	@RequestMapping(path = "/channel/{name}",method = RequestMethod.GET)
+	public List<ChannelListingData> getChannelListingByChannel(@PathVariable String name) {
+		return dto.getByChannelName(name);
+
+	}
+
 
 	
 }

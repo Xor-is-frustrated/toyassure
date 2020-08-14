@@ -7,6 +7,10 @@ var errorData = [];
 var processCount = 0;
 var successCount =0;
 
+function getClientUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/client";
+}
 
 function getBinUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -21,7 +25,7 @@ function getBinSkuUrl(){
 //csv related functions
 function processData(){
 	var file = $('#binskuFile')[0].files[0];
-	clientName=$('#upload-binsku-form input[name=clientName]').val();
+	clientName=$('#clientSelected').val();
 	$('#process-data').prop('disabled',true);
 	//Reset various counts
 	processCount = 0;
@@ -98,6 +102,7 @@ function resetUploadDialog(){
 	var $file = $('#binskuFile');
 	$file.val('');
 	$('#binskuFileName').html("Choose File");
+	$('#clientSelected[value=""]').attr("selected","selected");
 	//Reset various counts
 	processCount = 0;
 	fileData = [];
@@ -158,8 +163,10 @@ function getAllBins(){
 		url: url,
 		type: 'GET',
 		success: function(data) {
+
 			totalBins= data.length; 
 			$('#total-bins').text('Total Bins: '+totalBins);
+//			binTable(data);
 		},
 		error: handleAjaxError
 	});	
@@ -238,13 +245,34 @@ function EditModal(data){
 	console.log("modal toggled in edit modal binsku");
 }
 
+function binTable(data){
+    var $tbody = $('#binsku-table').find('tbody');
+    	$tbody.empty();
+    	console.log("binSkuTable");
+    	for(var i in data){
+    		var e = data[i];
+
+    		var buttonHtml = ' <button class="btn btn-dark btn-sm" onclick="getBinSku(' + e.id + ')">Edit</button>';
+    		var row = '<tr>'
+
+    		+ '<td>'  + e.productName + '</td>'
+    		+ '<td>'  + e.clientName + '</td>'
+    		+ '<td>'  + e.clientSkuId + '</td>'
+    		+ '<td>'  + e.binId + '</td>'
+    		+ '<td>'  + e.quantity + '</td>'
+    		+ '<td>' + buttonHtml + '</td>'
+    		+ '</tr>';
+    		$tbody.append(row);
+    	}
+}
+
 function binSkuTable(data){
 	var $tbody = $('#binsku-table').find('tbody');
 	$tbody.empty();
 	console.log("binSkuTable");
 	for(var i in data){
 		var e = data[i];
-				
+
 		var buttonHtml = ' <button class="btn btn-dark btn-sm" onclick="getBinSku(' + e.id + ')">Edit</button>';
 		var row = '<tr>'
 		
@@ -280,10 +308,37 @@ function checkNumericForQuantity(){
 		$("#update-binsku").prop("disabled", true);
 	}
 }
+
+
+function getAllClients(){
+    var  url= getClientUrl()+"/clients";
+    $.ajax({
+    		url: url,
+    		type: 'GET',
+    		success: function(response) {
+    	   		displayClientDropDownList(response);
+    	   	},
+    	   	error: handleAjaxError
+    	   });
+
+}
+
+function displayClientDropDownList(data){
+//    $('#clientSelect').empty();
+    $('#clientSelected').empty();
+    var options = '<option value="" selected>Select Client</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+//    $('#clientSelect').append(options);
+    $('#clientSelected').append(options);
+}
+
 // init
 function init(){
 	getAllBinSkus();
 	getAllBins();
+	getAllClients();
 	$('#binsku-edit-form input[name=quantity]').on("input",checkEditButtonDisable);
 	$('#binsku-edit-form input[name=quantity]').on("input",checkNumericForQuantity);
 	$('#update-binsku').click(updateBinSku);

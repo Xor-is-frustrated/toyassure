@@ -8,12 +8,30 @@
 <h4>Inventory</h4>
     <br>
 
-<div class="row">
+
+      <div class="row">
+          <select class="form-control" id="clientSelect" name="clientId" style="width:150px;margin-left:19px;">
+              <option value="">Select Client</option>
+          </select>&nbsp;&nbsp;
+          <button type="button" class="btn btn-dark btn-sm" id="search-data">Search</button>
+          &nbsp;&nbsp;
+          <button type="button" class="btn btn-dark btn-sm" id="refresh-data">Refresh</button>
+      </div>
+
+      <!-- Blank Row -->
+      <div class="row">
+          &nbsp;
+      </div>
+
+
+      <div class="row">
  <div class="col-12">
   <table class="table table-striped" id="inventory-table">
     <thead>
       <tr>
         <th scope="col">Product Name</th>
+        <th scope="col">Client Name</th>
+        <th scope="col">Client Sku Id</th>
         <th scope="col">Available Quantity</th>
         <th scope="col">Allocated Quantity</th>
         <th scope="col">Fulfilled Quantity</th>

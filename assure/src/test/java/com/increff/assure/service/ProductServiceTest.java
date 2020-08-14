@@ -7,25 +7,25 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.increff.assure.pojo.ClientPojo;
-import com.increff.commons.enums.ClientType;
+import com.increff.assure.pojo.PartyPojo;
+import com.increff.commons.enums.PartyType;
 import com.increff.assure.pojo.ProductPojo;
 
 public class ProductServiceTest extends AbstractUnitTest {
 
 	@Autowired
-	private ClientService clientService;
+	private PartyService partyService;
 
 	@Autowired
 	private ProductService productService;
 
 	@Test
 	public void testAdd() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo(); 
 		c.setName("assure");
@@ -33,18 +33,18 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 	}
 
 	@Test
 	public void testById() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -52,15 +52,15 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -68,13 +68,13 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
 		ProductPojo list = productService.get(c.getGlobalSkuId());
 
-		assertEquals(client, list.getClient());
+		assertEquals(client, list.getParty());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getMrp(), list.getMrp());
 		assertEquals(c.getDescription(), list.getDescription());
@@ -86,11 +86,11 @@ public class ProductServiceTest extends AbstractUnitTest {
 	
 	@Test
 	public void testgetByClientIdAndClientSkuId() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -98,15 +98,15 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -114,13 +114,13 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
-		ProductPojo list = productService.getByClientIdAndClientSkuId(c.getClientSkuId(), client);
+		ProductPojo list = productService.getByClientIdAndClientSkuId(c.getClientSkuId(), client.getId());
 		
-		assertEquals(client, list.getClient());
+		assertEquals(client, list.getParty());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getMrp(), list.getMrp());
 		assertEquals(c.getDescription(), list.getDescription());
@@ -132,11 +132,11 @@ public class ProductServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testSelectAll() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -144,15 +144,15 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -160,7 +160,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
@@ -168,7 +168,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 
 		assertEquals(2, list.size());
 
-		assertEquals(client, list.get(0).getClient());
+		assertEquals(client, list.get(0).getParty());
 		assertEquals(c.getName(), list.get(0).getName());
 		assertEquals(c.getMrp(), list.get(0).getMrp());
 		assertEquals(c.getDescription(), list.get(0).getDescription());
@@ -176,7 +176,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		assertEquals(c.getClientSkuId(), list.get(0).getClientSkuId());
 		assertEquals(c.getGlobalSkuId(), list.get(0).getGlobalSkuId());
 
-		assertEquals(client1, list.get(1).getClient());
+		assertEquals(client1, list.get(1).getParty());
 		assertEquals(c1.getName(), list.get(1).getName());
 		assertEquals(c1.getMrp(), list.get(1).getMrp());
 		assertEquals(c1.getDescription(), list.get(1).getDescription());
@@ -188,11 +188,11 @@ public class ProductServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testUpdate() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -200,7 +200,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
@@ -208,7 +208,7 @@ public class ProductServiceTest extends AbstractUnitTest {
 		c.setName("assure change");
 		c.setDescription("description change");
 
-		productService.update(c.getGlobalSkuId(), c);
+		productService.update(c.getGlobalSkuId(), c.getName(),c.getDescription(),c.getMrp(),c.getBrandId());
 
 		assertEquals("brand change", c.getBrandId());
 		assertEquals("assure change", c.getName());

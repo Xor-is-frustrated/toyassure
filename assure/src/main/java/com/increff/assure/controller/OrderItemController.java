@@ -11,6 +11,7 @@ import com.increff.assure.service.ApiException;
 import com.increff.commons.data.OrderItemData;
 import com.increff.commons.form.OrderItemFormCSV;
 import com.increff.commons.form.OrderItemFormChannel;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +40,8 @@ public class OrderItemController {
 
 	@ApiOperation(value = "Adds an orderItem through channel")
 	@RequestMapping(path = "/channel", method = RequestMethod.POST)
-	public void addByChannel(@RequestBody OrderItemFormChannel form) throws ApiException {
-		dto.addByChannel(form);
+	public OrderItemData addByChannel(@RequestBody OrderItemFormChannel form) throws ApiException {
+		return dto.addByChannel(form);
 	}
 
 	@ApiOperation(value = "Gets an orderItem by id")
@@ -75,11 +76,18 @@ public class OrderItemController {
 
 	}
 
-	@ApiOperation(value = "Fulfills all order items of an order id")
+	@ApiOperation(value = "Allocates all order items of an order id")
 	@RequestMapping(path = "/fulfill/{id}", method = RequestMethod.GET)
-	public void fulfill(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response)
+	public void fulfill(@PathVariable Long id) throws ApiException {
+		dto.fulfill(id);
+
+	}
+
+	@ApiOperation(value = "Fulfills all order items of an order id")
+	@RequestMapping(path = "/invoice/{id}", method = RequestMethod.GET)
+	public void invoice(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response)
 			throws ApiException, JAXBException, IOException {
-		dto.fulfillAndGenerateInvoice(id, response);
+		dto.generateInvoice(id, response);
 
 	}
 

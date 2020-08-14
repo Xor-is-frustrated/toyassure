@@ -17,33 +17,33 @@ import java.util.List;
 
 public class ConvertorUtil {
 
-	public static ClientPojo convert(ClientForm form) {
-		ClientPojo client=new ClientPojo();
+	public static PartyPojo convert(PartyForm form) {
+		PartyPojo client=new PartyPojo();
 		client.setName(form.getName());
 		client.setType(form.getType()); 
 		return client;
 	}
 
-	public static ClientData convert(ClientPojo pojo) {
-		ClientData client = new ClientData();
+	public static PartyData convert(PartyPojo pojo) {
+		PartyData client = new PartyData();
 		client.setId(pojo.getId());
 		client.setName(pojo.getName());
 		client.setType(pojo.getType());
 		return client;
 	}
 
-	public static List<ClientData> convertClients(List<ClientPojo> pojos) {
-		List<ClientData>list = new ArrayList<ClientData>();
-		for(ClientPojo pojo:pojos) {
+	public static List<PartyData> convertClients(List<PartyPojo> pojos) {
+		List<PartyData>list = new ArrayList<PartyData>();
+		for(PartyPojo pojo:pojos) {
 			list.add(convert(pojo));
 		}
 		return list;
 	}
 
-	public static ProductPojo convert(ProductForm form, ClientPojo client) {
+	public static ProductPojo convert(ProductForm form, PartyPojo client) {
 		ProductPojo pojo= new ProductPojo();
 		pojo.setBrandId(form.getBrandId());
-		pojo.setClient(client);
+		pojo.setParty(client);
 		pojo.setDescription(form.getDescription());
 		pojo.setClientSkuId(form.getClientSkuId());
 		pojo.setMrp(form.getMrp());
@@ -55,7 +55,7 @@ public class ConvertorUtil {
 		ProductData data= new ProductData();
 		data.setId(product.getGlobalSkuId());
 		data.setBrandId(product.getBrandId());       
-		data.setClientName(product.getClient().getName());
+		data.setClientName(product.getParty().getName());
 		data.setDescription(product.getDescription());
 		data.setClientSkuId(product.getClientSkuId());
 		data.setMrp(product.getMrp());
@@ -98,7 +98,7 @@ public class ConvertorUtil {
 		data.setGlobalSkuId(pojo.getProduct().getGlobalSkuId());
 		data.setQuantity(pojo.getQuantity());
 		data.setId(pojo.getId());
-		data.setClientName(pojo.getProduct().getClient().getName());
+		data.setClientName(pojo.getProduct().getParty().getName());
 		data.setBinId(pojo.getBin().getBinId());
 		data.setClientSkuId(pojo.getProduct().getClientSkuId());
 		data.setProductName(pojo.getProduct().getName());
@@ -124,12 +124,13 @@ public class ConvertorUtil {
 	
 	public static InventoryData convert(InventoryPojo pojo) {
 		InventoryData data = new InventoryData();
-		data.setId(pojo.getId());
 		data.setAvailableQuantity(pojo.getAvailableQuantity());
 		data.setAllocatedQuantity(pojo.getAllocatedQuantity());
 		data.setFulfilledQuantity(pojo.getFulfilledQuantity());
 		data.setGlobalSkuId(pojo.getProduct().getGlobalSkuId());
 		data.setProductName(pojo.getProduct().getName());
+		data.setClientName(pojo.getProduct().getParty().getName());
+		data.setClientSkuId(pojo.getProduct().getClientSkuId());
 		return data;
 	}
 
@@ -143,7 +144,7 @@ public class ConvertorUtil {
 
 
 
-	public static OrderPojo convert(OrderForm form, ChannelData channel, ClientPojo client, ClientPojo customer) {
+	public static OrderPojo convert(OrderForm form, ChannelPojo channel, PartyPojo client, PartyPojo customer) {
 		OrderPojo order= new OrderPojo();
 		order.setChannelId(channel.getId());
 		order.setChannelOrderId(form.getChannelOrderId());
@@ -219,14 +220,37 @@ public class ConvertorUtil {
 		pojo.setProduct(product);
 		pojo.setSellingPrice(form.getSellingPrice());
 		return pojo;
-	} 
+	}
 
-	
-	
-	
-	
-	
 
-	
-	
+
+	public static ChannelPojo convert(ChannelForm form) {
+		ChannelPojo pojo= new ChannelPojo();
+		pojo.setName(form.getName());
+		pojo.setType(form.getType());
+		return pojo;
+	}
+
+	public static ChannelData convert(ChannelPojo channel) {
+		ChannelData pojo = new ChannelData();
+		pojo.setName(channel.getName());
+		pojo.setType(channel.getType());
+		pojo.setId(channel.getId());
+		return pojo;
+
+	}
+
+	public static List<ChannelData> convertChannels(List<ChannelPojo> pojos) {
+		List<ChannelData> list= new ArrayList<ChannelData>();
+		for(ChannelPojo pojo:pojos) {
+			list.add(convert(pojo));
+		}
+		return list;
+	}
+
+
+
+
+
+
 }

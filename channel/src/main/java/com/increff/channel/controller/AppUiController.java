@@ -9,12 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class AppUiController extends AbstractUiController {
 
 
-
-	@RequestMapping(value = "/channel")
-	public ModelAndView channelCreate() {
-		return mav("channel.html");
-	}
-
 	@RequestMapping(value = "/channellisting")
 	public ModelAndView channelListing() {
 		return mav("channellisting.html");

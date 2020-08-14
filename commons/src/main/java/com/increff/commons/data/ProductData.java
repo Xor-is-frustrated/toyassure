@@ -1,17 +1,15 @@
 package com.increff.commons.data;
 
 import com.increff.commons.form.ProductForm;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ProductData extends ProductForm {
 	private Long id;         
 
-	public Long getId() {
-		return id;
-	}  
 
-	public void setId(Long globalSkuId) {
-		this.id = globalSkuId;
-	}
 	
 	
 

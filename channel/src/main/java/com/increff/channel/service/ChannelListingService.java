@@ -1,85 +1,75 @@
 package com.increff.channel.service;
 
-import java.util.List;
-
-import com.increff.channel.assure.Client;
-import com.increff.channel.assure.Product;
-import com.increff.commons.data.ClientData;
+import com.increff.channel.dao.ChannelListingDao;
+import com.increff.channel.pojo.ChannelListingPojo;
+import com.increff.commons.data.ChannelData;
+import com.increff.commons.data.PartyData;
 import com.increff.commons.data.ProductData;
+
+import com.increff.commons.enums.PartyType;
+import com.increff.commons.form.ChannelListingForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.increff.channel.dao.ChannelDao;
-import com.increff.channel.dao.ChannelListingDao;
-
-import com.increff.channel.pojo.ChannelListingPojo;
-import com.increff.channel.pojo.ChannelPojo;
-
-import com.increff.commons.enums.ClientType;
+import java.util.List;
 
 
 @Service
 public class ChannelListingService extends AbstractService {
 
-	@Autowired
-	private ChannelListingDao channelListingDao;
+    @Autowired
+    private ChannelListingDao channelListingDao;
 
-	@Autowired
-	private ChannelDao channelDao;
+    @Transactional(rollbackFor = ApiException.class)
+    public ChannelListingPojo add(ChannelListingForm form, PartyData client, ProductData product,
+                                  ChannelData channel) throws ApiException {
 
-	@Autowired
-	private Product productDao;
+        checkZero(form.getChannelSkuId().length(), "ChannelSkuId cannot be empty.");
+        checkNotNull(channel, "Channel Id does not exist: " + form.getChannelId());
+        checkNotNull(client, "Client does not exist: " + form.getClientName());
+        checkNotNull(product, "Client Name and Client Sku combination does not exists. Client: " + form.getClientName() +
+                ", Client Sku: " + form.getClientSkuId());
+        System.out.println("10");
+        if (client.getType() != PartyType.CLIENT) {
+            throw new ApiException("Not a client: " + client.getName());
+        }
+        ChannelListingPojo cl = channelListingDao.selectByChannelSkuIdAndChannelId(form.getChannelSkuId(),
+                channel.getId());
+//        System.out.println("10"+cl.getChannelId());
+        checkNull(cl, "Channel SKu and Channel Id combination already exists. Channel Sku: " + form.getChannelSkuId() + ", Channel: " + form.getChannelName());
 
-	@Autowired
-	private Client clientDao;
+        ChannelListingPojo pojo = new ChannelListingPojo();
+        pojo.setChannelId(channel.getId());
+        pojo.setChannelSkuId(form.getChannelSkuId());
+        pojo.setClientId(client.getId());
+        pojo.setGlobalSkuId(product.getId());
+//        System.out.println("10"+cl.getChannelId());
+        return channelListingDao.insert(pojo);
+    }
 
-	@Transactional(rollbackFor = ApiException.class)
-	public ChannelListingPojo add(ChannelListingPojo p) throws ApiException {
+    @Transactional(readOnly = true)
+    public ChannelListingPojo get(Long id) throws ApiException {
+        ChannelListingPojo p = channelListingDao.select(id);
+        checkNotNull(p, "Channel Listing ID does not exist: " + id);
+        return p;
+    }
 
-		checkZero(p.getChannelSkuId().length(), "ChannelSkuId cannot be empty.");
+    @Transactional(readOnly = true)
+    public ChannelListingPojo getByChannelSkuIdAndChannelId(String channelSkuId, ChannelData channel, ChannelListingForm form)throws ApiException {
+        checkZero(channelSkuId.length(), "ChannelSkuId cannot be empty.");
+        checkNotNull(channel, "Channel does not exist: "+form.getChannelName());
+        ChannelListingPojo cl = channelListingDao.selectByChannelSkuIdAndChannelId(channelSkuId, channel.getId());
+        checkNotNull(cl,"channelSkuId and channel name pair doesn't exist. Channel Sku: "+channelSkuId+", Channel: "+channel.getName());
+        return cl;
+    }
 
-		ChannelPojo cp = channelDao.select(p.getChannel().getId());
-		checkNotNull(cp, "Channel ID does not exist");
+    @Transactional(readOnly = true)
+    public List<ChannelListingPojo> getAll() {
+        return channelListingDao.selectAll();
+    }
 
-		ProductData product = productDao.getProductData(p.getGlobalSkuId());
-		checkNotNull(product, "GlobalSkuID does not exist");
-
-		ClientData client = clientDao.getClientData(p.getClientId());
-		checkNotNull(client, "ClientId does not exist");
-		if(client.getType()==ClientType.CUSTOMER) {
-			throw new ApiException("Client Name does not exist");
-		}
-		ChannelListingPojo cl = channelListingDao.selectByChannelSkuIdAndChannel(p.getChannelSkuId(), p.getChannel());
-		checkNull(cl, "Combination already exists");
-		return channelListingDao.insert(p);
-
-	}
-
-	@Transactional(readOnly = true)
-	public ChannelListingPojo get(Long id) throws ApiException {
-		ChannelListingPojo p = channelListingDao.select(id);
-		checkNotNull(p, "Channel Listing ID does not exist");
-		return p;
-	}
-
-	@Transactional(readOnly = true)
-	public ChannelListingPojo getByChannelSkuIdAndChannel(String channelSkuId, ChannelPojo channel)
-			throws ApiException {
-
-		checkZero(channelSkuId.length(), "ChannelSkuId cannot be empty.");
-
-		ChannelPojo cp = channelDao.select(channel.getId());
-		checkNotNull(cp, "Channel ID does not exist");
-
-		ChannelListingPojo cl= channelListingDao.selectByChannelSkuIdAndChannel(channelSkuId, cp);
-		checkNotNull(cl, "channelSkuId and channel name pair doesn't exist");
-		return cl;
-	}
-
-	@Transactional(readOnly = true)
-	public List<ChannelListingPojo> getAll() {
-		return channelListingDao.selectAll();
-	}
-
+    public List<ChannelListingPojo> getByChannelName(Long id) {
+        return channelListingDao.selectByChannelId(id);
+    }
 }

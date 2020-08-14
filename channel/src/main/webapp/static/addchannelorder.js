@@ -4,7 +4,6 @@ function getOrderUrl(){
 	return baseUrl + "/api/orderitem";
 }
 
-
 //BUTTON ACTIONS
 var clientName="";
 var customerName="";
@@ -364,10 +363,10 @@ function createOrderModalToggle(){
 }
 
 function createOrder(){
-	clientName=$('#upload-order-form input[name=clientName]').val();
-	customerName=$('#upload-order-form input[name=customerName]').val();
+	clientName=$('#clientSelected').val();
+	customerName=$('#customerSelected').val();
 	channelOrderId=$('#upload-order-form input[name=channelOrderId]').val();
-	channelName=$('#upload-order-form input[name=channelName]').val();
+	channelName=$('#channelSelected').val();
 	var form={};
 	form['clientName']=clientName;
 	form['customerName']=customerName;
@@ -402,7 +401,7 @@ function createOrder(){
 				
 
 			$('#upload-order-modal').modal('toggle');
-			$("#order-id").text("Order: "+channelOrderId);
+			$("#order-id").text("Order:     "+channelOrderId);
 			$("#channel-name").text("Channel: "+channelName);
 		$("#client-name").text("Client: "+clientName);
 		$("#customer-name").text("Customer: "+customerName);
@@ -645,10 +644,82 @@ function getOrderSearchList(data){
 	
 }
 
+function getAllChannels(){
+	var url = getOrderUrl()+"/channels" ;
+	$.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            displayChannelDropDownList(data);
+        },
+        error: handleAjaxError
+	});
+}
 
+function getAllClients(){
+    var url = getOrderUrl() +"/clients";
+    	$.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                displayClientDropDownList(data);
+            },
+            error: handleAjaxError
+    	});
+}
+
+function getAllCustomers(){
+    var url = getOrderUrl()+"/customers" ;
+    	$.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                displayCustomerDropDownList(data);
+            },
+            error: handleAjaxError
+    	});
+}
+
+function displayClientDropDownList(data){
+//    $('#clientSelect').empty();
+    $('#clientSelected').empty();
+    var options = '<option value="" selected>Select Client</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+//    $('#clientSelect').append(options);
+    $('#clientSelected').append(options);
+}
+
+function displayChannelDropDownList(data){
+    $('#channelSelected').empty();
+//    $('#channelSelected').empty();
+    var options = '<option value="" selected>Select Channel</option>';
+    $.each(data, function(index, value) {
+    if(value.name!="INTERNAL"){
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+        }
+    });
+    $('#channelSelected').append(options);
+//    $('#channelSelected').append(options);
+}
+
+function displayCustomerDropDownList(data){
+
+    $('#customerSelected').empty();
+    var options = '<option value="" selected>Select Customer</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+
+    $('#customerSelected').append(options);
+}
 
 //INITIALIZATION CODE
 function init(){
+    getAllChannels();
+	getAllClients();
+	getAllCustomers();
 	$('#add-order').click(addOrder);
 	$('#update-order').click(updateOrder);
 	$('#refresh-data').click(getOrderList);

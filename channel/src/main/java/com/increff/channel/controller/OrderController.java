@@ -4,6 +4,7 @@ import com.increff.channel.dto.OrderDto;
 import com.increff.channel.service.ApiException;
 import com.increff.commons.data.OrderData;
 import com.increff.commons.form.OrderForm;
+import com.increff.commons.form.OrderSearchForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,12 @@ public class OrderController {
     public List<OrderData> getAll() {
         return dto.getAll();
 
+    }
+
+    @ApiOperation(value = "Gets list of all channel orders")
+    @RequestMapping(path="/search" ,method = RequestMethod.POST)
+    public List<OrderData> getChannelOrdersBySearch(@RequestBody OrderSearchForm form) throws ApiException {
+        return dto.getOrderBySearch(form);
     }
 
 }

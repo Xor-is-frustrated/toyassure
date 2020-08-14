@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Invoice>
-    <id>15</id>
+    <client>anand</client>
+    <customer>ramachandran</customer>
+    <id>5</id>
     <items>
-        <clientSkuId>clientsku1</clientSkuId>
-        <orderId>15</orderId>
-        <orderedQuantity>123</orderedQuantity>
-        <sellingPrice>1.23</sellingPrice>
+        <clientSkuId>anand_watch_sku</clientSkuId>
+        <orderId>5</orderId>
+        <orderedQuantity>2</orderedQuantity>
+        <sellingPrice>999.99</sellingPrice>
         <allocatedQuantity>0</allocatedQuantity>
-        <fulfilledQuantity>123</fulfilledQuantity>
-        <globalSkuId>1</globalSkuId>
-        <id>1</id>
-        <itemTotalCost>151.29</itemTotalCost>
-        <productName>product1</productName>
+        <fulfilledQuantity>2</fulfilledQuantity>
+        <globalSkuId>5</globalSkuId>
+        <id>9</id>
+        <itemTotalCost>1999.98</itemTotalCost>
+        <productName>watch</productName>
     </items>
-    <orderDate>2020-08-10T12:20:30+05:30[Asia/Calcutta]</orderDate>
-    <orderId>order2asd</orderId>
-    <sellingprice>151.29</sellingprice>
+    <items>
+        <clientSkuId>anand_belt_sku</clientSkuId>
+        <orderId>5</orderId>
+        <orderedQuantity>3</orderedQuantity>
+        <sellingPrice>599.99</sellingPrice>
+        <allocatedQuantity>0</allocatedQuantity>
+        <fulfilledQuantity>3</fulfilledQuantity>
+        <globalSkuId>6</globalSkuId>
+        <id>10</id>
+        <itemTotalCost>1799.97</itemTotalCost>
+        <productName>belt</productName>
+    </items>
+    <items>
+        <clientSkuId>anand_formal_shirt_sku</clientSkuId>
+        <orderId>5</orderId>
+        <orderedQuantity>5</orderedQuantity>
+        <sellingPrice>888.99</sellingPrice>
+        <allocatedQuantity>0</allocatedQuantity>
+        <fulfilledQuantity>5</fulfilledQuantity>
+        <globalSkuId>7</globalSkuId>
+        <id>11</id>
+        <itemTotalCost>4444.95</itemTotalCost>
+        <productName>full_sleeve_shirt</productName>
+    </items>
+    <orderDate>2020-08-14</orderDate>
+    <orderId>o3</orderId>
+    <sellingprice>8244.9</sellingprice>
 </Invoice>

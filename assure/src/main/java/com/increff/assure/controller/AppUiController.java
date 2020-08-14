@@ -27,22 +27,17 @@ public class AppUiController extends AbstractUiController {
 	public ModelAndView inventory() {
 		return mav("inventory.html"); 
 	}
-
 	  
 	@RequestMapping(value = "/ui/assureorder")  
 	public ModelAndView assureOrder() {
 		return mav("assureorder.html"); 
 	}
-//
-//	@RequestMapping(value = "/ui/managechannelorder")
-//	public ModelAndView managechannelOrder() {
-//		return mav("managechannelorder.html");
-//	}
-//
-//	@RequestMapping(value = "/ui/addchannelorder")
-//	public ModelAndView addchannelOrder() {
-//		return mav("addchannelorder.html");
-//	}
+
+	@RequestMapping(value = "/ui/channel")
+	public ModelAndView channelCreate() {
+		return mav("channel.html");
+	}
+
 	
 
 

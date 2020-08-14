@@ -1,25 +1,18 @@
 package com.increff.commons.form;
 
 
-import com.increff.commons.enums.ChannelType;
+import com.increff.commons.enums.InvoiceType;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ChannelForm {
 
 	private String name;
-	private ChannelType type;
+	private InvoiceType type;
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public ChannelType getType() {
-		return type;
-	}
-	public void setType(ChannelType type) {
-		this.type = type;
-	}
+
 	
 	
 	

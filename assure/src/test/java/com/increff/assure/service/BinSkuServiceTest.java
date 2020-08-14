@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.increff.assure.pojo.BinPojo;
 import com.increff.assure.pojo.BinSkuPojo;
-import com.increff.assure.pojo.ClientPojo;
-import com.increff.commons.enums.ClientType;
+import com.increff.assure.pojo.PartyPojo;
+import com.increff.commons.enums.PartyType;
 import com.increff.assure.pojo.ProductPojo;
 
 public class BinSkuServiceTest extends AbstractUnitTest {
 
 	@Autowired
-	private ClientService clientService;
+	private PartyService partyService;
 
 	@Autowired
 	private ProductService productService;
@@ -30,11 +30,11 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 	@Test
 	public void testAdd() throws ApiException {
 
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -42,7 +42,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productService.add(product);
 
@@ -58,11 +58,11 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testGetAll() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -70,7 +70,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productService.add(product);
 
@@ -83,11 +83,11 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 
 		binSkuService.add(pojo);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo product1 = new ProductPojo();
 		product1.setName("assure");
@@ -95,7 +95,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		product1.setClientSkuId("client1sku");
 		product1.setDescription("this is description");
 		product1.setMrp(1.1);
-		product1.setClient(client1);
+		product1.setParty(client1);
 
 		productService.add(product1);
 
@@ -123,11 +123,11 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testGet() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -135,7 +135,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productService.add(product);
 
@@ -148,11 +148,11 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 
 		binSkuService.add(pojo);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo product1 = new ProductPojo();
 		product1.setName("assure");
@@ -160,7 +160,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		product1.setClientSkuId("client1sku");
 		product1.setDescription("this is description");
 		product1.setMrp(1.1);
-		product1.setClient(client1);
+		product1.setParty(client1);
 
 		productService.add(product1);
 
@@ -183,11 +183,11 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testUpdate() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -195,7 +195,7 @@ public class BinSkuServiceTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productService.add(product);
 

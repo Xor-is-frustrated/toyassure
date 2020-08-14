@@ -13,10 +13,15 @@ function getProductUrl(){
 	return baseUrl + "/api/product";
 }
 
+function getClientUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/client";
+}
+
 //csv related functions
 function processData(){
 	var file = $('#productFile')[0].files[0];
-	clientName=$('#upload-product-form input[name=clientName]').val();
+	clientName=$('#clientSelected').val();
 	$('#process-data').prop('disabled',true);
 	//Reset various counts
 	processCount = 0;
@@ -94,7 +99,7 @@ function uploadRows(){
 function resetUploadDialog(){
 	//Reset file name
 	var $file = $('#productFile');
-
+    $('#clientSelected[value=""]').attr("selected","selected");
 	$file.val('');
 	$('#productFileName').html("Choose File");
 	$('#inputClientName').val('');
@@ -184,6 +189,51 @@ function getAllProducts(){
 		},
 		error: handleAjaxError
 	});
+}
+
+function searchClient(){
+
+    var url="";
+	var nameOfClient=$("#clientSelect").val();
+	if(nameOfClient==""){
+			getAllProducts();
+	}else{
+	    url= getProductUrl()+"/client/"+nameOfClient;
+
+	// call api
+	$.ajax({
+		url: url,
+		type: 'GET',
+		success: function(response) {
+	   		productTable(response);
+	   	},
+	   	error: handleAjaxError
+	   });
+}
+}
+
+function getAllClients(){
+    var  url= getClientUrl()+"/clients";
+    $.ajax({
+    		url: url,
+    		type: 'GET',
+    		success: function(response) {
+    	   		displayClientDropDownList(response);
+    	   	},
+    	   	error: handleAjaxError
+    	   });
+
+}
+
+function displayClientDropDownList(data){
+    $('#clientSelect').empty();
+    $('#clientSelected').empty();
+    var options = '<option value="" selected>Select Client</option>';
+    $.each(data, function(index, value) {
+        options += '<option value="' + value.name + '">' + value.name + '</option>';
+    });
+    $('#clientSelect').append(options);
+    $('#clientSelected').append(options);
 }
 
 function updateProduct(event){
@@ -289,6 +339,7 @@ function checkNumericForMrp(){
 // init
 function init(){
 	getAllProducts();
+	getAllClients();
 
 	$('#product-edit-form input[name=name],#product-edit-form input[name=mrp],#product-edit-form input[name=description],#product-edit-form input[name=brandId]').on("input",checkEditButtonDisable);
 	$('#product-edit-form input[name=mrp]').on("input",checkNumericForMrp);
@@ -297,6 +348,7 @@ function init(){
 	$('#refresh-data').click(getAllProducts);
 	$('#upload-data').click(uploadModal);
 	$('#process-data').click(processData);
+	$('#search-data').click(searchClient);
 	$('#download-errors').click(downloadErrors);
 	$('#productFile').on('change', updateFileName);
 

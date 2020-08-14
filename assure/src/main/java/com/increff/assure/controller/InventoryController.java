@@ -28,7 +28,7 @@ public class InventoryController {
 	@ApiOperation(value = "Gets an inventory item by id")
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public InventoryData get(@PathVariable Long id) throws ApiException {
-		return dto.get(id);
+		return dto.getByGlobalSkuId(id);
 	}
 
 	@ApiOperation(value = "Gets list of all inventory")
@@ -36,6 +36,13 @@ public class InventoryController {
 	public List<InventoryData> getAll() {
 		return dto.getAll();
 	}
+
+	@ApiOperation(value = "Gets list of all inventory")
+	@RequestMapping(path = "/client/{name}",method = RequestMethod.GET)
+	public List<InventoryData> getByClientName(@PathVariable String name) {
+		return dto.getByClientName(name);
+	}
+
 
 	@ApiOperation(value = "Updates an inventory")
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)

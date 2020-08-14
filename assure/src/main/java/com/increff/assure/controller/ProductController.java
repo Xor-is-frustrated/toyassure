@@ -52,6 +52,14 @@ public class ProductController {
 		return productDto.getAll();
 
 	}
+
+
+	@ApiOperation(value = "Gets list of all products")
+	@RequestMapping(path="/client/{name}",method = RequestMethod.GET)
+	public List<ProductData> getByClientName(@PathVariable String name) {
+		return productDto.getByClientName(name);
+
+	}
 	
 	@ApiOperation(value = "Updates a product")
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)

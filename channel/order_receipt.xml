@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Invoice>
-    <channelName>amazon</channelName>
-    <id>15</id>
+    <channelName>Myntra Invoice</channelName>
+    <client>anand</client>
+    <customer>ramachandran</customer>
+    <id>11</id>
     <items>
-        <clientSkuId>clientsku1</clientSkuId>
-        <orderId>15</orderId>
-        <orderedQuantity>123</orderedQuantity>
-        <sellingPrice>1.23</sellingPrice>
+        <clientSkuId>anand_belt_sku</clientSkuId>
+        <orderId>11</orderId>
+        <orderedQuantity>12</orderedQuantity>
+        <sellingPrice>234.0</sellingPrice>
         <allocatedQuantity>0</allocatedQuantity>
-        <fulfilledQuantity>123</fulfilledQuantity>
-        <globalSkuId>1</globalSkuId>
-        <id>1</id>
-        <itemTotalCost>151.29</itemTotalCost>
-        <productName>product1</productName>
+        <fulfilledQuantity>12</fulfilledQuantity>
+        <globalSkuId>6</globalSkuId>
+        <id>17</id>
+        <itemTotalCost>2808.0</itemTotalCost>
+        <productName>belt</productName>
     </items>
-    <orderId>order2asd</orderId>
-    <sellingprice>151.29</sellingprice>
+    <orderDate>2020-08-14</orderDate>
+    <orderId>oq1</orderId>
+    <sellingprice>2808.0</sellingprice>
 </Invoice>

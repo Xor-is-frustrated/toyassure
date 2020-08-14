@@ -5,19 +5,16 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import com.increff.assure.pojo.BinPojo;
 import com.increff.assure.pojo.BinSkuPojo;
 import org.springframework.stereotype.Repository;
-
-import com.increff.assure.pojo.ProductPojo;
 
 @Repository
 public class BinSkuDao extends AbstractDao{
 	
 	private static String selectById = "select p from BinSkuPojo p where p.id=:id";
 	private static String selectAll = "select p from BinSkuPojo p order by p.id";
-	private static String selectByBinAndProduct = "select p from BinSkuPojo p where p.product=:product and p.bin=:bin";
-	private static String selectByProduct = "select p from BinSkuPojo p where p.product=:product";
+	private static String selectByBinIdAndGlobalSkuId = "select p from BinSkuPojo p where p.product.globalSkuId=:globalSkuId and p.bin.id=:binId";
+	private static String selectByGlobalSKuId = "select p from BinSkuPojo p where p.product.globalSkuId=:globalSkuId";
 	
 	  
 	@Transactional
@@ -37,16 +34,16 @@ public class BinSkuDao extends AbstractDao{
 		return query.getResultList();
 	}
 	
-	public List<BinSkuPojo> selectByProduct(ProductPojo product) {
-		TypedQuery<BinSkuPojo> query = getQuery(selectByProduct, BinSkuPojo.class);
-		query.setParameter("product", product);
+	public List<BinSkuPojo> selectByGlobalSkuId(Long globalSkuId) {
+		TypedQuery<BinSkuPojo> query = getQuery(selectByGlobalSKuId, BinSkuPojo.class);
+		query.setParameter("globalSkuId", globalSkuId);
 		return query.getResultList();
 	}
 	
-	public BinSkuPojo selectByBinAndProduct(BinPojo bin, ProductPojo product) {
-		TypedQuery<BinSkuPojo> query = getQuery(selectByBinAndProduct, BinSkuPojo.class);
-		query.setParameter("bin", bin);
-		query.setParameter("product", product);
+	public BinSkuPojo selectByBinIdAndGlobalSkuId(Long binId, Long globalSkuId) {
+		TypedQuery<BinSkuPojo> query = getQuery(selectByBinIdAndGlobalSkuId, BinSkuPojo.class);
+		query.setParameter("binId", binId);
+		query.setParameter("globalSkuId", globalSkuId);
 		return getSingle(query);
 	}
 	

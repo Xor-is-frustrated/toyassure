@@ -2,15 +2,15 @@ package com.increff.assure.util;
 
 import com.increff.assure.pojo.BinPojo;
 import com.increff.assure.pojo.BinSkuPojo;
-import com.increff.assure.pojo.ClientPojo;
+import com.increff.assure.pojo.PartyPojo;
 import com.increff.assure.pojo.ProductPojo;
 import com.increff.commons.data.BinData;
 import com.increff.commons.data.BinSkuData;
-import com.increff.commons.data.ClientData;
+import com.increff.commons.data.PartyData;
 import com.increff.commons.data.ProductData;
-import com.increff.commons.enums.ClientType;
+import com.increff.commons.enums.PartyType;
 import com.increff.commons.form.BinSkuForm;
-import com.increff.commons.form.ClientForm;
+import com.increff.commons.form.PartyForm;
 import com.increff.commons.form.ProductForm;
 import org.junit.Test;
 
@@ -22,67 +22,67 @@ import static org.junit.Assert.assertEquals;
 public class ConvertorUtilTest {
 
 	@Test
-	public void testConvertClientPojoToClientData() {
+	public void testConvertClientPojoToPartyData() {
 
-		ClientPojo c = new ClientPojo();
+		PartyPojo c = new PartyPojo();
 		c.setName("assure");
-		c.setType(ClientType.CLIENT);
+		c.setType(PartyType.CLIENT);
 		int value = 1;
 		c.setId(Long.valueOf(value));
 
-		ClientData data = ConvertorUtil.convert(c);
-		data.setType(ClientType.CLIENT);
+		PartyData data = ConvertorUtil.convert(c);
+		data.setType(PartyType.CLIENT);
 		assertEquals("assure", data.getName());
-		assertEquals(ClientType.CLIENT, data.getType());
+		assertEquals(PartyType.CLIENT, data.getType());
 
 	}
 
 	@Test
-	public void testConvertClientFormToClientPojo() {
+	public void testConvertPartyFormToClientPojo() {
 
-		ClientForm c = new ClientForm();
+		PartyForm c = new PartyForm();
 		c.setName("assure");
-		c.setType(ClientType.CLIENT);
-		ClientPojo data = ConvertorUtil.convert(c);
+		c.setType(PartyType.CLIENT);
+		PartyPojo data = ConvertorUtil.convert(c);
 		assertEquals("assure", data.getName());
-		assertEquals(ClientType.CLIENT,data.getType());
+		assertEquals(PartyType.CLIENT,data.getType());
 
 	}
 
 	@Test
-	public void testConvertClientPojoToClientDataList() {
+	public void testConvertClientPojoToPartyDataList() {
 
-		ClientPojo c = new ClientPojo();
+		PartyPojo c = new PartyPojo();
 		c.setName("assure");
-		c.setType(ClientType.CLIENT);
+		c.setType(PartyType.CLIENT);
 		int value = 1;
 		c.setId(Long.valueOf(value));
 
-		ClientPojo c1 = new ClientPojo();
+		PartyPojo c1 = new PartyPojo();
 		c1.setName("spring");
-		c1.setType(ClientType.CUSTOMER);
+		c1.setType(PartyType.CUSTOMER);
 		value = 2;
 		c1.setId(Long.valueOf(value));
 
-		List<ClientPojo> data = new ArrayList<ClientPojo>();
+		List<PartyPojo> data = new ArrayList<PartyPojo>();
 		data.add(c);
 		data.add(c1);
 
-		List<ClientData> list = ConvertorUtil.convertClients(data);
+		List<PartyData> list = ConvertorUtil.convertClients(data);
 
 		assertEquals(2, list.size());
 		assertEquals(c.getName(), list.get(0).getName());
-		assertEquals(ClientType.CLIENT,list.get(0).getType());
+		assertEquals(PartyType.CLIENT,list.get(0).getType());
 		assertEquals(c1.getName(), list.get(1).getName());
-		assertEquals(ClientType.CUSTOMER,list.get(1).getType());
+		assertEquals(PartyType.CUSTOMER,list.get(1).getType());
 
 	}
 
 	@Test
 	public void testConvertProductPojoToProductData() {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 		client.setId(Long.valueOf(1));
 
 		ProductPojo c = new ProductPojo();
@@ -91,7 +91,7 @@ public class ConvertorUtilTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 		c.setGlobalSkuId(Long.valueOf(1));
 
 		ProductData list = ConvertorUtil.convert(c);
@@ -114,13 +114,13 @@ public class ConvertorUtilTest {
 		c.setDescription("this is description");
 		c.setMrp(1.1);
 
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 		client.setId(Long.valueOf(1));
 
 		ProductPojo list = ConvertorUtil.convert(c, client);
-		assertEquals(client.getId(), list.getClient().getId());
+		assertEquals(client.getId(), list.getParty().getId());
 		assertEquals(c.getName(), list.getName());
 		assertEquals(c.getMrp(), list.getMrp());
 		assertEquals(c.getDescription(), list.getDescription());
@@ -131,9 +131,9 @@ public class ConvertorUtilTest {
 
 	@Test
 	public void testConvertProductPojoToProductDataList() {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 		client.setId(Long.valueOf(1));
 
 		ProductPojo c = new ProductPojo();
@@ -142,7 +142,7 @@ public class ConvertorUtilTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 		c.setGlobalSkuId(Long.valueOf(1));
 
 		List<ProductPojo> pojos = new ArrayList<ProductPojo>();
@@ -191,9 +191,9 @@ public class ConvertorUtilTest {
 	@Test
 	public void testConvertBinSkuPojoToBinSkuData() {
 
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 		client.setId(Long.valueOf(1));
 
 		ProductPojo c = new ProductPojo();
@@ -202,7 +202,7 @@ public class ConvertorUtilTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 		c.setGlobalSkuId(Long.valueOf(1));
 
 		BinPojo bin = new BinPojo();
@@ -224,9 +224,9 @@ public class ConvertorUtilTest {
 
 	@Test
 	public void testConvertBinSkuFormToBinSkuPojo() {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 		client.setId(Long.valueOf(1));
 
 		ProductPojo c = new ProductPojo();
@@ -235,7 +235,7 @@ public class ConvertorUtilTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 		c.setGlobalSkuId(Long.valueOf(1));
 
 		BinPojo bin = new BinPojo();
@@ -254,9 +254,9 @@ public class ConvertorUtilTest {
 	@Test
 	public void testConvertBinSkuPojoToBinSkuDataList() {
 
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 		client.setId(Long.valueOf(1));
 
 		ProductPojo c = new ProductPojo();
@@ -265,7 +265,7 @@ public class ConvertorUtilTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 		c.setGlobalSkuId(Long.valueOf(1));
 
 		BinPojo bin = new BinPojo();
@@ -347,7 +347,7 @@ public class ConvertorUtilTest {
 //	public void testConvertChannelListingPojoToData() {
 //		ClientPojo client = new ClientPojo();
 //		client.setName("assure");
-//		client.setType(ClientType.CLIENT);
+//		client.setType(PartyType.CLIENT);
 //		client.setId(Long.valueOf(1));
 //
 //		ProductPojo c = new ProductPojo();
@@ -383,7 +383,7 @@ public class ConvertorUtilTest {
 //	public void testConvertChannelListingFormToPojo() {
 //		ClientPojo client = new ClientPojo();
 //		client.setName("assure");
-//		client.setType(ClientType.CLIENT);
+//		client.setType(PartyType.CLIENT);
 //		client.setId(Long.valueOf(1));
 //
 //		ProductPojo c = new ProductPojo();

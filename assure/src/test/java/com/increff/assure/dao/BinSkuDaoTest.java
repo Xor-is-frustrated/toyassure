@@ -4,13 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import com.increff.commons.enums.PartyType;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.increff.assure.pojo.BinPojo;
 import com.increff.assure.pojo.BinSkuPojo;
-import com.increff.assure.pojo.ClientPojo;
-import com.increff.commons.enums.ClientType;
+import com.increff.assure.pojo.PartyPojo;
+
 import com.increff.assure.pojo.ProductPojo;
 import com.increff.assure.service.AbstractUnitTest;
 
@@ -20,7 +21,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 	private ProductDao productDao;
 
 	@Autowired
-	private ClientDao clientDao;
+	private PartyDao partyDao;
 
 	@Autowired
 	private BinDao binDao;
@@ -31,11 +32,11 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 	@Test
 	public void testInsert() {
 
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientDao.insert(client);
+		partyDao.insert(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -43,7 +44,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productDao.insert(product);
 
@@ -60,11 +61,11 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 
 	@Test
 	public void testSelectAll() {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientDao.insert(client);
+		partyDao.insert(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -72,7 +73,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productDao.insert(product);
 
@@ -86,11 +87,11 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 
 		binSkuDao.insert(pojo);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientDao.insert(client1);
+		partyDao.insert(client1);
 
 		ProductPojo product1 = new ProductPojo();
 		product1.setName("assure");
@@ -98,7 +99,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		product1.setClientSkuId("client1sku");
 		product1.setDescription("this is description");
 		product1.setMrp(1.1);
-		product1.setClient(client1);
+		product1.setParty(client1);
 
 		productDao.insert(product1);
 
@@ -127,11 +128,11 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 
 	@Test
 	public void testById() {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientDao.insert(client);
+		partyDao.insert(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -139,7 +140,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productDao.insert(product);
 
@@ -153,11 +154,11 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 
 		binSkuDao.insert(pojo);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientDao.insert(client1);
+		partyDao.insert(client1);
 
 		ProductPojo product1 = new ProductPojo();
 		product1.setName("assure");
@@ -165,7 +166,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		product1.setClientSkuId("client1sku");
 		product1.setDescription("this is description");
 		product1.setMrp(1.1);
-		product1.setClient(client1);
+		product1.setParty(client1);
 
 		productDao.insert(product1);
 
@@ -189,11 +190,11 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 
 	@Test
 	public void testSelectByBinAndProduct() {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientDao.insert(client);
+		partyDao.insert(client);
 
 		ProductPojo product = new ProductPojo();
 		product.setName("assure");
@@ -201,7 +202,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		product.setClientSkuId("clientsku");
 		product.setDescription("this is description");
 		product.setMrp(1.1);
-		product.setClient(client);
+		product.setParty(client);
 
 		productDao.insert(product);
 
@@ -215,11 +216,11 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 
 		binSkuDao.insert(pojo);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientDao.insert(client1);
+		partyDao.insert(client1);
 
 		ProductPojo product1 = new ProductPojo();
 		product1.setName("assure");
@@ -227,7 +228,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 		product1.setClientSkuId("client1sku");
 		product1.setDescription("this is description");
 		product1.setMrp(1.1);
-		product1.setClient(client1);
+		product1.setParty(client1);
 
 		productDao.insert(product1);
 
@@ -241,7 +242,7 @@ public class BinSkuDaoTest extends AbstractUnitTest {
 
 		binSkuDao.insert(pojo1);
 
-		BinSkuPojo list = binSkuDao.selectByBinAndProduct(bin, product);
+		BinSkuPojo list = binSkuDao.selectByBinIdAndGlobalSkuId(bin.getBinId(), product.getGlobalSkuId());
 
 		assertEquals(product, list.getProduct());
 		assertEquals(bin, list.getBin());

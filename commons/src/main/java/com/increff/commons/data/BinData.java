@@ -1,16 +1,11 @@
 package com.increff.commons.data;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class BinData {
 	
 	private Long binId;
-
-	public Long getBinId() {
-		return binId;
-	}
-
-	public void setBinId(Long id) {
-		this.binId = id;
-	}
-	
-
 }

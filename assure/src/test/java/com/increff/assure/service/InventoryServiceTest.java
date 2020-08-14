@@ -7,15 +7,15 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.increff.assure.pojo.ClientPojo;
-import com.increff.commons.enums.ClientType;
+import com.increff.assure.pojo.PartyPojo;
+import com.increff.commons.enums.PartyType;
 import com.increff.assure.pojo.InventoryPojo;
 import com.increff.assure.pojo.ProductPojo;
 
 public class InventoryServiceTest extends AbstractUnitTest {
 
 	@Autowired
-	private ClientService clientService;
+	private PartyService partyService;
 
 	@Autowired
 	private ProductService productService;
@@ -25,11 +25,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testAdd() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -37,7 +37,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
@@ -52,11 +52,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testGetById() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -64,7 +64,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
@@ -76,11 +76,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		inventoryService.add(inv);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -88,7 +88,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
@@ -100,7 +100,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		inventoryService.add(inv1);
 
-		InventoryPojo list = inventoryService.get(inv.getId());
+		InventoryPojo list = inventoryService.getByGlobalSkuId(inv.getProduct().getGlobalSkuId());
 
 		assertEquals(inv.getProduct(), list.getProduct());
 		assertEquals(inv.getAllocatedQuantity(), list.getAllocatedQuantity());
@@ -110,11 +110,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testSelectAll() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -122,7 +122,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
@@ -134,11 +134,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		inventoryService.add(inv);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -146,7 +146,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
@@ -175,11 +175,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testByProduct() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -187,7 +187,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
@@ -199,11 +199,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		inventoryService.add(inv);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -211,7 +211,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
@@ -223,7 +223,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		inventoryService.add(inv1);
 
-		InventoryPojo list = inventoryService.getByProduct(c);
+		InventoryPojo list = inventoryService.getByGlobalSkuId(c.getGlobalSkuId());
 
 		assertEquals(inv.getProduct(), list.getProduct());
 		assertEquals(inv.getAllocatedQuantity(), list.getAllocatedQuantity());
@@ -233,11 +233,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 	@Test
 	public void testUpdateQuantities() throws ApiException {
-		ClientPojo client = new ClientPojo();
+		PartyPojo client = new PartyPojo();
 		client.setName("assure");
-		client.setType(ClientType.CLIENT);
+		client.setType(PartyType.CLIENT);
 
-		clientService.add(client);
+		partyService.add(client);
 
 		ProductPojo c = new ProductPojo();
 		c.setName("assure");
@@ -245,7 +245,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c.setClientSkuId("clientsku");
 		c.setDescription("this is description");
 		c.setMrp(1.1);
-		c.setClient(client);
+		c.setParty(client);
 
 		productService.add(c);
 
@@ -257,11 +257,11 @@ public class InventoryServiceTest extends AbstractUnitTest {
 
 		inventoryService.add(inv);
 
-		ClientPojo client1 = new ClientPojo();
+		PartyPojo client1 = new PartyPojo();
 		client1.setName("assure1");
-		client1.setType(ClientType.CLIENT);
+		client1.setType(PartyType.CLIENT);
 
-		clientService.add(client1);
+		partyService.add(client1);
 
 		ProductPojo c1 = new ProductPojo();
 		c1.setName("assure");
@@ -269,7 +269,7 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		c1.setClientSkuId("clientsku");
 		c1.setDescription("this is description");
 		c1.setMrp(1.1);
-		c1.setClient(client1);
+		c1.setParty(client1);
 
 		productService.add(c1);
 
@@ -283,9 +283,9 @@ public class InventoryServiceTest extends AbstractUnitTest {
 		Long availableQuantity = Long.valueOf(11);
 		Long allocatedQuantity = Long.valueOf(11);
 		Long fulfilledQuantity = Long.valueOf(11);
-		inventoryService.updateQuantities(inv.getId(), availableQuantity, allocatedQuantity, fulfilledQuantity);
+		inventoryService.updateQuantities(inv.getProduct().getGlobalSkuId(), availableQuantity, allocatedQuantity, fulfilledQuantity);
 
-		InventoryPojo list = inventoryService.get(inv.getId());
+		InventoryPojo list = inventoryService.getByGlobalSkuId(inv.getProduct().getGlobalSkuId());
 
 		assertEquals(inv.getProduct(), list.getProduct());
 		assertEquals(allocatedQuantity, list.getAllocatedQuantity());

@@ -7,15 +7,17 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
-import com.increff.assure.pojo.ClientPojo;
+import com.increff.assure.pojo.PartyPojo;
 import com.increff.assure.pojo.ProductPojo;
 
 @Repository
 public class ProductDao extends AbstractDao {
 
-	private static String selectById = "select p from ProductPojo p where p.globalSkuId=:id";
+	private static String selectById = "select p from ProductPojo p where p.globalSkuId=:globalSkuId";
 	private static String selectAll = "select p from ProductPojo p order by p.globalSkuId";
-	private static String selectByClientAndClientSkuId = "select p from ProductPojo p where p.clientSkuId=:clientSkuId and p.client=:client";
+	private static String selectByClientName = "select p from ProductPojo p where p.party.name=:name";
+
+	private static String selectByClientIdAndClientSkuId = "select p from ProductPojo p where p.clientSkuId=:clientSkuId and p.party.id=:clientId";
 	private static String selectByClientSkuId = "select p from ProductPojo p where p.clientSkuId=:clientSkuId ";
 
 	@Transactional
@@ -24,14 +26,20 @@ public class ProductDao extends AbstractDao {
 		return c;
 	}
 
-	public ProductPojo select(Long id) {
+	public ProductPojo select(Long globalSkuId) {
 		TypedQuery<ProductPojo> query = getQuery(selectById, ProductPojo.class);
-		query.setParameter("id", id);
+		query.setParameter("globalSkuId", globalSkuId);
 		return getSingle(query);
 	}
 
 	public List<ProductPojo> selectAll() {
 		TypedQuery<ProductPojo> query = getQuery(selectAll, ProductPojo.class);
+		return query.getResultList();
+	}
+
+	public List<ProductPojo> selectByClientName(String name) {
+		TypedQuery<ProductPojo> query = getQuery(selectByClientName, ProductPojo.class);
+		query.setParameter("name", name);
 		return query.getResultList();
 	}
 
@@ -41,10 +49,10 @@ public class ProductDao extends AbstractDao {
 		return query.getResultList();
 	}
 
-	public ProductPojo selectByClientAndClientSkuId(String clientSkuId, ClientPojo client) {
-		TypedQuery<ProductPojo> query = getQuery(selectByClientAndClientSkuId, ProductPojo.class);
+	public ProductPojo selectByClientIdAndClientSkuId(String clientSkuId, Long clientId) {
+		TypedQuery<ProductPojo> query = getQuery(selectByClientIdAndClientSkuId, ProductPojo.class);
 		query.setParameter("clientSkuId", clientSkuId);
-		query.setParameter("client", client);
+		query.setParameter("clientId", clientId);
 		return getSingle(query);
 	}
 

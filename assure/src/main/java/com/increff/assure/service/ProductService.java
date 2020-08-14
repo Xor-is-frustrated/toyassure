@@ -3,13 +3,13 @@ package com.increff.assure.service;
 import java.util.List;
 
 import com.increff.assure.dao.ProductDao;
-import com.increff.assure.pojo.ClientPojo;
+import com.increff.assure.pojo.PartyPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.increff.assure.dao.ClientDao;
-import com.increff.commons.enums.ClientType;
+import com.increff.assure.dao.PartyDao;
+import com.increff.commons.enums.PartyType;
 import com.increff.assure.pojo.ProductPojo;
 
 @Service
@@ -19,7 +19,7 @@ public class ProductService extends AbstractService {
 	private ProductDao productDao;
 
 	@Autowired
-	private ClientDao clientDao;
+	private PartyDao partyDao;
 
 	@Transactional(rollbackFor = ApiException.class)
 	public ProductPojo add(ProductPojo p) throws ApiException {
@@ -27,37 +27,39 @@ public class ProductService extends AbstractService {
 		checkZero(p.getName().length(), "Name cannot be empty.");
 		checkZero(p.getClientSkuId().length(), "ClientSkuId cannot be empty.");
 		checkZero(p.getBrandId().length(), "BrandId cannot be empty.");
-		checkPositive(p.getMrp(), "Mrp cannot be less than zero");
+		checkMRP(p.getMrp(), "Mrp must be positive");
 
-		ProductPojo pojo = productDao.selectByClientAndClientSkuId(p.getClientSkuId(), p.getClient());
-		checkNull(pojo, "Client and ClientSkuId combination already exists");
+		PartyPojo client = partyDao.select(p.getParty().getId());
+		checkNotNull(client, "Client does not exist: "+p.getParty().getName());
 
-		ClientPojo client = clientDao.select(p.getClient().getId());
-		checkNotNull(client, "Client Name does not exist");
-		if(client.getType()==ClientType.CUSTOMER) {
-			throw new ApiException("Client Name does not exist");
+		if(client.getType()!=PartyType.CLIENT) {
+			throw new ApiException("Not a client: "+client.getName());
 		}
+
+		ProductPojo pojo = productDao.selectByClientIdAndClientSkuId(p.getClientSkuId(), p.getParty().getId());
+		checkNull(pojo, "Client and ClientSkuId combination already exists. Client: "+client.getName()+", ClientSku: "+p.getClientSkuId());
 
 		ProductPojo productPojo = productDao.insert(p);
 		return productPojo;
 	}
 
 	@Transactional(readOnly = true)
-	public ProductPojo get(Long id) throws ApiException {
-		ProductPojo p = productDao.select(id);
-		checkNotNull(p, "GlobalSkuID does not exist");
+	public ProductPojo get(Long globalSkuId) throws ApiException {
+		ProductPojo p = productDao.select(globalSkuId);
+		checkNotNull(p, "GlobalSkuID does not exist: "+globalSkuId);
 		return p;
 	}
 	
 	@Transactional(readOnly = true)
-	public ProductPojo getByClientIdAndClientSkuId(String clientSkuId, ClientPojo client) throws ApiException {
-		ClientPojo p = clientDao.select(client.getId());
-		checkNotNull(p, "Client ID does not exist");
-		if(client.getType()==ClientType.CUSTOMER) {
-			throw new ApiException("Client Name does not exist");
+	public ProductPojo getByClientIdAndClientSkuId(String clientSkuId, Long clientId) throws ApiException {
+		PartyPojo p = partyDao.select(clientId);
+		checkNotNull(p, "Client does not exist");
+		if(p.getType()!=PartyType.CLIENT) {
+			throw new ApiException("Not a client: "+p.getName());
 		}
-		ProductPojo pojo = productDao.selectByClientAndClientSkuId(clientSkuId, client);
-		checkNotNull(pojo, "ClientSkuId and Client combination does not exist");
+		ProductPojo pojo = productDao.selectByClientIdAndClientSkuId(clientSkuId, clientId);
+		checkNotNull(pojo, "ClientSkuId and Client combination does not exist. Client Id: "+clientId+", " +
+				"ClientSku: "+clientSkuId);
 		
 		return pojo;
 	}
@@ -67,31 +69,25 @@ public class ProductService extends AbstractService {
 		return productDao.selectAll();
 	}
 
+	@Transactional(readOnly = true)
+	public List<ProductPojo> getByClientName(String name) {
+		return productDao.selectByClientName(name);
+	}
+
 	@Transactional(rollbackFor = ApiException.class)
-	public void update(Long id, ProductPojo p) throws ApiException {
+	public void update(Long globalSkuId, String name, String description, double mrp, String brandId) throws ApiException {
 
-		ProductPojo existing = productDao.selectByClientAndClientSkuId(p.getClientSkuId(), p.getClient());
-		if (existing != null && existing.getGlobalSkuId() != id) {
-			throw new ApiException("Client and ClientSkuId combination already exists");
-		}
+		checkZero(name.length(), "Name cannot be empty.");
+		checkZero(brandId.length(), "BrandId cannot be empty.");
+		checkMRP(mrp, "Mrp must be positive");
 
-		checkZero(p.getName().length(), "Name cannot be empty.");
-		checkZero(p.getClientSkuId().length(), "ClientSkuId cannot be empty.");
-		checkZero(p.getBrandId().length(), "BrandId cannot be empty.");
-		checkPositive(p.getMrp(), "Mrp cannot be less than zero");
+		ProductPojo ex = productDao.select(globalSkuId);
+		checkNotNull(ex, "Global Sku Id does not exist: "+globalSkuId);
 
-		ClientPojo client = clientDao.select(p.getClient().getId());
-		checkNotNull(client, "Client Id does not exist");
-		if(client.getType()==ClientType.CUSTOMER) {
-			throw new ApiException("Client Name does not exist");
-		}
-		ProductPojo ex = productDao.select(id);
-		checkNotNull(ex, "Product ID does not exist");
-
-		ex.setName(p.getName());
-		ex.setMrp(p.getMrp());
-		ex.setBrandId(p.getBrandId());
-		ex.setDescription(p.getDescription());
+		ex.setName(name);
+		ex.setMrp(mrp);
+		ex.setBrandId(brandId);
+		ex.setDescription(description);
 	}
 
 }

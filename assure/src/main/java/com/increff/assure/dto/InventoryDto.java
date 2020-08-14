@@ -33,8 +33,8 @@ public class InventoryDto {
 		return ConvertorUtil.convert(inv);
 	}
 
-	public InventoryData get(Long id) throws ApiException {
-		InventoryPojo pojo = inventoryService.get(id);
+	public InventoryData getByGlobalSkuId(Long globalSkuId) throws ApiException {
+		InventoryPojo pojo = inventoryService.getByGlobalSkuId(globalSkuId);
 		return ConvertorUtil.convert(pojo);
 	}
 
@@ -44,13 +44,20 @@ public class InventoryDto {
 
 	}
 
+	public List<InventoryData> getByClientName(String name) {
+		List<InventoryPojo> list = inventoryService.getByClientName(name);
+		return ConvertorUtil.convertInventories(list);
+
+	}
+
 	public InventoryData update(Long globalSkuId, InventoryForm form) throws ApiException {
 		ProductPojo pojo = productService.get(form.getGlobalSkuId());
-		InventoryPojo inv= inventoryService.getByProduct(pojo);
+		InventoryPojo inv= inventoryService.getByGlobalSkuId(pojo.getGlobalSkuId());
 		Long availableQuantity = form.getAvailableQuantity();
 		Long allocatedQuantity = form.getAllocatedQuantity();
 		Long fulfilledQuantity = form.getFulfilledQuantity();
-		inv=inventoryService.updateQuantities(inv.getId(), availableQuantity, allocatedQuantity, fulfilledQuantity);
+		inv=inventoryService.updateQuantities(inv.getProduct().getGlobalSkuId(), availableQuantity,
+				allocatedQuantity, fulfilledQuantity);
 		return ConvertorUtil.convert(inv);
 	}
 

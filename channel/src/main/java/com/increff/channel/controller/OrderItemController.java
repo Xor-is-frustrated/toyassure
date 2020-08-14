@@ -2,7 +2,9 @@ package com.increff.channel.controller;
 
 import com.increff.channel.dto.OrderItemDto;
 import com.increff.channel.service.ApiException;
+import com.increff.commons.data.ChannelData;
 import com.increff.commons.data.OrderItemData;
+import com.increff.commons.data.PartyData;
 import com.increff.commons.form.OrderItemFormChannel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +41,24 @@ public class OrderItemController {
     @RequestMapping(path = "/order/{id}", method = RequestMethod.GET)
     public List<OrderItemData> getByOrder(@PathVariable Long id) throws ApiException {
         return dto.getByOrder(id);
+    }
+
+    @ApiOperation(value = "Gets orderItems list by orderid")
+    @RequestMapping(path = "/channels", method = RequestMethod.GET)
+    public List<ChannelData> getChannels() throws ApiException {
+        return dto.getChannels();
+    }
+
+    @ApiOperation(value = "Gets orderItems list by orderid")
+    @RequestMapping(path = "/clients", method = RequestMethod.GET)
+    public List<PartyData> getClients() throws ApiException {
+        return dto.getClients();
+    }
+
+    @ApiOperation(value = "Gets orderItems list by orderid")
+    @RequestMapping(path = "/customers", method = RequestMethod.GET)
+    public List<PartyData> getCustomers() throws ApiException {
+        return dto.getCustomers();
     }
 
 

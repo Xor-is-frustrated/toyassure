@@ -20,7 +20,7 @@ public class BinSkuService extends AbstractService {
 	private ProductDao productDao;
 
 	@Autowired
-	private BinSkuDao binSkudDao;
+	private BinSkuDao binSkuDao;
 
 	@Autowired
 	private BinDao binDao;
@@ -28,54 +28,54 @@ public class BinSkuService extends AbstractService {
 	@Transactional(rollbackFor = ApiException.class)
 	public BinSkuPojo add(BinSkuPojo p) throws ApiException {
 		BinPojo pojo = binDao.select(p.getBin().getBinId());
-		checkNotNull(pojo, "Bin Id does not exist");
+		checkNotNull(pojo, "Bin does not exist. Id: "+p.getBin().getBinId());
 
 		ProductPojo product = productDao.select(p.getProduct().getGlobalSkuId());
-		checkNotNull(product, "Product Id does not exist");
+		checkNotNull(product, "Global Sku Id does not exist: "+p.getProduct().getGlobalSkuId());
 
-		checkPositive(p.getQuantity(), "Mrp cannot be less than zero");
+		checkPositive(p.getQuantity(), "Quantity cannot be less than zero. Given value "+p.getQuantity());
 
-		BinSkuPojo bin = binSkudDao.selectByBinAndProduct(p.getBin(), p.getProduct());
+		BinSkuPojo bin = binSkuDao.selectByBinIdAndGlobalSkuId(p.getBin().getBinId(), p.getProduct().getGlobalSkuId());
 		if (bin != null) {
 			return updateQuantity(bin.getId(), bin.getQuantity() + p.getQuantity());
 		} else {
-			return binSkudDao.insert(p);
+			return binSkuDao.insert(p);
 		}
 
 	}
 
 	@Transactional(readOnly = true)
 	public BinSkuPojo get(Long id) throws ApiException {
-		BinSkuPojo p = binSkudDao.select(id);
-		checkNotNull(p, "BinSku ID does not exist");
+		BinSkuPojo p = binSkuDao.select(id);
+		checkNotNull(p, "BinSku does not exist. Id: "+id);
 		return p;
 	}
 
 	@Transactional(readOnly = true)
 	public List<BinSkuPojo> getAll() {
-		return binSkudDao.selectAll();
+		return binSkuDao.selectAll();
 	}
 
 	@Transactional(readOnly = true)
-	public List<BinSkuPojo> getByProduct(ProductPojo p) throws ApiException {
-		ProductPojo product = productDao.select(p.getGlobalSkuId());
-		checkNotNull(product, "Product Id does not exist");
-		return binSkudDao.selectByProduct(p);
+	public List<BinSkuPojo> getByProduct(Long globalSkuId) throws ApiException {
+		ProductPojo product = productDao.select(globalSkuId);
+		checkNotNull(product, "Global Sku Id does not exist. Id: "+globalSkuId);
+		return binSkuDao.selectByGlobalSkuId(globalSkuId);
 	}
 
 	@Transactional(rollbackFor = ApiException.class)
 	public BinSkuPojo updateQuantity(Long id, Long quantity) throws ApiException {
-		checkPositive(quantity, "Quantity cannot be less than zero");
-		BinSkuPojo ex = binSkudDao.select(id);
-		checkNotNull(ex, "BinSku ID does not exist");
+		checkPositive(quantity, "Quantity cannot be less than zero. Given value "+quantity);
+		BinSkuPojo ex = binSkuDao.select(id);
+		checkNotNull(ex, "BinSku ID does not exist. Id: "+id);
 
 		ex.setQuantity(quantity);
 		return ex;
 	}
 
 	@Transactional(rollbackFor = ApiException.class)
-	public void reduceBinSkuByAllocatedQuantity(ProductPojo product, Long quantity) throws ApiException {
-		List<BinSkuPojo> binSkus = getByProduct(product);
+	public void reduceBinSkuByAllocatedQuantity(Long globalSkuId, Long quantity) throws ApiException {
+		List<BinSkuPojo> binSkus = getByProduct(globalSkuId);
 
 		// for the available binSkus reduce the quantity.
 		for (BinSkuPojo binSku : binSkus) {
